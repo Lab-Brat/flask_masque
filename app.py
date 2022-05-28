@@ -84,11 +84,20 @@ def update(id):
     else:
         return render_template('update.html', form=form)
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    forms = CreateForm.query.order_by(CreateForm.date_created).all()
-    return render_template('index.html', forms=forms)
-
+    if request.method == 'POST':
+        fullname = request.form.getlist('field[]')
+        for value in fullname:
+            print(f"###########  {value}  ############")
+            # cur.execute("INSERT INTO fullnames (full_name) VALUES (%s)",[value])
+            # mysql.connection.commit()
+            # cur.close()
+        message = "Succesfully Register"
+    else:
+        forms = CreateForm.query.order_by(CreateForm.date_created).all()
+        return render_template('index.html', forms=forms)
+        
 
 if __name__ == '__main__':
     app.run(debug=True)
