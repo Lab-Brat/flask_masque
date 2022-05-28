@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Form</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <form action="/form" method="POST">
+        <p>description 
+            <br>
+            <textarea name = "description" id = "description" 
+                      rows = "6" cols = "60" style = "resize: none" >
+            </textarea> 
+        </p>
+        <p>name 
+            <br>
+            <input type="text" name="name" />
+        </p>
+        <p>hostname 
+            <br>
+            <input type="integer" name="hostname" />
+        </p>
+        <p>ip 
+            <br>
+            <input type = "text" name = "ip" /><input type="submit" name="submit_button" value="Add">
+        </p>
+        <p>functions 
+            <br>
+            <input type = "text" name = "functions" />
+        </p>
+        <p>subsystems 
+            <br>
+            <input type = "text" name = "subsystems" />
+        </p>
+        <br>
+        <input type="submit" name="submit_button" value="Finish">
+    </form>
+</div>
+
+{% endblock %}

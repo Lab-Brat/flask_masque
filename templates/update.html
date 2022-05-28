@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Update Form</title>
+{% endblock %}
+
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: center">Update Form</h1>
+
+    <div>
+        <form action="/update/{{form.id}}" method="POST">
+            <p>description <input type="text" name="description" id="description", value="{{form.description}}" /></p>
+            <p>name <input type = "text" name = "name" value="{{form.description}}" /></p>
+            <p>hostname <input type = "integer" name = "hostname" value="{{form.hostname}}" /></p>
+            <p>ip <input type = "text" name = "ip" value="{{form.ip}}" /></p>
+            <p>functions <input type = "text" name = "functions" value="{{form.functions}}" /></p>
+            <p>subsystems <input type = "text" name = "subsystems" value="{{form.subsystems}}" /></p>
+            <input type="submit" value="Update">
+        </form>
+    </div>
+
+</div>
+{% endblock %}
