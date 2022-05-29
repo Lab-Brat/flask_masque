@@ -41,12 +41,13 @@ class CreateForm(db.Model):
 def form():
     if request.method == 'POST':
         exips = request.form.getlist('field[]')
+        ips_s = ' '
 
         new_form = CreateForm(description=request.form['description'],
                         name=request.form['name'],
                         hostname=request.form['hostname'],
                         ip=request.form['ip'],
-                        extra_ips=str(exips),
+                        extra_ips=ips_s.join(exips),
                         functions=request.form['functions'],
                         subsystems=request.form['subsystems'])
 
@@ -77,6 +78,7 @@ def update(id):
         form.name=request.form['name']
         form.hostname=request.form['hostname']
         form.ip=request.form['ip']
+        form.extra_ips = request.form['extra_ips']
         form.functions=request.form['functions']
         form.subsystems=request.form['subsystems']
         try:
