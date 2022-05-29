@@ -7,6 +7,7 @@ from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:postgres@localhost:5432/infra_forms'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -18,16 +19,18 @@ class CreateForm(db.Model):
     name = db.Column(db.String(30), nullable=False)
     hostname = db.Column(db.String(30), nullable=False)
     ip = db.Column(INET)
+    extra_ips = db.Column(db.String(30), nullable=False)
     functions = db.Column(db.String(30), nullable=False)
     subsystems = db.Column(db.String(30), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, description, name, hostname, ip,
+    def __init__(self, description, name, hostname, ip, extra_ips,
                        functions, subsystems):
         self.description = description
         self.name = name
         self.hostname = hostname
         self.ip = ip
+        self.extra_ips = extra_ips
         self.functions = functions
         self.subsystems = subsystems
 
@@ -37,19 +40,19 @@ class CreateForm(db.Model):
 @app.route('/form', methods=['POST', 'GET'])
 def form():
     if request.method == 'POST':
-        if request.form['submit_button'] == 'Finish':
-            new_form = CreateForm(description=request.form['description'],
-                            name=request.form['name'],
-                            hostname=request.form['hostname'],
-                            ip=request.form['ip'],
-                            functions=request.form['functions'],
-                            subsystems=request.form['subsystems'])
+        exips = request.form.getlist('field[]')
 
-            db.session.add(new_form)
-            db.session.commit()
-            return redirect('/')
-        elif request.form['submit_button'] == 'Add':
-            return url_for('static', filename='js/add_ip.js')
+        new_form = CreateForm(description=request.form['description'],
+                        name=request.form['name'],
+                        hostname=request.form['hostname'],
+                        ip=request.form['ip'],
+                        extra_ips=str(exips),
+                        functions=request.form['functions'],
+                        subsystems=request.form['subsystems'])
+
+        db.session.add(new_form)
+        db.session.commit()
+        return redirect('/')
 
     else:
         return render_template('form.html')
@@ -86,17 +89,8 @@ def update(id):
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if request.method == 'POST':
-        fullname = request.form.getlist('field[]')
-        for value in fullname:
-            print(f"###########  {value}  ############")
-            # cur.execute("INSERT INTO fullnames (full_name) VALUES (%s)",[value])
-            # mysql.connection.commit()
-            # cur.close()
-        message = "Succesfully Register"
-    else:
-        forms = CreateForm.query.order_by(CreateForm.date_created).all()
-        return render_template('index.html', forms=forms)
+    forms = CreateForm.query.order_by(CreateForm.date_created).all()
+    return render_template('index.html', forms=forms)
         
 
 if __name__ == '__main__':
