@@ -7,17 +7,32 @@
 
 {% block body %}
 <div class="content">
-    <h1 style="text-align: center">Update Form</h1>
+    <h1 style="text-align: left">Update Form</h1>
 
     <div>
         <form action="/update/{{form.id}}" method="POST">
-            <p>description <input type="text" name="description" id="description", value="{{form.description}}" /></p>
-            <p>name <input type = "text" name = "name" value="{{form.description}}" /></p>
-            <p>hostname <input type = "integer" name = "hostname" value="{{form.hostname}}" /></p>
-            <p>ip <input type = "text" name = "ip" value="{{form.ip}}" /></p>
-            <p>extra ips <input type = "text" name="extra_ips" value="{{form.extra_ips}}" /></p>
-            <p>functions <input type = "text" name = "functions" value="{{form.functions}}" /></p>
-            <p>subsystems <input type = "text" name = "subsystems" value="{{form.subsystems}}" /></p>
+            <p>description<br>
+                <textarea name="description" id="description" rows="6" cols="60" style="resize: none"
+                >"{{form.description}}"</textarea> 
+            </p>
+            <p>name<br>
+                <input type="text" name="name" value="{{form.name}}" />
+            </p>
+            <p>hostname<br>
+                <input type="integer" name="hostname" value="{{form.hostname}}" />
+            </p>
+            <p>ip<br>
+                <input type="text" name="ip" value="{{form.ip}}" />
+            </p>
+            <p>extra ips<br>
+                <input type="text" name="extra_ips" value="{{form.extra_ips}}" />
+            </p>
+            <p>functions<br>
+                <input type="text" name="functions" value="{{form.functions}}" />
+            </p>
+            <p>subsystems<br>
+                <input type="text" name="subsystems" value="{{form.subsystems}}" />
+            </p>
             <input type="submit" value="Update">
         </form>
     </div>
