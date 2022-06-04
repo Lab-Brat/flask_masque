@@ -5,6 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import INET
 from datetime import datetime
+import csv
+
+from yaml import dump_all
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://labbrat:password@localhost:5433/masq_forms'
@@ -101,10 +104,42 @@ def update(id):
     else:
         return render_template('update.html', form=form)
 
+@app.route('/dump', methods=['GET'])
+def dump():
+    exip_dict = {}
+    for instance in db.session.query(CreateExIP).order_by(CreateExIP.id):
+        if instance.forms_id in exip_dict:
+            exip_dict[instance.forms_id].append([instance.extra_ip])
+        else:
+            exip_dict[instance.forms_id] = [[instance.extra_ip]]
+
+    header = ['Name', 'Hostname', 'IP', 'Extra IPs', 'Functions', 'Subsystems']
+    dump_path = '/home/labbrat/dumps/dump.csv'
+    with open(dump_path, 'w', encoding='UTF8') as dump:
+        writer = csv.writer(dump)
+        writer.writerow(header)
+        for instance in db.session.query(CreateForm).order_by(CreateForm.id):
+            row_data = [ instance.name, instance.hostname, 
+                         instance.ip, transform_ip(exip_dict[int(instance.id)]), 
+                         instance.functions, instance.subsystems]
+            writer.writerow(row_data)
+
+    return render_template('dump.html', dp=dump_path)
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     forms = CreateForm.query.order_by(CreateForm.date_created).all()
     return render_template('index.html', forms=forms)
+
+def transform_ip(ll):
+    csv_entry = ''
+    for l in ll:
+        for el in l:
+            if el != el[-1]:
+                csv_entry += el+"\r\n"
+            else:
+                csv_entry += el
+    return csv_entry
         
 
 if __name__ == '__main__':
