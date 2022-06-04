@@ -6,7 +6,7 @@ from sqlalchemy.dialects.postgresql import INET
 from datetime import datetime
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://labbrat:password@localhost:5433/infra_forms'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://labbrat:password@localhost:5433/masq_forms'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -15,7 +15,6 @@ class CreateForm(db.Model):
     __tablename__ = 'forms_table'
 
     id = db.Column(db.Integer, primary_key=True)
-    description = db.Column(db.String(200), nullable=False)
     name = db.Column(db.String(30), nullable=False)
     hostname = db.Column(db.String(30), nullable=False)
     ip = db.Column(INET)
@@ -24,9 +23,8 @@ class CreateForm(db.Model):
     subsystems = db.Column(db.String(30), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, description, name, hostname, ip, extra_ips,
+    def __init__(self, name, hostname, ip, extra_ips,
                        functions, subsystems):
-        self.description = description
         self.name = name
         self.hostname = hostname
         self.ip = ip
@@ -43,13 +41,13 @@ def form():
         exips = request.form.getlist('field[]')
         ips_s = ' '
 
-        new_form = CreateForm(description=request.form['description'],
-                        name=request.form['name'],
-                        hostname=request.form['hostname'],
-                        ip=request.form['ip'],
-                        extra_ips=ips_s.join(exips),
-                        functions=request.form['functions'],
-                        subsystems=request.form['subsystems'])
+        new_form = CreateForm(
+                name=request.form['name'],
+                hostname=request.form['hostname'],
+                ip=request.form['ip'],
+                extra_ips=ips_s.join(exips),
+                functions=request.form['functions'],
+                subsystems=request.form['subsystems'])
 
         db.session.add(new_form)
         db.session.commit()
@@ -74,7 +72,6 @@ def update(id):
     form = CreateForm.query.get_or_404(id)
 
     if request.method == 'POST':
-        form.description=request.form['description']
         form.name=request.form['name']
         form.hostname=request.form['hostname']
         form.ip=request.form['ip']
