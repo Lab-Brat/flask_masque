@@ -7,15 +7,18 @@ from sqlalchemy.dialects.postgresql import INET
 from datetime import datetime
 import csv
 
-from yaml import dump_all
 
 app = Flask(__name__)
+# define database engine, format: engine://user:password@host:port/database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://labbrat:password@localhost:5433/masq_forms'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
 class CreateForm(db.Model):
+    '''
+    Database model for the form (except extra IPs)
+    '''
     __tablename__ = 'forms'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -38,6 +41,9 @@ class CreateForm(db.Model):
         return '<Form %r>' % self.id
 
 class CreateExIP(db.Model):
+    '''
+    Database model extra IPs
+    '''
     __tablename__ = 'extra_ips'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -51,6 +57,8 @@ class CreateExIP(db.Model):
     def __repr__(self) -> str:
         return '<ExIP %r>' % self.id
 
+
+# open new form input page after pressing "Add Form"
 @app.route('/form', methods=['POST', 'GET'])
 def form():
     if request.method == 'POST':
@@ -74,6 +82,7 @@ def form():
     else:
         return render_template('form.html')
 
+# delete form after pressing "Delete" link
 @app.route('/delete/<int:id>')
 def delete(id):
     form_to_delete = CreateForm.query.get_or_404(id)
@@ -85,6 +94,7 @@ def delete(id):
     except:
         return "Failed to Delete Form"
 
+# open update page after pressing "Update" link
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
     form = CreateForm.query.get_or_404(id)
@@ -104,6 +114,7 @@ def update(id):
     else:
         return render_template('update.html', form=form)
 
+# Save all database data into csv file
 @app.route('/dump', methods=['GET'])
 def dump():
     exip_dict = {}
@@ -115,23 +126,32 @@ def dump():
 
     dump_path = '/home/labbrat/dumps/dump.csv'
     header = ['Name', 'Hostname', 'IP', 'Extra IPs', 'Functions', 'Subsystems']
+
     with open(dump_path, 'w', encoding='UTF8') as dump:
         writer = csv.writer(dump)
         writer.writerow(header)
         for instance in db.session.query(CreateForm).order_by(CreateForm.id):
-            row_data = [ instance.name, instance.hostname, 
-                         instance.ip, transform_ip(exip_dict[int(instance.id)]), 
+            try:
+                exip_csv = transform_ip(exip_dict[int(instance.id)])
+            except:
+                exip_csv = ''
+            row_data = [ instance.name, instance.hostname, instance.ip, exip_csv, 
                          instance.functions, instance.subsystems]
             writer.writerow(row_data)
 
     return render_template('dump.html', dp=dump_path)
 
+# main page
 @app.route('/', methods=['GET', 'POST'])
 def index():
     forms = CreateForm.query.order_by(CreateForm.date_created).all()
     return render_template('index.html', forms=forms)
 
 def transform_ip(ll):
+    '''
+    Helper function for database dump
+    Converts multiple 
+    '''
     csv_entry = ''
     for l in ll[0:-1]:
         csv_entry += l[0]+"\r\n"
