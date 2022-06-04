@@ -113,8 +113,8 @@ def dump():
         else:
             exip_dict[instance.forms_id] = [[instance.extra_ip]]
 
-    header = ['Name', 'Hostname', 'IP', 'Extra IPs', 'Functions', 'Subsystems']
     dump_path = '/home/labbrat/dumps/dump.csv'
+    header = ['Name', 'Hostname', 'IP', 'Extra IPs', 'Functions', 'Subsystems']
     with open(dump_path, 'w', encoding='UTF8') as dump:
         writer = csv.writer(dump)
         writer.writerow(header)
@@ -133,12 +133,10 @@ def index():
 
 def transform_ip(ll):
     csv_entry = ''
-    for l in ll:
-        for el in l:
-            if el != el[-1]:
-                csv_entry += el+"\r\n"
-            else:
-                csv_entry += el
+    for l in ll[0:-1]:
+        csv_entry += l[0]+"\r\n"
+    csv_entry += ll[-1][0]
+
     return csv_entry
         
 
