@@ -124,7 +124,8 @@ def dump():
         else:
             exip_dict[instance.forms_id] = [[instance.extra_ip]]
 
-    dump_path = '/home/labbrat/dumps/dump.csv'
+    timestamp = f"{str(datetime.now())[0:10]}_{str(datetime.now())[12:19]}"
+    dump_path = f'/home/labbrat/dumps/dump_{timestamp}.csv'
     header = ['Name', 'Hostname', 'IP', 'Extra IPs', 'Functions', 'Subsystems']
 
     with open(dump_path, 'w', encoding='UTF8') as dump:
