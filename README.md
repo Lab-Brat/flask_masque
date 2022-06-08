@@ -6,8 +6,17 @@ Main logic is built with Python's Flask framework and HTML, with a small additio
 Data is stored in PostgreSQL database.  
 Repository comes with an Ansible playbook (at ../linux_scripts/ansible) to configure the app and the database on Alma Linux 8.  
 
-#### Install
-Follow the steps to install and use the app:
+#### Install with Ansible
+* download Ansible playbook from my GitHub
+```
+wget https://raw.githubusercontent.com/Lab-Brat/linux_scripts/main/ansible/app_forms.yaml
+```
+* add your host to the inventory file, and run the playbook 
+```
+ansible-playbook app_forms.yaml --limit <host>
+```
+
+#### Install manually
 * download the repository and navigate to it
 ```
 git clone https://github.com/Lab-Brat/flask_masque.git
