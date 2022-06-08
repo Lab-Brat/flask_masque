@@ -12,26 +12,28 @@
     <h1 style="text-align: left">Create New Form</h1>
 
     <form action="/form" method="POST">
-        <p>name<br>
-            <input type="text" name="name" />
-        </p>
-        <p>hostname<br>
-            <input type="integer" name="hostname" />
-        </p>
-        <p>ip<br>
-            <input type="text" name="ip" value=""/>
+        {{ form.name.label }}<br>
+        {{ form.name}}<br><br>
+
+        {{ form.hostname.label }}<br>
+        {{ form.hostname}}<br><br>
+
+        <p>
+            {{ form.ip.label }}<br>
+            {{ form.ip}}<br>
                 <div class="input-wrapper">
                     <div>extra ip
                     <a href="javascript:void(0);" class="add-input" title="Add input">Add</a>
                     </div>
                 </div>
         </p>
-        <p>functions<br>
-            <input type="text" name="functions" />
-        </p>
-        <p>subsystems<br>
-            <input type="text" name="subsystems" />
-        </p>
+        
+        {{ form.functions.label }}<br>
+        {{ form.functions}}<br><br>
+
+        {{ form.subsystems.label }}<br>
+        {{ form.subsystems}}<br><br>
+
         <br>
         <input type="submit" name="submit_button" value="Finish">
     </form>

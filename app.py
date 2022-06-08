@@ -1,9 +1,13 @@
+from re import L
 from flask import Flask, redirect, render_template
 from flask import request, redirect
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import INET
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import InputRequired, Length
 from datetime import datetime
 import csv
 
@@ -57,11 +61,23 @@ class CreateExIP(db.Model):
     def __repr__(self) -> str:
         return '<ExIP %r>' % self.id
 
+class MyForm(FlaskForm):
+    class Meta:
+        csrf = False
+
+    name = StringField('name', validators=[InputRequired('This field can\'t be empty')])
+                                        #    Length(min=3, max=10, message='Must be 3-10 chars')])
+    hostname = StringField('hostname', validators=[InputRequired('This field can\'t be empty')])
+    ip = StringField('IP format: 192.168.2.33/24', validators=[InputRequired('This field can\'t be empty')])
+    functions = StringField('System\'s Functions', validators=[InputRequired('This field can\'t be empty')])
+    subsystems = StringField('Subsystems', validators=[InputRequired('This field can\'t be empty')])
+
 
 # open new form input page after pressing "Add Form"
 @app.route('/form', methods=['POST', 'GET'])
 def form():
-    if request.method == 'POST':
+    form = MyForm()
+    if request.method == 'POST' and form.validate():
         new_form = CreateForm(
                 name=request.form['name'],
                 hostname=request.form['hostname'],
@@ -80,7 +96,7 @@ def form():
         return redirect('/')
 
     else:
-        return render_template('form.html')
+        return render_template('form.html', form=form)
 
 # delete form after pressing "Delete" link
 @app.route('/delete/<int:id>')
