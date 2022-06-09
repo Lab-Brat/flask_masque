@@ -121,10 +121,10 @@ def update(id):
 def dump():
     exip_dict = {}
     for instance in db.session.query(CreateExIP).order_by(CreateExIP.id):
-        if instance.forms_id in exip_dict:
-            exip_dict[instance.forms_id].append([instance.extra_ip])
+        if str(instance.forms_id) in exip_dict:
+            exip_dict[str(instance.forms_id)] += '\r\n' + instance.extra_ip
         else:
-            exip_dict[instance.forms_id] = [[instance.extra_ip]]
+            exip_dict[str(instance.forms_id)] = instance.extra_ip
 
     timestamp = f"{str(datetime.now())[0:10]}_{str(datetime.now())[12:19]}"
     dump_path = f'/home/labbrat/dumps/dump_{timestamp}.csv'
@@ -135,7 +135,7 @@ def dump():
         writer.writerow(header)
         for instance in db.session.query(CreateForm).order_by(CreateForm.id):
             try:
-                exip_csv = transform_ip(exip_dict[int(instance.id)])
+                exip_csv = exip_dict[str(instance.id)]
             except:
                 exip_csv = ''
             row_data = [ instance.name, instance.hostname, instance.ip, exip_csv, 
@@ -149,18 +149,6 @@ def dump():
 def index():
     forms = CreateForm.query.order_by(CreateForm.date_created).all()
     return render_template('index.html', forms=forms)
-
-def transform_ip(ll):
-    '''
-    Helper function for database dump
-    Converts multiple 
-    '''
-    csv_entry = ''
-    for l in ll[0:-1]:
-        csv_entry += l[0]+"\r\n"
-    csv_entry += ll[-1][0]
-
-    return csv_entry
 
 
 if __name__ == '__main__':
