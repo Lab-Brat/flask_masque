@@ -1,13 +1,9 @@
-from re import L
-from flask import Flask, redirect, render_template
-from flask import request, redirect
+from flask import Flask
+from flask import request, redirect, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import INET
-from flask_wtf import FlaskForm
-from wtforms import StringField
-from wtforms.validators import AnyOf, InputRequired, ValidationError
 from datetime import datetime
 import csv
 
@@ -63,30 +59,11 @@ class CreateExIP(db.Model):
     def __repr__(self) -> str:
         return '<ExIP %r>' % self.id
 
-class MyForm(FlaskForm):
-    class Meta:
-        csrf = False
-
-    name = StringField('name', validators=[InputRequired('This field can\'t be empty')])
-    existing_hn = [instance[0] for instance in db.session.query(CreateForm.hostname)]
-    hostname = StringField('hostname', validators=[InputRequired('This field can\'t be empty')])
-    print(existing_hn)
-    ip = StringField('IP format: 192.168.2.33/24', validators=[InputRequired('This field can\'t be empty'),
-                                                               AnyOf(existing_hn)])
-    functions = StringField('System\'s Functions', validators=[InputRequired('This field can\'t be empty')])
-    subsystems = StringField('Subsystems', validators=[InputRequired('This field can\'t be empty')])
-
-    #def validate_hostname(self, hostname):
-    #    for instance in db.session.query(CreateForm.hostname):
-    #        print(hostname.data == instance[0])
-    #        if instance[0] == hostname.data:
-    #            raise ValidationError(message='Hostname exists in the database.')
-
 # open new form input page after pressing "Add Form"
 @app.route('/form', methods=['POST', 'GET'])
 def form():
-    form = MyForm()
-    if request.method == 'POST' and form.validate():
+    hosts = [instance[0] for instance in db.session.query(CreateForm.hostname)]
+    if request.method == 'POST':
         new_form = CreateForm(
                 name=request.form['name'],
                 hostname=request.form['hostname'],
@@ -105,7 +82,7 @@ def form():
         return redirect('/')
 
     else:
-        return render_template('form.html', form=form)
+        return render_template('form.html', hosts=hosts)
 
 # delete form after pressing "Delete" link
 @app.route('/delete/<int:id>')

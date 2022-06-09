@@ -8,31 +8,52 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script src="static/js/add_ip.js"></script>
 
+<head>
+    <script type = "text/javascript">
+      function validate() {
+
+      hosts = "{{ hosts | safe }}"
+      
+      if( ( document.theForm.hostname.value == "" ) ) { 
+         alert("The entry is empty!");
+         return false;
+      } else if ( hosts.includes(document.theForm.hostname.value) ) {
+         alert( "Change hostname! This Hostname is alreaedy in the database" );
+         document.theForm.hostname.focus() ;
+         return false;
+      }
+      alert( "All good! This is a new hostname" );
+      return( true );
+    }
+    </script>      
+ </head>
+
+
 <div class="content">
     <h1 style="text-align: left">Create New Form</h1>
 
-    <form action="/form" method="POST">
-        {{ form.name.label }}<br>
-        {{ form.name}}<br><br>
-
-        {{ form.hostname.label }}<br>
-        {{ form.hostname}}<br><br>
-
-        <p>
-            {{ form.ip.label }}<br>
-            {{ form.ip}}<br>
+    <form action="/form" name="theForm" method="POST">
+        <p>System Name<br>
+            <input type="text" name="name" required/>
+        </p>
+        <p>Host Name<br>
+            <input type="integer" name="hostname" required/>
+            <a href="#" onclick="return(validate());">Check Hostname</a>
+        </p>
+        <p>IP (format: 1.1.1.1/24)<br>
+            <input type="text" name="ip" value="" required/>
                 <div class="input-wrapper">
-                    <div>extra ip
+                    <div>Extra IP Addresses
                     <a href="javascript:void(0);" class="add-input" title="Add input">Add</a>
                     </div>
                 </div>
         </p>
-        
-        {{ form.functions.label }}<br>
-        {{ form.functions}}<br><br>
-
-        {{ form.subsystems.label }}<br>
-        {{ form.subsystems}}<br><br>
+        <p>System’s functions<br>
+            <textarea name="functions" rows="5" cols="60" required></textarea>
+        </p>
+        <p>Subsystems<br>
+            <textarea name="subsystems" rows="5" cols="60" required></textarea>
+        </p>
 
         <br>
         <input type="submit" name="submit_button" value="Finish">
