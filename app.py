@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import request, redirect, render_template
+from flask import request, redirect, render_template, send_file
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
@@ -142,7 +142,7 @@ def dump():
                          instance.functions, instance.subsystems]
             writer.writerow(row_data)
 
-    return render_template('dump.html', dp=dump_path)
+    return send_file(dump_path, mimetype='text/csv', download_name='db_dump.csv')
 
 # main page
 @app.route('/', methods=['GET', 'POST'])
