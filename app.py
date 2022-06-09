@@ -28,8 +28,8 @@ class CreateForm(db.Model):
     hostname = db.Column(db.String(30), nullable=False)
     ip = db.Column(INET)
     extra_ips = db.relationship('CreateExIP', cascade="all,delete", backref='forms')
-    functions = db.Column(db.String(30), nullable=False)
-    subsystems = db.Column(db.String(30), nullable=False)
+    functions = db.Column(db.String(200), nullable=False)
+    subsystems = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.now)
 
     def __init__(self, name, hostname, ip, functions, subsystems):
