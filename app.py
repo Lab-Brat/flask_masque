@@ -7,7 +7,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import INET
 from flask_wtf import FlaskForm
 from wtforms import StringField
-from wtforms.validators import InputRequired, Length
+from wtforms.validators import AnyOf, InputRequired, ValidationError
 from datetime import datetime
 import csv
 
@@ -16,8 +16,10 @@ app = Flask(__name__)
 # define database engine, format: engine://user:password@host:port/database
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://labbrat:password@localhost:5433/masq_forms'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SECRET_KEY'] = 'topsecretkey'
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
+
 
 class CreateForm(db.Model):
     '''
@@ -66,12 +68,19 @@ class MyForm(FlaskForm):
         csrf = False
 
     name = StringField('name', validators=[InputRequired('This field can\'t be empty')])
-                                        #    Length(min=3, max=10, message='Must be 3-10 chars')])
+    existing_hn = [instance[0] for instance in db.session.query(CreateForm.hostname)]
     hostname = StringField('hostname', validators=[InputRequired('This field can\'t be empty')])
-    ip = StringField('IP format: 192.168.2.33/24', validators=[InputRequired('This field can\'t be empty')])
+    print(existing_hn)
+    ip = StringField('IP format: 192.168.2.33/24', validators=[InputRequired('This field can\'t be empty'),
+                                                               AnyOf(existing_hn)])
     functions = StringField('System\'s Functions', validators=[InputRequired('This field can\'t be empty')])
     subsystems = StringField('Subsystems', validators=[InputRequired('This field can\'t be empty')])
 
+    #def validate_hostname(self, hostname):
+    #    for instance in db.session.query(CreateForm.hostname):
+    #        print(hostname.data == instance[0])
+    #        if instance[0] == hostname.data:
+    #            raise ValidationError(message='Hostname exists in the database.')
 
 # open new form input page after pressing "Add Form"
 @app.route('/form', methods=['POST', 'GET'])
@@ -175,7 +184,8 @@ def transform_ip(ll):
     csv_entry += ll[-1][0]
 
     return csv_entry
-        
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
