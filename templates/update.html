@@ -21,7 +21,9 @@
                 <input type="text" name="ip" value="{{form.ip}}" />
             </p>
             <p>extra ips<br>
-                <input type="text" name="extra_ips" value="{{form.extra_ips}}" />
+                {% for exip in form.extra_ips %}
+                <input type="text" name="extra_ips[]" value="{{exip.extra_ip}}" />
+                {% endfor %}
             </p>
             <p>functions<br>
                 <input type="text" name="functions" value="{{form.functions}}" />

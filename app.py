@@ -102,10 +102,16 @@ def update(id):
     form = CreateForm.query.get_or_404(id)
 
     if request.method == 'POST':
+        eips = request.form.getlist('extra_ips[]')
+        ip_index = 0
+
         form.name=request.form['name']
         form.hostname=request.form['hostname']
         form.ip=request.form['ip']
-        form.extra_ips = request.form['extra_ips']
+        for instance in db.session.query(CreateExIP).order_by(CreateExIP.id):
+            if instance.forms_id == id:
+                instance.extra_ip = eips[ip_index]
+                ip_index += 1
         form.functions=request.form['functions']
         form.subsystems=request.form['subsystems']
         try:
@@ -114,7 +120,7 @@ def update(id):
         except:
             return "Failed to Update Form"
     else:
-        return render_template('update.html', form=form)
+        return render_template('update.html', form=form ) #, extra_ips=extra_ips)
 
 # Save all database data into csv file
 @app.route('/dump', methods=['GET'])
