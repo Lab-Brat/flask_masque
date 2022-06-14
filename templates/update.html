@@ -25,6 +25,17 @@
                 <input type="text" name="extra_ips[]" value="{{exip.extra_ip}}" />
                 {% endfor %}
             </p>
+            <p>Server's Linux Distribution
+                <select name="distro" method="GET" action="/form">
+                    {% for d in dirlist %}
+                        {% if d == form.distro %}
+                            <option value="{{d}}" selected>{{d}}</option>
+                        {% else %}
+                            <option value="{{d}}">{{d}}</option>"
+                        {% endif %}
+                    {% endfor %}
+                </select>
+            </p>
             <p>functions<br>
                 <input type="text" name="functions" value="{{form.functions}}" />
             </p>

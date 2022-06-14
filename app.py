@@ -13,6 +13,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://labbrat:password@localhost:5433/masq_forms'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'topsecretkey'
+dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -65,7 +66,6 @@ class CreateExIP(db.Model):
 @app.route('/form', methods=['POST', 'GET'])
 def form():
     hosts = [instance[0] for instance in db.session.query(CreateForm.hostname)]
-    dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
     if request.method == 'POST':
         new_form = CreateForm(
                 name=request.form['name'],
@@ -116,6 +116,7 @@ def update(id):
             if instance.forms_id == id:
                 instance.extra_ip = eips[ip_index]
                 ip_index += 1
+        form.distro=request.form['distro']
         form.functions=request.form['functions']
         form.subsystems=request.form['subsystems']
         try:
@@ -124,7 +125,7 @@ def update(id):
         except:
             return "Failed to Update Form"
     else:
-        return render_template('update.html', form=form )
+        return render_template('update.html', form=form, dirlist=dirlist)
 
 # Save all database data into csv file
 @app.route('/dump', methods=['GET'])
