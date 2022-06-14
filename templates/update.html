@@ -11,16 +11,16 @@
 
     <div>
         <form action="/update/{{form.id}}" method="POST">
-            <p>name<br>
+            <p>System's Name<br>
                 <input type="text" name="name" value="{{form.name}}" />
             </p>
-            <p>hostname<br>
+            <p>Hostname<br>
                 <input type="integer" name="hostname" value="{{form.hostname}}" />
             </p>
-            <p>ip<br>
+            <p>IP address  format: 1.1.1.1/24<br>
                 <input type="text" name="ip" value="{{form.ip}}" />
             </p>
-            <p>extra ips<br>
+            <p>Extra IP addresses<br>
                 {% for exip in form.extra_ips %}
                 <input type="text" name="extra_ips[]" value="{{exip.extra_ip}}" />
                 {% endfor %}
@@ -36,11 +36,11 @@
                     {% endfor %}
                 </select>
             </p>
-            <p>functions<br>
-                <input type="text" name="functions" value="{{form.functions}}" />
+            <p>System's Functions<br>
+                <textarea name="functions" rows="5" cols="60" required>{{form.functions}}</textarea>
             </p>
-            <p>subsystems<br>
-                <input type="text" name="subsystems" value="{{form.subsystems}}" />
+            <p>Subsystems<br>
+                <textarea name="subsystems" rows="5" cols="60" required>{{form.subsystems}}"</textarea>
             </p>
             <input type="submit" value="Update">
         </form>
