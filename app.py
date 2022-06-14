@@ -28,14 +28,16 @@ class CreateForm(db.Model):
     hostname = db.Column(db.String(30), nullable=False)
     ip = db.Column(INET)
     extra_ips = db.relationship('CreateExIP', cascade="all,delete", backref='forms')
+    distro = db.Column(db.String(20), nullable=False)
     functions = db.Column(db.String(200), nullable=False)
     subsystems = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.now)
 
-    def __init__(self, name, hostname, ip, functions, subsystems):
+    def __init__(self, name, hostname, ip, distro, functions, subsystems):
         self.name = name
         self.hostname = hostname
         self.ip = ip
+        self.distro = distro
         self.functions = functions
         self.subsystems = subsystems
 
@@ -63,11 +65,13 @@ class CreateExIP(db.Model):
 @app.route('/form', methods=['POST', 'GET'])
 def form():
     hosts = [instance[0] for instance in db.session.query(CreateForm.hostname)]
+    dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
     if request.method == 'POST':
         new_form = CreateForm(
                 name=request.form['name'],
                 hostname=request.form['hostname'],
                 ip=request.form['ip'],
+                distro=request.form['distro'],
                 functions=request.form['functions'],
                 subsystems=request.form['subsystems'])
 
@@ -82,7 +86,7 @@ def form():
         return redirect('/')
 
     else:
-        return render_template('form.html', hosts=hosts)
+        return render_template('form.html', hosts=hosts, dirlist=dirlist)
 
 # delete form after pressing "Delete" link
 @app.route('/delete/<int:id>')
@@ -120,7 +124,7 @@ def update(id):
         except:
             return "Failed to Update Form"
     else:
-        return render_template('update.html', form=form ) #, extra_ips=extra_ips)
+        return render_template('update.html', form=form )
 
 # Save all database data into csv file
 @app.route('/dump', methods=['GET'])

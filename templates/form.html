@@ -48,6 +48,14 @@
                     </div>
                 </div>
         </p>
+        <p>Server's Linux Distribution
+                <select name="distro" method="GET" action="/form" required>
+                    <option value="" selected disabled>Select an Option</option>
+                    {% for d in dirlist %}
+                    <option value="{{d}}">{{d}}</option>"
+                    {% endfor %}
+                </select>
+        </p>
         <p>System’s functions<br>
             <textarea name="functions" rows="5" cols="60" required></textarea>
         </p>
