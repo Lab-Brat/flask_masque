@@ -7,26 +7,7 @@
 {% block body %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="static/js/add_ip.js"></script>
-
-<head>
-    <script type = "text/javascript">
-      function validate() {
-
-      hosts = "{{ hosts | safe }}"
-      
-      if( ( document.theForm.hostname.value == "" ) ) { 
-         alert("The entry is empty!");
-         return false;
-      } else if ( hosts.includes(document.theForm.hostname.value) ) {
-         alert( "Change hostname! This Hostname is alreaedy in the database" );
-         document.theForm.hostname.focus() ;
-         return false;
-      }
-      alert( "All good! This is a new hostname" );
-      return( true );
-    }
-    </script>      
- </head>
+<script type="text/javascript" script id="ch" hosts="{{hosts}}" src="static/js/check_host.js"></script>      
 
 
 <div class="content">
