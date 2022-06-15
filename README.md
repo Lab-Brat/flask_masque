@@ -65,6 +65,10 @@ export FLASK_APP=app.py
 export FLASK_ENV=development
 flask db init && flask db migrate && flask db upgrade
 ```
+* create a directory for database dumps
+```
+mkdir ~/dumps
+```
 * run the app!
 ```
 flask run
