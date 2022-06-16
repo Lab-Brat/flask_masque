@@ -75,6 +75,10 @@ def form():
                 functions=request.form['functions'],
                 subsystems=request.form['subsystems'])
 
+        if new_form.hostname in hosts:
+            return 'HOSTNAME EXISTS!!!\
+                    Next time please click on "Check Hostname" button before filling out the whole form!'
+
         db.session.add(new_form)
         db.session.flush()
 
