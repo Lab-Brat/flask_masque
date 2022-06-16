@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import INET
 from datetime import datetime
-import csv
+import csv, json
 
 
 app = Flask(__name__)
@@ -86,7 +86,7 @@ def form():
         return redirect('/')
 
     else:
-        return render_template('form.html', hosts=hosts, dirlist=dirlist)
+        return render_template('form.html', hosts=json.dumps(hosts), dirlist=dirlist)
 
 # delete form after pressing "Delete" link
 @app.route('/delete/<int:id>')
