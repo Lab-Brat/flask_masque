@@ -20,7 +20,7 @@ class CreateForm(db.Model):
     distro = db.Column(db.String(20), nullable=False)
     functions = db.Column(db.String(200), nullable=False)
     subsystems = db.Column(db.String(200), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.now)
+    date_created = db.Column(db.DateTime, default=datetime.now().replace(microsecond=0))
 
     def __init__(self, name, hostname, ip, distro, functions, subsystems):
         self.name = name
