@@ -1,11 +1,15 @@
 #!/bin/bash
 
-columns="(name, hostname, ip, distro, functions, subsystems, date_created)"
-entries="~/github/flask_masque/samples/entries.csv"
+db_user=$(grep 'db_user' ../config.ini | cut -d" " -f3 | tr -d $'\r')
+db_name=$(grep 'db_name' ../config.ini | cut -d" " -f3 | tr -d $'\r')
+db_address=$(grep 'db_address' ../config.ini | cut -d" " -f3 | tr -d $'\r')
+db_port=$(grep 'db_port' ../config.ini | cut -d" " -f3 | tr -d $'\r')
+db_entries=$(grep 'sample_entries' ../config.ini | awk '{print $3}' | tr -d $'\r')
+db_columns="(name, hostname, ip, distro, functions, subsystems, date_created)"
 
-psql -U labbrat \
-     -d masq_forms \
-     -h localhost \
-     -p 5433 \
-     -c "\copy forms $columns from $entries with DELIMITER ','"
 
+psql -U $db_user \
+     -d $db_name \
+     -h $db_address \
+     -p $db_port \
+     -c "\copy forms $db_columns from $db_entries with DELIMITER ','"
