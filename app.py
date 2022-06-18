@@ -9,7 +9,8 @@ import json
 
 
 config = configparser.ConfigParser()
-config.readfp(open('config.ini'))
+config.read_file(open('config.ini'))
+dump_path = config.get("User", "dump_path")
 db_user = config.get("Database", 'db_user')
 db_password = config.get("Database", "db_password")
 db_address = config.get("Database", "db_address")
@@ -107,10 +108,10 @@ def dump():
             exip_dict[str(instance.forms_id)] = instance.extra_ip
 
     timestamp = f"{str(datetime.now())[0:10]}_{str(datetime.now())[12:19]}"
-    dump_path = f'/home/labbrat/dumps/dump_{timestamp}.csv'
+    dump_file = f'{dump_path}/dump_{timestamp}.csv'
     header = ['Name', 'Hostname', 'IP', 'Extra IPs', 'Functions', 'Subsystems']
 
-    with open(dump_path, 'w', encoding='UTF8') as dump:
+    with open(dump_file, 'w', encoding='UTF8') as dump:
         writer = csv.writer(dump)
         writer.writerow(header)
         for instance in db.session.query(CreateForm).order_by(CreateForm.id):
@@ -122,7 +123,7 @@ def dump():
                          instance.functions, instance.subsystems]
             writer.writerow(row_data)
 
-    return send_file(dump_path, mimetype='text/csv', download_name='db_dump.csv')
+    return send_file(dump_file, mimetype='text/csv', download_name='db_dump.csv')
 
 # main page
 @app.route('/', methods=['GET', 'POST'])
