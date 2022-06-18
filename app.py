@@ -3,12 +3,22 @@ from flask import request, redirect, render_template, send_file
 from flask_migrate import Migrate
 from models import db, CreateForm, CreateExIP
 from datetime import datetime
-import csv, json
+import configparser
+import csv
+import json
 
+
+config = configparser.ConfigParser()
+config.readfp(open('config.ini'))
+db_user = config.get("Database", 'db_user')
+db_password = config.get("Database", "db_password")
+db_address = config.get("Database", "db_address")
+db_port = config.get("Database", "db_port")
+db_name = config.get("Database", "db_name")
 
 app = Flask(__name__)
 # define database engine, format: engine://user:password@host:port/database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://labbrat:password@localhost:5433/masq_forms'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{db_user}:{db_password}@{db_address}:{db_port}/{db_name}'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'topsecretkey'
 dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
