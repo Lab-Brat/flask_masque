@@ -12,15 +12,18 @@ COPY . /app
 # Switch working directory
 WORKDIR /app
 
+RUN pwd
+RUN ls -l
+
 # Install Python libraries
-RUN python3 -m pip install -r requirements.txt
+RUN python3 -m pip install -r Docker/requirements.txt
 
 # Define environmental variables
 ENV FLASK_APP=app.py
 ENV FLASK_ENV=development
 
 # Make entrpoint script executable
-RUN chmod +x entry_point.sh
+RUN chmod +x Docker/entry_point.sh
 
 # configure the container to run in an executed manner
-ENTRYPOINT [ "./entry_point.sh" ]
+ENTRYPOINT [ "./Docker/entry_point.sh" ]
