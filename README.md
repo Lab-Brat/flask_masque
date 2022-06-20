@@ -1,12 +1,41 @@
-## flask_masque
+# flask_masque
 
-#### Introduction
+## Table of Contents
+- [Introduction](#introduction)
+- [Configuration](#configuration)
+  - [Docker](#docker)
+  - [Ansible](#ansible)
+  - [Manual](#manual)
+
+## Introduction
 Small web-forms app, allows a user to record some information about his VMs, like hostname, IP address, describtion etc.  
 Main logic is built with Python's Flask framework and HTML, with a small addition of CSS and JS.  
 Data is stored in PostgreSQL database.  
 Repository comes with an Ansible playbook (at ../linux_scripts/ansible) to configure the app and the database on Alma Linux 8.  
 
-#### Install with Ansible
+## Configuration 
+#### Docker
+* make sure that Docker is installed on your system. To install on AlmaLinux:
+```console
+sudo yum install -y yum-utils
+sudo yum-config-manager --add-repo \
+     https://download.docker.com/linux/centos/docker-ce.repo
+sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo systemctl start docker
+sudo usermod -aG docker <user>
+```
+* download the repository and navigate to it
+```console
+git clone https://github.com/Lab-Brat/flask_masque.git
+cd flask_masque
+```
+* run docker-compose, it will build the image containing the app and create two containers - postgresql and the app
+```console
+docker-compose -f Docker/docker-compose.yml up
+```
+**\# Note that in this case the repository will be mounted into the container**
+
+#### Ansible
 * download Ansible playbook from my GitHub
 ```
 wget https://raw.githubusercontent.com/Lab-Brat/linux_scripts/main/ansible/app_forms.yaml
@@ -16,7 +45,7 @@ wget https://raw.githubusercontent.com/Lab-Brat/linux_scripts/main/ansible/app_f
 ansible-playbook app_forms.yaml --limit <host>
 ```
 
-#### Install manually
+#### Manual
 * download the repository and navigate to it
 ```
 git clone https://github.com/Lab-Brat/flask_masque.git
