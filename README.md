@@ -3,6 +3,7 @@
 ## Table of Contents
 - [Introduction](#introduction)
 - [Configuration](#configuration)
+- [Installation](#installation)
   - [Docker](#docker)
   - [Ansible](#ansible)
   - [Manual](#manual)
@@ -14,6 +15,16 @@ Data is stored in PostgreSQL database.
 Repository comes with an Ansible playbook (at ../linux_scripts/ansible) to configure the app and the database on Alma Linux 8.  
 
 ## Configuration 
+There is a configuration file in the repository that needs to be filled out for the app to work properly. Required fields:  
+* dump_path -> path where the database dumps will be saved on the system
+* sample_entries -> sample entries that will be added to the database after the installation
+* db_user -> admin user for the created tables in PostgreSQL
+* db_password -> password for the admin user
+* db_address -> IP address or hostname of the database (usually localhost)
+* db_port -> port which PostgreSQL will be listening on
+* db_name -> name of the database where everything will be stored
+
+## Installation
 #### Docker
 * make sure that Docker is installed on your system. To install on AlmaLinux:
 ```console
@@ -29,11 +40,11 @@ sudo usermod -aG docker <user>
 git clone https://github.com/Lab-Brat/flask_masque.git
 cd flask_masque
 ```
-* run docker-compose, it will build the image containing the app and create two containers - postgresql and the app
+* run docker-compose, it will build the image containing the app and create two containers - postgresql and the app  
+**\# Note that in this case the repository will be mounted into the container**
 ```console
 docker-compose -f Docker/docker-compose.yml up
 ```
-**\# Note that in this case the repository will be mounted into the container**
 
 #### Ansible
 * download Ansible playbook from my GitHub
