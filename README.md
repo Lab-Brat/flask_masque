@@ -6,7 +6,7 @@
 - [Installation](#installation)
   - [Docker](#docker)
   - [Ansible](#ansible)
-  - [Manual](#manual)
+- [Run](#run)
 
 ## Introduction
 Small web-forms app, allows a user to record some information about his VMs, like hostname, IP address, describtion etc.  
@@ -56,61 +56,12 @@ wget https://raw.githubusercontent.com/Lab-Brat/linux_scripts/main/ansible/app_f
 ansible-playbook app_forms.yaml --limit <host>
 ```
 
-#### Manual
-* download the repository and navigate to it
+#### Run
+* Docker: It will run automatically, becuase it's defined in ```entry_point.sh```
+* Ansible: After the deployment is complete, login to the server, navigate to the installation directory and run 
 ```
-git clone https://github.com/Lab-Brat/flask_masque.git
-cd flask_masque
-```
-* Install the dependencies:  
-```
-python -m pip install --upgrade pip
-python -m pip install Flask psycopg2 flask-migrate sqlalchemy
-```
-* install PostgrSQL on Alma Linux 8:
-```
-sudo dnf install postgresql-server postgresql
-```
-* enable service and initialize database
-```
-postgresql-setup initdb
-sudo systemctl enable --now postgresql
-```
-* configure support for remote access:
-```
-sudo vim /var/lib/pgsql/data/postgresql.conf  #--->listen_addresses = '*'
-                                              #--->port = 5433
-sudo vim /var/lib/pgsql/data/pg_hba.conf  #------->host all all 0.0.0.0/0 md5
-sudo systemctl restart postgresql
-```
-* configure PostgreSQL
-```
-# change master password
-sudo su - postgres
-psql -c "alter user postgres with password 'StrongPassword'"
+python app.py
 
-# login to cli and create new role and the database
-psql
-CREATE ROLE <user> SUPERUSER CREATEDB LOGIN PASSWORD 'password';
-CREATE DATABASE infra_forms;
-GRANT ALL PRIVILEGES ON DATABASE infra_forms TO <user>;
-
-# exit
-\q
-exit
-```
-* set the environment and poulate database
-```
-export FLASK_APP=app.py
-export FLASK_ENV=development
-flask db init && flask db migrate && flask db upgrade
-```
-* create a directory for database dumps
-```
-mkdir ~/dumps
-```
-* run the app!
-```
-flask run
-# open browser, enter http://127.0.0.1:5000
+# if the port is changed to 80 or 433
+# sudo python app.py
 ```
