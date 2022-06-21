@@ -28,7 +28,7 @@
             <td>{{ form.ip }}</td>
             <td>{{ form.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
             <td>
-                <a href="/delete/{{form.id}}">Delete</a>
+                <a href="/delete/{{form.id}}" onclick="return confirm('Are you sure you want to DELETE form {{ form.id }}?')">Delete</a>
                 <br>
                 <a href="/update/{{form.id}}">Update</a>
             </td>
