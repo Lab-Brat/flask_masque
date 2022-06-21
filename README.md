@@ -7,6 +7,7 @@
   - [Docker](#docker)
   - [Ansible](#ansible)
 - [Run](#run)
+- [Open](#open)
 
 ## Introduction
 Small web-forms app, allows a user to record some information about his VMs, like hostname, IP address, describtion etc.  
@@ -64,4 +65,10 @@ python app.py
 
 # if the port is changed to 80 or 433
 # sudo python app.py
+```
+
+#### Open
+To open apps interface, open a browser and enter server's IP address (or hostname) and port in the search bar, for example:
+```
+http://192.168.0.10:5000
 ```
