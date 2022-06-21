@@ -26,4 +26,4 @@ ENV FLASK_ENV=development
 RUN chmod +x Docker/entry_point.sh
 
 # configure the container to run in an executed manner
-ENTRYPOINT [ "./Docker/entry_point.sh" ]
+ENTRYPOINT [ "sh", "/Docker/entry_point.sh" ]
