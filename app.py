@@ -91,6 +91,10 @@ def update(id):
         form.functions=request.form['functions']
         form.subsystems=request.form['subsystems']
 
+        extra_ip = request.form.getlist('field[]')
+        new_extra_ips = [CreateExIP(forms_id=form.id, extra_ip=ip) for ip in extra_ip]
+        db.session.add_all(new_extra_ips)
+
         try:
             db.session.commit()
             return redirect('/')
