@@ -74,6 +74,7 @@ def delete(id):
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
     form = CreateForm.query.get_or_404(id)
+    hosts = [instance[0] for instance in db.session.query(CreateForm.hostname)]
 
     if request.method == 'POST':
         eips = request.form.getlist('extra_ips[]')
@@ -89,13 +90,14 @@ def update(id):
         form.distro=request.form['distro']
         form.functions=request.form['functions']
         form.subsystems=request.form['subsystems']
+
         try:
             db.session.commit()
             return redirect('/')
         except:
             return "Failed to Update Form"
     else:
-        return render_template('update.html', form=form, dirlist=dirlist)
+        return render_template('update.html', form=form, hosts=json.dumps(hosts), dirlist=dirlist)
 
 # Save all database data into csv file
 @app.route('/dump', methods=['GET'])
