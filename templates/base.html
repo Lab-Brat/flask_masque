@@ -11,6 +11,12 @@
     {% block head %}{% endblock %}
 </head>
 <body>
+    <nav style="text-align: center">
+        <a href="{{ url_for('index') }}">Main</a>
+        <a href="#">Clusters</a>
+        <a href="#">About</a>
+    </nav>
+    <hr/>
     {% block body %}{% endblock %}
 </body>
 </html>

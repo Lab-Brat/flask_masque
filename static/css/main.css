@@ -4,6 +4,12 @@
     width: 1000px;
 }
 
+nav a {
+    font-size: 1.8em;
+    margin-left: 50px;
+    text-decoration: none;
+}
+
 table, td, th {
     border: 1px solid #aaa;
 }
