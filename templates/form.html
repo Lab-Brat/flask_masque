@@ -11,41 +11,54 @@
 
 
 <div class="content">
-    <h1 style="text-align: left">Create New Form</h1>
+    <h1 style="text-align: left">Create New Form</h1><hr/>
 
     <form action="/form" name="theForm" method="POST">
-        <p>System's Name<br>
+        <section>
+            <h6>System's Name</h6>
             <input type="text" name="name" required/>
-        </p>
-        <p>Hostname<br>
+        </section><br/>
+
+        <section>
+            <h6>Hostname</h6>
             <input type="integer" name="hostname" required/>
             <a href="#" onclick="return(validate());">Check Hostname</a>
-        </p>
-        <p>IP address  format: 1.1.1.1/24<br>
+        </section><br/>
+
+        <section>
+            <h6>IP address  format: 1.1.1.1/24</h6>
             <input type="text" name="ip" value="" required/>
                 <div class="input-wrapper">
                     <div>Extra IP Addresses
                     <a href="javascript:void(0);" class="add-input" title="Add input">Add</a>
                     </div>
                 </div>
-        </p>
-        <p>Server's Linux Distribution
-                <select name="distro" method="GET" action="/form" required>
-                    <option value="" selected disabled>Select an Option</option>
-                    {% for d in dirlist %}
-                    <option value="{{d}}">{{d}}</option>"
-                    {% endfor %}
-                </select>
-        </p>
-        <p>System’s functions<br>
-            <textarea name="functions" rows="5" cols="60" required></textarea>
-        </p>
-        <p>Subsystems<br>
-            <textarea name="subsystems" rows="5" cols="60" required></textarea>
-        </p>
+        </section><br/>
 
-        <br>
-        <input type="submit" name="submit_button" value="Finish">
+        <section>
+            <h6>Server's Linux Distribution</h6>
+            <select name="distro" method="GET" action="/form" required>
+                <option value="" selected disabled>Select an Option</option>
+                {% for d in dirlist %}
+                <option value="{{d}}">{{d}}</option>"
+                {% endfor %}
+            </select>
+        </section><br/>
+
+        <section>
+            <h6>System’s functions</h6>
+            <textarea name="functions" rows="5" cols="60" required></textarea>
+        </section><br/>
+
+        <section>
+            <h6>Subsystems</h6>
+            <textarea name="subsystems" rows="5" cols="60" required></textarea>
+        </section><br/>
+
+        <section>
+            <input type="submit" name="submit_button" value="Finish">
+        </section>
+        
     </form>
 </div>
 
