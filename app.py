@@ -131,6 +131,11 @@ def dump():
 
     return send_file(dump_file, mimetype='text/csv', download_name='db_dump.csv')
 
+# Open the main page for Cluster information
+@app.route('/cluster', methods=['POST', 'GET'])
+def cluster():
+    return render_template('cluster.html')
+
 # main page
 @app.route('/', methods=['GET', 'POST'])
 def index():
