@@ -16,18 +16,18 @@
     <div>
         <form action="/update/{{form.id}}" name="theForm" method="POST">
             <section>
-                <h6>System's Name</h6>
+                <h5>System's Name</h5>
                 <input type="text" name="name" value="{{form.name}}" />
             </section><br/>
 
             <section>
-                <h6>Hostname</h6>
+                <h5>Hostname</h5>
                 <input type="integer" name="hostname" value="{{form.hostname}}" />
                 <a href="#" onclick="return(validate());">Check Hostname</a>
             </section><br/>
 
             <section>
-                <h6>IP address  format: 1.1.1.1/24</h6>
+                <h5>IP address  format: 1.1.1.1/24</h5>
                 <input type="text" name="ip" value="{{form.ip}}" />
                     <div class="input-wrapper">
                         <div>Extra IP Addresses
@@ -37,14 +37,14 @@
             </section>
                    
             <section>
-                <h6>Extra IP addresses</h6>
+                <h5>Extra IP addresses</h5>
                 {% for exip in form.extra_ips %}
                 <input type="text" name="extra_ips[]" value="{{exip.extra_ip}}" />
                 {% endfor %}
             </section><br/>
 
             <section>
-                <h6>Server's Linux Distribution</h6>
+                <h5>Server's Linux Distribution</h5>
                 <select name="distro" method="GET" action="/form">
                     {% for d in dirlist %}
                         {% if d == form.distro %}
@@ -57,12 +57,12 @@
             </section><br/>
 
             <section>
-                <h6>System’s functions</h6>
+                <h5>System’s functions</h5>
                 <textarea name="functions" rows="5" cols="60" required>{{form.functions}}</textarea>
             </section><br/>
 
             <section>
-                <h6>Subsystems</h6>
+                <h5>Subsystems</h5>
                 <textarea name="subsystems" rows="5" cols="60" required>{{form.subsystems}}</textarea>
             </section><br/>
 

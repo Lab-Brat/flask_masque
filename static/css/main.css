@@ -16,6 +16,18 @@ nav a {
     text-decoration: none;
 }
 
+.button-container form,
+.button-container form div {
+    text-align: center;
+    display: inline;
+    line-height: normal;
+}
+
+.button-container button {
+    display: inline;
+    vertical-align: middle;
+}
+
 table, td, th {
     border: 1px solid #aaa;
 }

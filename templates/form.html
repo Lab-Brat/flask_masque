@@ -15,18 +15,18 @@
 
     <form action="/form" name="theForm" method="POST">
         <section>
-            <h6>System's Name</h6>
+            <h5>System's Name</h5>
             <input type="text" name="name" required/>
         </section><br/>
 
         <section>
-            <h6>Hostname</h6>
+            <h5>Hostname</h5>
             <input type="integer" name="hostname" required/>
             <a href="#" onclick="return(validate());">Check Hostname</a>
         </section><br/>
 
         <section>
-            <h6>IP address  format: 1.1.1.1/24</h6>
+            <h5>IP address  format: 1.1.1.1/24</h5>
             <input type="text" name="ip" value="" required/>
                 <div class="input-wrapper">
                     <div>Extra IP Addresses
@@ -36,7 +36,7 @@
         </section><br/>
 
         <section>
-            <h6>Server's Linux Distribution</h6>
+            <h5>Server's Linux Distribution</h5>
             <select name="distro" method="GET" action="/form" required>
                 <option value="" selected disabled>Select an Option</option>
                 {% for d in dirlist %}
@@ -46,12 +46,12 @@
         </section><br/>
 
         <section>
-            <h6>System’s functions</h6>
+            <h5>System’s functions</h5>
             <textarea name="functions" rows="5" cols="60" required></textarea>
         </section><br/>
 
         <section>
-            <h6>Subsystems</h6>
+            <h5>Subsystems</h5>
             <textarea name="subsystems" rows="5" cols="60" required></textarea>
         </section><br/>
 
