@@ -1,3 +1,8 @@
+.jumbotron {
+    padding-top: 15px !important;
+    padding-bottom: 15px !important;
+}
+
 .content {
     text-align: left;
     margin: 0 auto;
@@ -5,6 +10,7 @@
 }
 
 nav a {
+    color: rgb(43, 119, 232);
     font-size: 1.8em;
     margin-left: 50px;
     text-decoration: none;
