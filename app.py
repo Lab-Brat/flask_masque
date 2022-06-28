@@ -32,6 +32,8 @@ migrate = Migrate(app, db)
 @app.route('/form', methods=['POST', 'GET'])
 def form():
     hosts = [instance[0] for instance in db.session.query(CreateForm.hostname)]
+    clusters = [instance[0] for instance in db.session.query(CreateClusters.cluster)]
+
     if request.method == 'POST':
         new_form = CreateForm(
                 name=request.form['name'],
@@ -57,7 +59,7 @@ def form():
         return redirect('/')
 
     else:
-        return render_template('form.html', hosts=json.dumps(hosts), dirlist=dirlist)
+        return render_template('form.html', hosts=json.dumps(hosts), clusters=clusters, dirlist=dirlist)
 
 # delete form after pressing "Delete" link
 @app.route('/delete/<int:id>')

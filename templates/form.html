@@ -7,7 +7,7 @@
 {% block body %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="static/js/add_ip.js"></script>
-<script type="text/javascript" script id="ch" hosts="{{hosts}}" src="static/js/check_host.js"></script>      
+<script type="text/javascript" script id="ch" hosts="{{hosts}}" src="static/js/check_host.js"></script>
 
 
 <div class="content">
@@ -27,7 +27,12 @@
 
         <section>
             <h5>Cluster Affiliation</h5>
-            <input type="text" name="cluster_belong"/>
+            <input type="text" name="cluster_belong" list="cluster_list"/>
+            <datalist id="cluster_list">
+                {% for c in clusters %}
+                <option>{{c}}</option>
+                {% endfor %}
+            </datalist>
         </section><br/>
 
         <section>
@@ -45,7 +50,7 @@
             <select name="distro" method="GET" action="/form" required>
                 <option value="" selected disabled>Select an Option</option>
                 {% for d in dirlist %}
-                <option value="{{d}}">{{d}}</option>"
+                <option value="{{d}}">{{d}}</option>
                 {% endfor %}
             </select>
         </section><br/>
