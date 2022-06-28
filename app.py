@@ -83,6 +83,7 @@ def update(id):
 
         form.name=request.form['name']
         form.hostname=request.form['hostname']
+        form.cluster_belong=request.form['cluster_belong'],
         form.ip=request.form['ip']
         for instance in db.session.query(CreateExIP).order_by(CreateExIP.id):
             if instance.forms_id == id:
