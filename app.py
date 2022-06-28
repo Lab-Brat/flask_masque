@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import request, redirect, render_template, send_file
 from flask_migrate import Migrate
-from models import db, CreateForm, CreateExIP
+from models import db, CreateForm, CreateExIP, CreateClusters
 from datetime import datetime
 import configparser
 import csv
@@ -27,7 +27,7 @@ dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
 db.init_app(app)
 migrate = Migrate(app, db)
 
-
+#--------------------- main routes ---------------------#
 # open new form input page after pressing "Add Form"
 @app.route('/form', methods=['POST', 'GET'])
 def form():
@@ -131,17 +131,45 @@ def dump():
 
     return send_file(dump_file, mimetype='text/csv', download_name='db_dump.csv')
 
-# Open the main page for Cluster information
-@app.route('/cluster', methods=['POST', 'GET'])
-def cluster():
-    return render_template('cluster.html')
-
 # main page
 @app.route('/', methods=['GET', 'POST'])
 def index():
     forms = CreateForm.query.order_by(CreateForm.date_created).all()
     return render_template('index.html', forms=forms)
 
+
+#--------------------- cluster routes ---------------------#
+@app.route('/cluster_new', methods=['POST', 'GET'])
+def cluster_new():
+    if request.method == 'POST':
+        new_cluster = CreateClusters(cluster=request.form['cluster'],
+                            description=request.form['description'],
+                            espm_name=request.form['espm_name'],
+                            espm_description=request.form['espm_description'],
+                            scm_name=request.form['scm_name'],
+                            scm_description=request.form['scm_description'])
+
+        db.session.add(new_cluster)
+        db.session.commit()
+
+        return redirect('/cluster')
+    
+    else:
+        return render_template('cluster_new.html') 
+        
+
+@app.route('/cluster_update', methods=['POST', 'GET'])
+def cluster_update():
+    pass
+
+@app.route('/cluster_delete', methods=['POST', 'GET'])
+def cluster_delete():
+    pass
+
+@app.route('/cluster', methods=['POST', 'GET'])
+def cluster():
+    clusters = CreateClusters.query.order_by(CreateClusters.date_created).all()
+    return render_template('cluster.html', clusters=clusters)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

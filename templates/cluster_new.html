@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Cluster</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: left">Create New Cluster</h1>
+    <hr/>
+
+    <form action="/cluster_new" method="POST" name="theCluster">
+        <div>
+            <h3 style="text-align: left">Section 1</h3>
+            <h4 style="text-align: left">Brief Cluster Description</h4>
+            <p>Cluster Name<br>
+                <input type="text" name="cluster" required/>
+            </p>
+            <p>Cluster Description<br>
+                <h5>Describe the clusters</h5>
+                <textarea name="description" rows="5" cols="60" required></textarea>
+            </p>
+            <hr/>
+        </div>
+
+        <div>
+            <h3 style="text-align: left">Section 2</h3>
+            <h4 style="text-align: left">External Service Provider Mapping</h4>
+            <h5 style="text-align: left">
+                Name systems, shared or dedicated, that provide services(authentication, monitoring, backup & recovery, etc.) 
+                or extend standard functionality of the system(search tools, management tools, etc), 
+                but are not considered to be an integral component of the system. 
+                Provide a brief description of the functionality or service provided.
+            </h5><br>
+
+            <div>
+                <label>Name: </label><input type="text" name="espm_name" value="" required/>
+                <label>Description: </label><textarea name="espm_description" rows="5" cols="50" required></textarea>
+            </div>
+        </div>
+        <hr/>
+
+        <div>
+            <h3 style="text-align: left">Section 3</h3>
+            <h4 style="text-align: left">Service Consumer Mapping</h4>
+            <h5 style="text-align: left">
+                Name systems that consume services provided by the current system. Provide service name and responsible subsystem.
+            </h5><br>
+
+            <div>
+                <label>Name: </label><input type="text" name="scm_name" value="" required/>
+                <label>Description: </label><textarea name="scm_description" rows="5" cols="50" required></textarea>
+            </div>
+        </div>
+        <br/>
+
+        <section>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </section>    
+    </form>
+</div>
+
+<br><br><br><br>
+
+{% endblock %}

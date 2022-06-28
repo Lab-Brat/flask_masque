@@ -7,6 +7,40 @@
 {% block body %}
 <div class="content">
     <h1 style="text-align: center">Cluster Information</h1>
+    <div class="button-container">
+        <form action="/cluster_new">
+            <dev style="position: relative; left: 36%;">
+                <button type="submit" class="btn btn-primary">Add Cluster</button>
+            </dev>
+        </form>
+    
+        <form action="/dump">
+            <div style="position: relative; left: 37%;">
+                <button type="submit" class="btn btn-primary">Dump Cluster Database</button>
+            </div>
+        </form>
+    </div>
     <hr/>
+
+    <table>
+        <tr style="text-align: center">
+            <th>ID</th>
+            <th>Cluster</th>
+            <th>Date</th>
+            <th>Actions</th>
+        </tr>
+        {% for cluster in clusters %}
+        <tr>
+            <td>{{ cluster.id }}</td>
+            <td>{{ cluster.cluster }}</td>
+            <td>{{ cluster.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+            <td>
+                <a href="#" onclick="return confirm('Are you sure you want to DELETE form {{ cluster.id }}?')">Delete</a>
+                <br>
+                <a href="#">Update</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 </div>
 {% endblock %}
