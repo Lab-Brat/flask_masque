@@ -36,6 +36,7 @@ def form():
         new_form = CreateForm(
                 name=request.form['name'],
                 hostname=request.form['hostname'],
+                cluster_belong=request.form['cluster_belong'],
                 ip=request.form['ip'],
                 distro=request.form['distro'],
                 functions=request.form['functions'],

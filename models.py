@@ -15,6 +15,7 @@ class CreateForm(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     hostname = db.Column(db.String(30), nullable=False)
+    cluster_belong = db.Column(db.String(30))
     ip = db.Column(INET)
     extra_ips = db.relationship('CreateExIP', cascade="all,delete", backref='forms')
     distro = db.Column(db.String(20), nullable=False)
@@ -22,10 +23,11 @@ class CreateForm(db.Model):
     subsystems = db.Column(db.String(200), nullable=False)
     date_created = db.Column(db.DateTime, default=datetime.now().replace(microsecond=0))
 
-    def __init__(self, name, hostname, ip, distro, functions, subsystems):
+    def __init__(self, name, hostname, cluster_belong, ip, distro, functions, subsystems):
         self.name = name
         self.hostname = hostname
         self.ip = ip
+        self.cluster_belong = cluster_belong
         self.distro = distro
         self.functions = functions
         self.subsystems = subsystems
