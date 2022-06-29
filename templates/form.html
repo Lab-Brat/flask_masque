@@ -8,6 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="static/js/add_ip.js"></script>
 <script type="text/javascript" script id="ch" hosts="{{hosts}}" src="static/js/check_host.js"></script>
+<script type="text/javascript" script id="gc" cluster_data="{{cluster_data}}" src="static/js/get_cluster.js"></script>
 
 
 <div class="content">
@@ -33,6 +34,7 @@
                 <option>{{c}}</option>
                 {% endfor %}
             </datalist>
+            <button type="submit" onclick="return(get_cluster());" class="btn btn-primary btn-sm">Get Cluster</button>
         </section><br/>
 
         <section>
@@ -57,12 +59,12 @@
 
         <section>
             <h5>System’s functions</h5>
-            <textarea name="functions" rows="5" cols="60" required></textarea>
+            <textarea name="functions" id="sf" rows="5" cols="60" required></textarea>
         </section><br/>
 
         <section>
             <h5>Subsystems</h5>
-            <textarea name="subsystems" rows="5" cols="60" required></textarea>
+            <textarea name="subsystems" id ="ss" rows="5" cols="60" required></textarea>
         </section><br/>
 
         <section>
