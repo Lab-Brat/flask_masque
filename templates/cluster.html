@@ -39,7 +39,7 @@
             <td>{{ hc_dict.get(cluster.cluster) }}</td>
             <td>{{ cluster.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
             <td>
-                <a href="#" onclick="return confirm('Are you sure you want to DELETE form {{ cluster.id }}?')">Delete</a>
+                <a href="/cluster_delete/{{cluster.id}}" onclick="return confirm('Are you sure you want to DELETE Cluster {{ cluster.id }}?')">Delete</a>
                 <br>
                 <a href="#">Update</a>
             </td>

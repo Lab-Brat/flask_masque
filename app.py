@@ -168,9 +168,16 @@ def cluster_new():
 def cluster_update():
     pass
 
-@app.route('/cluster_delete', methods=['POST', 'GET'])
-def cluster_delete():
-    pass
+@app.route('/cluster_delete/<int:id>', methods=['POST', 'GET'])
+def cluster_delete(id):
+    form_to_delete = CreateClusters.query.get_or_404(id)
+
+    try:
+        db.session.delete(form_to_delete)
+        db.session.commit()
+        return redirect('/cluster')
+    except:
+        return "Failed to Delete Form"
 
 @app.route('/cluster', methods=['POST', 'GET'])
 def cluster():
