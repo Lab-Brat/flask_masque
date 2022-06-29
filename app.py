@@ -160,7 +160,6 @@ def cluster_new():
         db.session.commit()
 
         return redirect('/cluster')
-    
     else:
         return render_template('cluster_new.html') 
         
@@ -176,7 +175,14 @@ def cluster_delete():
 @app.route('/cluster', methods=['POST', 'GET'])
 def cluster():
     clusters = CreateClusters.query.order_by(CreateClusters.date_created).all()
-    return render_template('cluster.html', clusters=clusters)
+    hosts = [instance for instance in db.session.query(CreateForm.hostname, CreateForm.cluster_belong)]
+    
+    hc = {cl.cluster: list() for cl in clusters}
+    for h in hosts:
+        if h[1] in hc.keys():
+            hc[h[1]].append(h[0])
+
+    return render_template('cluster.html', clusters=clusters, hc_dict=hc)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

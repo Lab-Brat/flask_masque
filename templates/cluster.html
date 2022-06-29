@@ -26,13 +26,17 @@
         <tr style="text-align: center">
             <th>ID</th>
             <th>Cluster</th>
-            <th>Date</th>
+            <th>Description</th>
+            <th>Hosts</th>
+            <th>Date Created</th>
             <th>Actions</th>
         </tr>
         {% for cluster in clusters %}
         <tr>
             <td>{{ cluster.id }}</td>
             <td>{{ cluster.cluster }}</td>
+            <td>{{ cluster.description }}</td>
+            <td>{{ hc_dict.get(cluster.cluster) }}</td>
             <td>{{ cluster.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
             <td>
                 <a href="#" onclick="return confirm('Are you sure you want to DELETE form {{ cluster.id }}?')">Delete</a>
