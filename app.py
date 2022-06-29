@@ -148,10 +148,8 @@ def cluster_new():
     if request.method == 'POST':
         new_cluster = CreateClusters(cluster=request.form['cluster'],
                             description=request.form['description'],
-                            espm_name=request.form['espm_name'],
-                            espm_description=request.form['espm_description'],
-                            scm_name=request.form['scm_name'],
-                            scm_description=request.form['scm_description'])
+                            cluster_functions=request.form['cluster_functions'],
+                            cluster_subsystems=request.form['cluster_subsystems'])
 
         db.session.add(new_cluster)
         db.session.commit()

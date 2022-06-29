@@ -58,20 +58,15 @@ class CreateClusters(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     cluster = db.Column(db.String(50), nullable=False)
     description = db.Column(db.String(200), nullable=False)
-    espm_name = db.Column(db.String(50))
-    espm_description = db.Column(db.String(200))
-    scm_name = db.Column(db.String(50))
-    scm_description = db.Column(db.String(200))
+    cluster_functions = db.Column(db.String(200))
+    cluster_subsystems = db.Column(db.String(200))
     date_created = db.Column(db.DateTime, default=datetime.now().replace(microsecond=0))
 
-    def __init__(self, cluster, description, espm_name, espm_description, 
-                 scm_name, scm_description):
+    def __init__(self, cluster, description, cluster_functions, cluster_subsystems):
         self.cluster = cluster
         self.description = description
-        self.espm_name = espm_name
-        self.espm_description = espm_description
-        self.scm_name = scm_name
-        self.scm_description = scm_description
+        self.cluster_functions = cluster_functions 
+        self.cluster_subsystems = cluster_subsystems
 
     def __repr__(self) -> str:
         return '<Cluster %r>' % self.id

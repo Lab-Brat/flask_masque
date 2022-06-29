@@ -23,36 +23,15 @@
             <hr/>
         </div>
 
-        <div>
-            <h3 style="text-align: left">Section 2</h3>
-            <h4 style="text-align: left">External Service Provider Mapping</h4>
-            <h5 style="text-align: left">
-                Name systems, shared or dedicated, that provide services(authentication, monitoring, backup & recovery, etc.) 
-                or extend standard functionality of the system(search tools, management tools, etc), 
-                but are not considered to be an integral component of the system. 
-                Provide a brief description of the functionality or service provided.
-            </h5><br>
+        <section>
+            <h5>Cluster's Embedded Functions</h5>
+            <textarea name="cluster_functions" rows="5" cols="60" required></textarea>
+        </section><br/>
 
-            <div>
-                <label>Name: </label><input type="text" name="espm_name" value="" required/>
-                <label>Description: </label><textarea name="espm_description" rows="5" cols="50" required></textarea>
-            </div>
-        </div>
-        <hr/>
-
-        <div>
-            <h3 style="text-align: left">Section 3</h3>
-            <h4 style="text-align: left">Service Consumer Mapping</h4>
-            <h5 style="text-align: left">
-                Name systems that consume services provided by the current system. Provide service name and responsible subsystem.
-            </h5><br>
-
-            <div>
-                <label>Name: </label><input type="text" name="scm_name" value="" required/>
-                <label>Description: </label><textarea name="scm_description" rows="5" cols="50" required></textarea>
-            </div>
-        </div>
-        <br/>
+        <section>
+            <h5>Cluster's Subsystems</h5>
+            <textarea name="cluster_subsystems" rows="5" cols="60" required></textarea>
+        </section><br/>
 
         <section>
             <button type="submit" class="btn btn-primary">Submit</button>
