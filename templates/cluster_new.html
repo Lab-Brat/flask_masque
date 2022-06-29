@@ -10,32 +10,31 @@
     <hr/>
 
     <form action="/cluster_new" method="POST" name="theCluster">
-        <div>
-            <h3 style="text-align: left">Section 1</h3>
-            <h4 style="text-align: left">Brief Cluster Description</h4>
-            <p>Cluster Name<br>
-                <input type="text" name="cluster" required/>
-            </p>
-            <p>Cluster Description<br>
-                <h5>Describe the clusters</h5>
-                <textarea name="description" rows="5" cols="60" required></textarea>
-            </p>
-            <hr/>
-        </div>
+        <section>
+            <h5>Cluster Name</h5>
+            <input type="text" name="cluster" required/>
+        </section>
+
+        <section>
+            <h5>Cluster Description</h5>
+            <textarea name="description" rows="5" cols="60" required></textarea>
+        </section>
+        <hr/>
 
         <section>
             <h5>Cluster's Embedded Functions</h5>
             <textarea name="cluster_functions" rows="5" cols="60" required></textarea>
-        </section><br/>
+        </section>
 
         <section>
             <h5>Cluster's Subsystems</h5>
             <textarea name="cluster_subsystems" rows="5" cols="60" required></textarea>
-        </section><br/>
+        </section>
 
         <section>
             <button type="submit" class="btn btn-primary">Submit</button>
-        </section>    
+        </section><br/>
+
     </form>
 </div>
 
