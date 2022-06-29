@@ -162,11 +162,22 @@ def cluster_new():
         return redirect('/cluster')
     else:
         return render_template('cluster_new.html') 
-        
 
-@app.route('/cluster_update', methods=['POST', 'GET'])
-def cluster_update():
-    pass
+@app.route('/cluster_update/<int:id>', methods=['POST', 'GET'])
+def cluster_update(id):
+    cluster = CreateClusters.query.get_or_404(id)
+    if request.method == 'POST':
+        cluster.cluster = request.form['cluster']
+        cluster.description = request.form['description']
+        cluster.cluster_functions = request.form['cluster_functions']
+        cluster.cluster_subsystems = request.form['cluster_subsystems']
+
+        db.session.commit()
+
+        return redirect('/cluster')
+    else:
+        return render_template('cluster_update.html', cluster=cluster)  
+
 
 @app.route('/cluster_delete/<int:id>', methods=['POST', 'GET'])
 def cluster_delete(id):

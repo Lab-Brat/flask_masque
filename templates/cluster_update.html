@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Cluster Update</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: left">Update Cluster</h1>
+    <hr/>
+
+    <form action="/cluster_update/{{ cluster.id }}" method="POST">
+        <section>
+            <h5>Cluster Name</h5>
+            <input type="text" name="cluster" value="{{cluster.cluster}}"/>
+        </section>
+
+        <section>
+            <h5>Cluster Description</h5>
+            <textarea name="description" rows="5" cols="60">{{cluster.description}}</textarea>
+        </section>
+        <hr/>
+
+        <section>
+            <h5>Cluster's Embedded Functions</h5>
+            <textarea name="cluster_functions" rows="5" cols="60" required>{{cluster.cluster_functions}}</textarea>
+        </section>
+
+        <section>
+            <h5>Cluster's Subsystems</h5>
+            <textarea name="cluster_subsystems" rows="5" cols="60" required>{{cluster.cluster_subsystems}}</textarea>
+        </section>
+
+        <section>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </section><br/>
+
+    </form>
+</div>
+
+{% endblock %}
