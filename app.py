@@ -166,7 +166,13 @@ def cluster_new():
 @app.route('/cluster_update/<int:id>', methods=['POST', 'GET'])
 def cluster_update(id):
     cluster = CreateClusters.query.get_or_404(id)
+    hosts = [instance for instance in db.session.query(CreateForm)]
+
     if request.method == 'POST':
+        for h in hosts:
+            if h.cluster_belong == cluster.cluster:
+                h.cluster_belong = request.form['cluster']
+
         cluster.cluster = request.form['cluster']
         cluster.description = request.form['description']
         cluster.cluster_functions = request.form['cluster_functions']
