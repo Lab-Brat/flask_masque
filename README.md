@@ -68,7 +68,7 @@ python app.py
 ```
 
 #### Open
-To open apps interface, open a browser and enter server's IP address (or hostname) and port in the search bar, for example:
+To open app interface, open a browser and enter server's IP address (or hostname) and port in the search bar, for example:
 ```
-http://192.168.0.10:5000
+http://192.168.0.1:5000
 ```
