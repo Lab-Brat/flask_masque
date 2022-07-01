@@ -83,6 +83,11 @@ def delete(id):
 def update(id):
     form = CreateForm.query.get_or_404(id)
     hosts = [instance[0] for instance in db.session.query(CreateForm.hostname)]
+    clusters = [instance[0] for instance in db.session.query(CreateClusters.cluster)]
+    cluster_data = [list(instance) for instance in db.session.query(
+                        CreateClusters.cluster_functions, 
+                        CreateClusters.cluster_subsystems)]
+    cluster_dict = [[c, [cd[0], cd[1]]] for c, cd in zip(clusters, cluster_data)]
 
     if request.method == 'POST':
         eips = request.form.getlist('extra_ips[]')
@@ -110,7 +115,8 @@ def update(id):
         except:
             return "Failed to Update Form"
     else:
-        return render_template('update.html', form=form, hosts=json.dumps(hosts), dirlist=dirlist)
+        return render_template('update.html', form=form, hosts=json.dumps(hosts), dirlist=dirlist, 
+                                clusters=clusters, cluster_data=json.dumps(cluster_dict))
 
 # Save all database data into csv file
 @app.route('/dump', methods=['GET'])
@@ -202,9 +208,7 @@ def cluster():
     hosts = [instance for instance in db.session.query(CreateForm.hostname, CreateForm.cluster_belong)]
     
     hc = {cl.cluster: list() for cl in clusters}
-    for h in hosts:
-        if h[1] in hc.keys():
-            hc[h[1]].append(h[0])
+    [hc[h[1]].append(h[0]) for h in hosts if h[1] in hc.keys()]
 
     return render_template('cluster.html', clusters=clusters, hc_dict=hc)
 

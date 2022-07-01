@@ -9,6 +9,7 @@ function get_cluster() {
     } 
 
     for (let i = 0; i < par.length; i++) {
+        alert(par[i][0]);
         if ( par[i][0] == document.theForm.cluster_belong.value) {
             alert("Cluster Settings Found!");
             var c_fun = par[i][1][0];
