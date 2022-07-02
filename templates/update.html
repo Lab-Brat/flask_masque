@@ -33,7 +33,7 @@
                 <input type="text" name="cluster_belong" value="{{form.cluster_belong}}" list="cluster_list"/>
                 <datalist id="cluster_list">
                     {% for c in clusters %}
-                    <option value="{{c}}">{{c}}</option>
+                    <option>{{c}}</option>
                     {% endfor %}
                 </datalist>
                 <button type="button" onclick="return(get_cluster());" class="btn btn-primary btn-sm">Get Cluster</button>
