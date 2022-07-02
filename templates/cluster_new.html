@@ -1,35 +1,53 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Cluster</title>
+<title>Organizational Unit</title>
 {% endblock %}
 
 {% block body %}
 <div class="content">
-    <h1 style="text-align: left">Create New Cluster</h1>
+    <h1 style="text-align: left">Create New Unit</h1>
     <hr/>
 
-    <form action="/cluster_new" method="POST" name="theCluster">
+    <form action="/cluster_new" method="POST" name="theUnit">
         <section>
-            <h5>Cluster Name</h5>
-            <input type="text" name="cluster" required/>
-        </section>
+            <h5>Unit Name</h5>
+            <input type="text" name="unit_name" required/>
+        </section><br/>
 
         <section>
-            <h5>Cluster Description</h5>
+            <h5>Unit Level</h5>
+            <input type="radio" id="cluster" name="unit_level" value="cluster">
+            <label for="cluster">Cluster</label>
+            <input type="radio" id="containerization" name="unit_level" value="containerization">
+            <label for="containerization">Containerization</label>
+            <input type="radio" id="pods" name="unit_level" value="pods">
+            <label for="pods">Pods</label>
+        </section><br/>
+
+        <section>
+            <h5>Level Details</h5>
+            <h5>Available Levels: Cluster > Containerization > Pods</h5>
+            <input type="text" name="cluster" required/>
+            <input type="text" name="containerization"/>
+            <input type="text" name="pods"/>
+        </section><br/>
+
+        <section>
+            <h5>Unit Description</h5>
             <textarea name="description" rows="5" cols="60" required></textarea>
         </section>
         <hr/>
 
         <section>
-            <h5>Cluster's Embedded Functions</h5>
+            <h5>Unit's Embedded Functions</h5>
             <textarea name="cluster_functions" rows="5" cols="60" required></textarea>
         </section>
 
         <section>
-            <h5>Cluster's Subsystems</h5>
+            <h5>Unit's Subsystems</h5>
             <textarea name="cluster_subsystems" rows="5" cols="60" required></textarea>
-        </section>
+        </section><br/>
 
         <section>
             <button type="submit" class="btn btn-primary">Submit</button>

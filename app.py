@@ -157,8 +157,12 @@ def index():
 @app.route('/cluster_new', methods=['POST', 'GET'])
 def cluster_new():
     if request.method == 'POST':
-        new_cluster = CreateClusters(cluster=request.form['cluster'],
+        new_cluster = CreateClusters(unit_name=request.form['unit_name'],
+                            unit_level=request.form['unit_level'],
                             description=request.form['description'],
+                            cluster=request.form['cluster'],
+                            containerization=request.form['containerization'],
+                            pods=request.form['pods'],
                             cluster_functions=request.form['cluster_functions'],
                             cluster_subsystems=request.form['cluster_subsystems'])
 

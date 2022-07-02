@@ -56,14 +56,25 @@ class CreateClusters(db.Model):
     __tablename__ = 'cluster_forms'
 
     id = db.Column(db.Integer, primary_key=True)
-    cluster = db.Column(db.String(50), nullable=False)
+    unit_name = db.Column(db.String(50), nullable=False)
+    unit_level = db.Column(db.String(20), nullable=False)
     description = db.Column(db.String(200), nullable=False)
+    cluster = db.Column(db.String(50), nullable=False)
+    containerization = db.Column(db.String(50))
+    pods = db.Column(db.String(50))
     cluster_functions = db.Column(db.String(200))
     cluster_subsystems = db.Column(db.String(200))
-    date_created = db.Column(db.DateTime, default=datetime.now().replace(microsecond=0))
+    date_created = db.Column(db.DateTime, 
+                             default=datetime.now().replace(microsecond=0))
 
-    def __init__(self, cluster, description, cluster_functions, cluster_subsystems):
+    def __init__(self, unit_name, unit_level, description, 
+                 cluster, containerization, pods, 
+                 cluster_functions, cluster_subsystems):
+        self.unit_name = unit_name
+        self.unit_level = unit_level
         self.cluster = cluster
+        self.containerization = containerization
+        self.pods = pods
         self.description = description
         self.cluster_functions = cluster_functions 
         self.cluster_subsystems = cluster_subsystems

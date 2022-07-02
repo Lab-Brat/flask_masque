@@ -1,22 +1,22 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Clusters</title>
+<title>Organizational Units</title>
 {% endblock %}
 
 {% block body %}
 <div class="content">
-    <h1 style="text-align: center">Cluster Information</h1>
+    <h1 style="text-align: center">Unit Information</h1>
     <div class="button-container">
         <form action="/cluster_new">
             <dev style="position: relative; left: 36%;">
-                <button type="submit" class="btn btn-primary">Add Cluster</button>
+                <button type="submit" class="btn btn-primary">Add Unit</button>
             </dev>
         </form>
     
         <form action="/dump">
             <div style="position: relative; left: 37%;">
-                <button type="submit" class="btn btn-primary">Dump Cluster Database</button>
+                <button type="submit" class="btn btn-primary">Dump Units Database</button>
             </div>
         </form>
     </div>
@@ -25,8 +25,9 @@
     <table>
         <tr style="text-align: center">
             <th>ID</th>
-            <th>Cluster</th>
-            <th>Description</th>
+            <th>Name</th>
+            <th>Level</th>
+            <th>Level Details</th>
             <th>Hosts</th>
             <th>Date Created</th>
             <th>Actions</th>
@@ -34,8 +35,9 @@
         {% for cluster in clusters %}
         <tr>
             <td>{{ cluster.id }}</td>
-            <td>{{ cluster.cluster }}</td>
-            <td>{{ cluster.description }}</td>
+            <td>{{ cluster.unit_name }}</td>
+            <td>{{ cluster.unit_level }}</td>
+            <td>{{ cluster.cluster }} / {{ cluster.containerization }} / {{ cluster.pods }}</td>
             <td>{{ hc_dict.get(cluster.cluster) }}</td>
             <td>{{ cluster.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
             <td>
