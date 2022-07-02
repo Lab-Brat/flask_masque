@@ -32,11 +32,15 @@ migrate = Migrate(app, db)
 @app.route('/form', methods=['POST', 'GET'])
 def form():
     hosts = [instance[0] for instance in db.session.query(CreateForm.hostname)]
-    clusters = [instance[0] for instance in db.session.query(CreateClusters.cluster)]
+
+
+    unit_query = db.session.query(CreateClusters.unit_name).order_by(CreateClusters.unit_name)
+    orgunits = [unit[0] for unit in unit_query]
+
     cluster_data = [list(instance) for instance in db.session.query(
                         CreateClusters.cluster_functions, 
-                        CreateClusters.cluster_subsystems)]
-    cluster_dict = [[c, [cd[0], cd[1]]] for c, cd in zip(clusters, cluster_data)]
+                        CreateClusters.cluster_subsystems).order_by(CreateClusters.unit_name)]
+    cluster_dict = [[c, [cd[0], cd[1]]] for c, cd in zip(orgunits, cluster_data)]
 
     if request.method == 'POST':
         new_form = CreateForm(
@@ -64,7 +68,7 @@ def form():
 
     else:
         return render_template('form.html', hosts=json.dumps(hosts), dirlist=dirlist,
-                                    clusters=clusters, cluster_data=json.dumps(cluster_dict))
+                                    clusters=orgunits, cluster_data=json.dumps(cluster_dict))
 
 # delete form after pressing "Delete" link
 @app.route('/delete/<int:id>')
@@ -197,7 +201,6 @@ def cluster_update(id):
         return redirect('/cluster')
     else:
         return render_template('cluster_update.html', cluster=cluster)  
-
 
 @app.route('/cluster_delete/<int:id>', methods=['POST', 'GET'])
 def cluster_delete(id):
