@@ -23,7 +23,7 @@
         <section>
             <h5>Hostname</h5>
             <input type="integer" name="hostname" required/>
-            <button type="submit" onclick="return(validate());" class="btn btn-primary btn-sm">Check Hostname</button>
+            <button type="button" onclick="return(validate());" class="btn btn-primary btn-sm">Check Hostname</button>
         </section><br/>
 
         <section>
@@ -34,7 +34,7 @@
                 <option>{{c}}</option>
                 {% endfor %}
             </datalist>
-            <button type="submit" onclick="return(get_cluster());" class="btn btn-primary btn-sm">Get Cluster</button>
+            <button type="button" onclick="return(get_cluster());" class="btn btn-primary btn-sm">Get Cluster</button>
         </section><br/>
 
         <section>
