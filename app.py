@@ -182,8 +182,12 @@ def cluster_update(id):
         for h in hosts:
             if h.cluster_belong == cluster.cluster:
                 h.cluster_belong = request.form['cluster']
-
+        
+        cluster.unit_name = request.form['unit_name']
+        cluster.unit_level = request.form['unit_level']
         cluster.cluster = request.form['cluster']
+        cluster.containerization = request.form['containerization']
+        cluster.pods = request.form['pods']
         cluster.description = request.form['description']
         cluster.cluster_functions = request.form['cluster_functions']
         cluster.cluster_subsystems = request.form['cluster_subsystems']
