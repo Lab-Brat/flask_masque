@@ -38,7 +38,7 @@
             <td>{{ cluster.unit_name }}</td>
             <td>{{ cluster.unit_level }}</td>
             <td>{{ cluster.cluster }} / {{ cluster.containerization }} / {{ cluster.pods }}</td>
-            <td>{{ hc_dict.get(cluster.cluster) }}</td>
+            <td>{{ hc_dict.get(cluster.unit_name) }}</td>
             <td>{{ cluster.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
             <td>
                 <a href="/cluster_delete/{{cluster.id}}" onclick="return confirm('Are you sure you want to DELETE Cluster {{ cluster.id }}?')">Delete</a>

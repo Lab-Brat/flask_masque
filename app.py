@@ -218,7 +218,7 @@ def cluster():
     clusters = CreateClusters.query.order_by(CreateClusters.date_created).all()
     hosts = [instance for instance in db.session.query(CreateForm.hostname, CreateForm.cluster_belong)]
     
-    hc = {cl.cluster: list() for cl in clusters}
+    hc = {cl.unit_name: list() for cl in clusters}
     [hc[h[1]].append(h[0]) for h in hosts if h[1] in hc.keys()]
 
     return render_template('cluster.html', clusters=clusters, hc_dict=hc)
