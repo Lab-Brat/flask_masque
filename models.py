@@ -8,7 +8,7 @@ db = SQLAlchemy()
 
 class CreateForm(db.Model):
     '''
-    Database model for the form (except extra IPs)
+    Database model for the main forms
     '''
     __tablename__ = 'forms'
 
@@ -17,13 +17,16 @@ class CreateForm(db.Model):
     hostname = db.Column(db.String(30), nullable=False)
     cluster_belong = db.Column(db.String(30))
     ip = db.Column(INET)
-    extra_ips = db.relationship('CreateExIP', cascade="all,delete", backref='forms')
+    extra_ips = db.relationship('CreateExIP', 
+                                cascade="all,delete", backref='forms')
     distro = db.Column(db.String(20), nullable=False)
     functions = db.Column(db.String(200), nullable=False)
     subsystems = db.Column(db.String(200), nullable=False)
-    date_created = db.Column(db.DateTime, default=datetime.now().replace(microsecond=0))
+    date_created = db.Column(db.DateTime, 
+                             default=datetime.now().replace(microsecond=0))
 
-    def __init__(self, name, hostname, cluster_belong, ip, distro, functions, subsystems):
+    def __init__(self, name, hostname, cluster_belong, 
+                 ip, distro, functions, subsystems):
         self.name = name
         self.hostname = hostname
         self.ip = ip
@@ -35,9 +38,10 @@ class CreateForm(db.Model):
     def __repr__(self) -> str:
         return '<Form %r>' % self.id
 
+
 class CreateExIP(db.Model):
     '''
-    Database model extra IPs
+    Database model for extra IP addresses
     '''
     __tablename__ = 'extra_ips'
 
@@ -52,7 +56,11 @@ class CreateExIP(db.Model):
     def __repr__(self) -> str:
         return '<ExIP %r>' % self.id
 
+
 class CreateClusters(db.Model):
+    '''
+    Database model for organizational units
+    '''
     __tablename__ = 'cluster_forms'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -72,10 +80,10 @@ class CreateClusters(db.Model):
                  cluster_functions, cluster_subsystems):
         self.unit_name = unit_name
         self.unit_level = unit_level
+        self.description = description
         self.cluster = cluster
         self.containerization = containerization
         self.pods = pods
-        self.description = description
         self.cluster_functions = cluster_functions 
         self.cluster_subsystems = cluster_subsystems
 
