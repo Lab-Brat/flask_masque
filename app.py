@@ -2,6 +2,7 @@ from flask import Flask
 from flask import request, redirect, render_template, send_file
 from flask_migrate import Migrate
 from models import db, CreateForm, CreateExIP, CreateUnits
+from tools import Tools
 from datetime import datetime
 import configparser
 import csv
@@ -33,18 +34,18 @@ migrate = Migrate(app, db)
 # open new form input page after pressing "Add Form"
 @app.route('/form', methods=['POST', 'GET'])
 def form():
-    hosts_query = db.session.query(CreateForm.hostname)
+    # hosts_query = db.session.query(CreateForm.hostname)
 
-    unit_query = (db.session.query(CreateUnits.unit_name)
-                            .order_by(CreateUnits.unit_name))
+    # unit_query = (db.session.query(CreateUnits.unit_name)
+    #                         .order_by(CreateUnits.unit_name))
     
-    level_query = (db.session.query(CreateUnits.unit_functions, 
-                                    CreateUnits.unit_subsystems)
-                             .order_by(CreateUnits.unit_name))
+    # level_query = (db.session.query(CreateUnits.unit_functions, 
+    #                                 CreateUnits.unit_subsystems)
+    #                          .order_by(CreateUnits.unit_name))
 
-    hosts = [instance[0] for instance in hosts_query]
-    orgunits = [unit[0] for unit in unit_query]
-    level_data = [list(instance) for instance in level_query]
+    hosts = [instance[0] for instance in Tools(db).host_query()]
+    orgunits = [unit[0] for unit in Tools(db).unit_query()]
+    level_data = [list(instance) for instance in Tools(db).data_query()]
     level_dict = [[c, [cd[0], cd[1]]] for c, cd in zip(orgunits, level_data)]
 
     if request.method == 'POST':
