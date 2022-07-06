@@ -213,6 +213,8 @@ def unit_update(id):
         for h in hosts:
             if h.unit_belong == unit.unit_name:
                 h.unit_belong = request.form['unit_name']
+                h.functions = request.form['unit_functions']
+                h.subsystems = request.form['unit_subsystems']
         
         unit.unit_name = request.form['unit_name']
         unit.unit_level = request.form['unit_level']
