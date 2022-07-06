@@ -1,12 +1,17 @@
 from models import CreateForm, CreateExIP, CreateUnits
 
-class Tools():
+class DB_Tools():
     def __init__(self, db):
         self.db = db
 
     def host_query(self):
         return (self.db.session.query(CreateForm.hostname)
                                .order_by(CreateForm.hostname))
+
+    def extra_ip_query(self):
+        return (self.db.session.query(CreateExIP)
+                       .order_by(CreateExIP.id))
+
     def unit_query(self):
         return (self.db.session.query(CreateUnits.unit_name)
                                .order_by(CreateUnits.unit_name))

@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request, redirect, render_template, send_file
 from flask_migrate import Migrate
 from models import db, CreateForm, CreateExIP, CreateUnits
-from tools import Tools
+from tools import DB_Tools
 from datetime import datetime
 import configparser
 import csv
@@ -34,9 +34,9 @@ migrate = Migrate(app, db)
 # open new form input page after pressing "Add Form"
 @app.route('/form', methods=['POST', 'GET'])
 def form():
-    hosts = [instance[0] for instance in Tools(db).host_query()]
-    orgunits = [unit[0] for unit in Tools(db).unit_query()]
-    level_data = [list(instance) for instance in Tools(db).data_query()]
+    hosts = [instance[0] for instance in DB_Tools(db).host_query()]
+    orgunits = [unit[0] for unit in DB_Tools(db).unit_query()]
+    level_data = [list(instance) for instance in DB_Tools(db).data_query()]
     level_dict = [[c, [cd[0], cd[1]]] for c, cd in zip(orgunits, level_data)]
 
     if request.method == 'POST':
@@ -89,9 +89,9 @@ def delete(id):
 def update(id):
     form = CreateForm.query.get_or_404(id)
 
-    hosts = [instance[0] for instance in Tools(db).host_query()]
-    orgunits = [unit[0] for unit in Tools(db).unit_query()]
-    level_data = [list(instance) for instance in Tools(db).data_query()]
+    hosts = [instance[0] for instance in DB_Tools(db).host_query()]
+    orgunits = [unit[0] for unit in DB_Tools(db).unit_query()]
+    level_data = [list(instance) for instance in DB_Tools(db).data_query()]
     level_dict = [[c, [cd[0], cd[1]]] for c, cd in zip(orgunits, level_data)]
 
     if request.method == 'POST':
@@ -128,10 +128,8 @@ def update(id):
 # Save all database data into csv file
 @app.route('/dump', methods=['GET'])
 def dump():
-    exip_dict = dict
-    extra_ip_query = db.session.query(CreateExIP).order_by(CreateExIP.id)
-
-    for instance in extra_ip_query:
+    exip_dict = {}
+    for instance in DB_Tools(db).extra_ip_query():
         if str(instance.forms_id) in exip_dict:
             exip_dict[str(instance.forms_id)] += '\r\n' + instance.extra_ip
         else:
@@ -140,7 +138,7 @@ def dump():
     now = datetime.now().replace(microsecond=0)
     timestamp = f"{now.date()}_{now.time()}".replace(':','-')
     dump_file = f'{dump_path}/dump_{timestamp}.csv'
-    header = ['Name', 'Hostname', 'IP', 
+    header = ['Name', 'Hostname', 'Org. Unit', 'IP', 
               'Extra IPs', 'Functions', 'Subsystems']
 
     with open(dump_file, 'w', encoding='UTF8') as dump:
@@ -152,8 +150,10 @@ def dump():
                 exip_csv = exip_dict[str(instance.id)]
             except:
                 exip_csv = ''
-            row_data = [instance.name, instance.hostname, instance.ip, 
-                        exip_csv, instance.functions, instance.subsystems]
+            row_data = [instance.name, instance.hostname, 
+                        instance.unit_belong, 
+                        instance.ip, exip_csv,
+                        instance.functions, instance.subsystems]
             writer.writerow(row_data)
 
     return send_file(dump_file, mimetype='text/csv', 
