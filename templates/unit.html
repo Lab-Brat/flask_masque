@@ -8,7 +8,7 @@
 <div class="content">
     <h1 style="text-align: center">Unit Information</h1>
     <div class="button-container">
-        <form action="/cluster_new">
+        <form action="/unit_new">
             <dev style="position: relative; left: 36%;">
                 <button type="submit" class="btn btn-primary">Add Unit</button>
             </dev>
@@ -32,18 +32,18 @@
             <th>Date Created</th>
             <th>Actions</th>
         </tr>
-        {% for cluster in clusters %}
+        {% for unit in units %}
         <tr>
-            <td>{{ cluster.id }}</td>
-            <td>{{ cluster.unit_name }}</td>
-            <td>{{ cluster.unit_level }}</td>
-            <td>{{ cluster.cluster }} / {{ cluster.containerization }} / {{ cluster.pods }}</td>
-            <td>{{ hc_dict.get(cluster.unit_name) }}</td>
-            <td>{{ cluster.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+            <td>{{ unit.id }}</td>
+            <td>{{ unit.unit_name }}</td>
+            <td>{{ unit.unit_level }}</td>
+            <td>{{ unit.cluster }} / {{ unit.containerization }} / {{ unit.pod }}</td>
+            <td>{{ hc_dict.get(unit.unit_name) }}</td>
+            <td>{{ unit.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
             <td>
-                <a href="/cluster_delete/{{cluster.id}}" onclick="return confirm('Are you sure you want to DELETE Cluster {{ cluster.id }}?')">Delete</a>
+                <a href="/unit_delete/{{unit.id}}" onclick="return confirm('Are you sure you want to DELETE unit {{ unit.id }}?')">Delete</a>
                 <br>
-                <a href="/cluster_update/{{cluster.id}}">Update</a>
+                <a href="/unit_update/{{unit.id}}">Update</a>
             </td>
         </tr>
         {% endfor %}

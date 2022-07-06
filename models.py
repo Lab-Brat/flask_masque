@@ -15,7 +15,7 @@ class CreateForm(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     hostname = db.Column(db.String(30), nullable=False)
-    cluster_belong = db.Column(db.String(30))
+    unit_belong = db.Column(db.String(30))
     ip = db.Column(INET)
     extra_ips = db.relationship('CreateExIP', 
                                 cascade="all,delete", backref='forms')
@@ -25,12 +25,12 @@ class CreateForm(db.Model):
     date_created = db.Column(db.DateTime, 
                              default=datetime.now().replace(microsecond=0))
 
-    def __init__(self, name, hostname, cluster_belong, 
+    def __init__(self, name, hostname, unit_belong, 
                  ip, distro, functions, subsystems):
         self.name = name
         self.hostname = hostname
         self.ip = ip
-        self.cluster_belong = cluster_belong
+        self.unit_belong = unit_belong
         self.distro = distro
         self.functions = functions
         self.subsystems = subsystems
@@ -57,11 +57,11 @@ class CreateExIP(db.Model):
         return '<ExIP %r>' % self.id
 
 
-class CreateClusters(db.Model):
+class CreateUnits(db.Model):
     '''
     Database model for organizational units
     '''
-    __tablename__ = 'cluster_forms'
+    __tablename__ = 'units_forms'
 
     id = db.Column(db.Integer, primary_key=True)
     unit_name = db.Column(db.String(50), nullable=False)
@@ -69,23 +69,23 @@ class CreateClusters(db.Model):
     description = db.Column(db.String(200), nullable=False)
     cluster = db.Column(db.String(50), nullable=False)
     containerization = db.Column(db.String(50))
-    pods = db.Column(db.String(50))
-    cluster_functions = db.Column(db.String(200))
-    cluster_subsystems = db.Column(db.String(200))
+    pod = db.Column(db.String(50))
+    unit_functions = db.Column(db.String(200))
+    unit_subsystems = db.Column(db.String(200))
     date_created = db.Column(db.DateTime, 
                              default=datetime.now().replace(microsecond=0))
 
     def __init__(self, unit_name, unit_level, description, 
-                 cluster, containerization, pods, 
-                 cluster_functions, cluster_subsystems):
+                 cluster, containerization, pod, 
+                 unit_functions, unit_subsystems):
         self.unit_name = unit_name
         self.unit_level = unit_level
         self.description = description
         self.cluster = cluster
         self.containerization = containerization
-        self.pods = pods
-        self.cluster_functions = cluster_functions 
-        self.cluster_subsystems = cluster_subsystems
+        self.pod = pod
+        self.unit_functions = unit_functions 
+        self.unit_subsystems = unit_subsystems
 
     def __repr__(self) -> str:
-        return '<Cluster %r>' % self.id
+        return '<Unit %r>' % self.id

@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import request, redirect, render_template, send_file
 from flask_migrate import Migrate
-from models import db, CreateForm, CreateExIP, CreateClusters
+from models import db, CreateForm, CreateExIP, CreateUnits
 from datetime import datetime
 import configparser
 import csv
@@ -35,12 +35,12 @@ migrate = Migrate(app, db)
 def form():
     hosts_query = db.session.query(CreateForm.hostname)
 
-    unit_query = (db.session.query(CreateClusters.unit_name)
-                            .order_by(CreateClusters.unit_name))
+    unit_query = (db.session.query(CreateUnits.unit_name)
+                            .order_by(CreateUnits.unit_name))
     
-    level_query = (db.session.query(CreateClusters.cluster_functions, 
-                                    CreateClusters.cluster_subsystems)
-                             .order_by(CreateClusters.unit_name))
+    level_query = (db.session.query(CreateUnits.unit_functions, 
+                                    CreateUnits.unit_subsystems)
+                             .order_by(CreateUnits.unit_name))
 
     hosts = [instance[0] for instance in hosts_query]
     orgunits = [unit[0] for unit in unit_query]
@@ -51,7 +51,7 @@ def form():
         new_form = CreateForm(
                 name=request.form['name'],
                 hostname=request.form['hostname'],
-                cluster_belong=request.form['cluster_belong'],
+                unit_belong=request.form['unit_belong'],
                 ip=request.form['ip'],
                 distro=request.form['distro'],
                 functions=request.form['functions'],
@@ -76,9 +76,9 @@ def form():
     else:
         return render_template('form.html',
                                dirlist=dirlist, 
-                               clusters=orgunits,
+                               units=orgunits,
                                hosts=json.dumps(hosts),
-                               cluster_data=json.dumps(level_dict))
+                               unit_data=json.dumps(level_dict))
 
 # delete form after pressing "Delete" link
 @app.route('/delete/<int:id>')
@@ -99,12 +99,12 @@ def update(id):
 
     hosts_query = db.session.query(CreateForm.hostname)
 
-    unit_query = (db.session.query(CreateClusters.unit_name)
-                            .order_by(CreateClusters.unit_name))
+    unit_query = (db.session.query(CreateUnits.unit_name)
+                            .order_by(CreateUnits.unit_name))
     
-    level_query = (db.session.query(CreateClusters.cluster_functions, 
-                                    CreateClusters.cluster_subsystems)
-                             .order_by(CreateClusters.unit_name))
+    level_query = (db.session.query(CreateUnits.unit_functions, 
+                                    CreateUnits.unit_subsystems)
+                             .order_by(CreateUnits.unit_name))
 
     hosts = [instance[0] for instance in hosts_query]
     orgunits = [unit[0] for unit in unit_query]
@@ -117,7 +117,7 @@ def update(id):
 
         form.name=request.form['name']
         form.hostname=request.form['hostname']
-        form.cluster_belong=request.form['cluster_belong'],
+        form.unit_belong=request.form['unit_belong'],
         form.ip=request.form['ip']
         for instance in db.session.query(CreateExIP).order_by(CreateExIP.id):
             if instance.forms_id == id:
@@ -138,11 +138,9 @@ def update(id):
         except:
             return "Failed to Update Form"
     else:
-        return render_template('update.html', 
-                               dirlist=dirlist, 
-                               clusters=orgunits,
-                               hosts=json.dumps(hosts),
-                               cluster_data=json.dumps(level_dict))
+        return render_template('update.html', form=form, dirlist=dirlist, 
+                               hosts=json.dumps(hosts), units=orgunits, 
+                               unit_data=json.dumps(level_dict))
 
 # Save all database data into csv file
 @app.route('/dump', methods=['GET'])
@@ -186,75 +184,75 @@ def index():
 
 
 # ---------------------------- Org. Unit Routes ----------------------------- #
-@app.route('/cluster_new', methods=['POST', 'GET'])
-def cluster_new():
+@app.route('/unit_new', methods=['POST', 'GET'])
+def unit_new():
     if request.method == 'POST':
-        new_cluster = CreateClusters(
+        new_unit = CreateUnits(
                         unit_name=request.form['unit_name'],
                         unit_level=request.form['unit_level'],
                         description=request.form['description'],
                         cluster=request.form['cluster'],
                         containerization=request.form['containerization'],
-                        pods=request.form['pods'],
-                        cluster_functions=request.form['cluster_functions'],
-                        cluster_subsystems=request.form['cluster_subsystems'])
+                        pod=request.form['pod'],
+                        unit_functions=request.form['unit_functions'],
+                        unit_subsystems=request.form['unit_subsystems'])
 
-        db.session.add(new_cluster)
+        db.session.add(new_unit)
         db.session.commit()
 
-        return redirect('/cluster')
+        return redirect('/unit')
     else:
-        return render_template('cluster_new.html') 
+        return render_template('unit_new.html') 
 
-@app.route('/cluster_update/<int:id>', methods=['POST', 'GET'])
-def cluster_update(id):
-    cluster = CreateClusters.query.get_or_404(id)
+@app.route('/unit_update/<int:id>', methods=['POST', 'GET'])
+def unit_update(id):
+    units = CreateUnits.query.get_or_404(id)
     hosts = [instance for instance in db.session.query(CreateForm)]
 
     if request.method == 'POST':
         for h in hosts:
-            if h.cluster_belong == cluster.cluster:
-                h.cluster_belong = request.form['cluster']
+            if h.unit_belong == unit.unit:
+                h.unit_belong = request.form['unit']
         
-        cluster.unit_name = request.form['unit_name']
-        cluster.unit_level = request.form['unit_level']
-        cluster.cluster = request.form['cluster']
-        cluster.containerization = request.form['containerization']
-        cluster.pods = request.form['pods']
-        cluster.description = request.form['description']
-        cluster.cluster_functions = request.form['cluster_functions']
-        cluster.cluster_subsystems = request.form['cluster_subsystems']
+        unit.unit_name = request.form['unit_name']
+        unit.unit_level = request.form['unit_level']
+        unit.cluster = request.form['cluster']
+        unit.containerization = request.form['containerization']
+        unit.pod = request.form['pod']
+        unit.description = request.form['description']
+        unit.unit_functions = request.form['unit_functions']
+        unit.unit_subsystems = request.form['unit_subsystems']
 
         db.session.commit()
 
-        return redirect('/cluster')
+        return redirect('/unit')
     else:
-        return render_template('cluster_update.html', cluster=cluster)  
+        return render_template('unit_update.html', units=units)  
 
-@app.route('/cluster_delete/<int:id>', methods=['POST', 'GET'])
-def cluster_delete(id):
-    form_to_delete = CreateClusters.query.get_or_404(id)
+@app.route('/unit_delete/<int:id>', methods=['POST', 'GET'])
+def unit_delete(id):
+    form_to_delete = CreateUnits.query.get_or_404(id)
 
     try:
         db.session.delete(form_to_delete)
         db.session.commit()
-        return redirect('/cluster')
+        return redirect('/unit')
     except:
         return "Failed to Delete Form"
 
-@app.route('/cluster', methods=['POST', 'GET'])
-def cluster():
+@app.route('/unit', methods=['POST', 'GET'])
+def unit():
     hosts_query = db.session.query(CreateForm.hostname, 
-                                   CreateForm.cluster_belong)
+                                   CreateForm.unit_belong)
 
-    clusters = (CreateClusters.query
-                              .order_by(CreateClusters.date_created).all())
+    units = (CreateUnits.query
+                              .order_by(CreateUnits.date_created).all())
 
     hosts = [instance for instance in hosts_query]
-    hc = {cl.unit_name: list() for cl in clusters}
+    hc = {cl.unit_name: list() for cl in units}
     [hc[h[1]].append(h[0]) for h in hosts if h[1] in hc.keys()]
 
-    return render_template('cluster.html', clusters=clusters, hc_dict=hc)
+    return render_template('unit.html', units=units, hc_dict=hc)
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>unit Update</title>
+{% endblock %}
+
+{% block body %}
+<div class="content">
+    <h1 style="text-align: left">Update Unit</h1>
+    <hr/>
+
+    <form action="/unit_update/{{ unit.id }}" method="POST">
+        <section>
+            <h5>Unit Name</h5>
+            <input type="text" name="unit_name" value="{{unit.unit_name}}" required/>
+        </section><br/>
+
+        <section>
+            <h5>Unit Level</h5>
+            <input type="radio" id="unit" name="unit_level" value="cluster" required>
+            <label for="cluster">Cluster</label>
+            <input type="radio" id="containerization" name="unit_level" value="containerization" required>
+            <label for="containerization">Containerization</label>
+            <input type="radio" id="pod" name="unit_level" value="pod" required>
+            <label for="pod">Pod</label>
+        </section><br/>
+
+        <section>
+            <h5>Level Details</h5>
+            <h5>Available Levels: Cluster > Containerization > Pod</h5>
+            <input type="text" name="cluster" value="{{unit.cluster}}" required/>
+            <input type="text" name="containerization" value="{{unit.containerization}}"/>
+            <input type="text" name="pod" value="{{unit.pod}}" name="pod"/>
+        </section><br/>
+
+        <section>
+            <h5>Unit Description</h5>
+            <textarea name="description" rows="5" cols="60">{{unit.description}}</textarea>
+        </section>
+        <hr/>
+
+        <section>
+            <h5>unit's Embedded Functions</h5>
+            <textarea name="unit_functions" rows="5" cols="60" required>{{unit.unit_functions}}</textarea>
+        </section>
+
+        <section>
+            <h5>unit's Subsystems</h5>
+            <textarea name="unit_subsystems" rows="5" cols="60" required>{{unit.unit_subsystems}}</textarea>
+        </section>
+
+        <section>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </section><br/>
+
+    </form>
+</div>
+
+{% endblock %}

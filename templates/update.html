@@ -8,7 +8,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="{{  url_for('static', filename='js/add_ip.js') }}"></script>
 <script type="text/javascript" script id="ch" hosts="{{hosts}}" src="{{ url_for('static', filename='js/check_host.js') }}"></script>  
-<script type="text/javascript" script id="gc" cluster_data="{{cluster_data}}" src="{{ url_for('static', filename='js/get_cluster.js') }}"></script>
+<script type="text/javascript" script id="gc" unit_data="{{unit_data}}" src="{{ url_for('static', filename='js/get_unit.js') }}"></script>
 
 
 <div class="content">
@@ -29,14 +29,14 @@
             </section><br/>
 
             <section>
-                <h5>Cluster Affiliation</h5>
-                <input type="text" name="cluster_belong" value="{{form.cluster_belong}}" list="cluster_list"/>
-                <datalist id="cluster_list">
-                    {% for c in clusters %}
-                    <option>{{c}}</option>
+                <h5>Unit Affiliation</h5>
+                <input type="text" name="unit_belong" value="{{form.unit_belong}}" list="unit_list"/>
+                <datalist id="unit_list">
+                    {% for u in units %}
+                    <option>{{u}}</option>
                     {% endfor %}
                 </datalist>
-                <button type="button" onclick="return(get_cluster());" class="btn btn-primary btn-sm">Get Cluster</button>
+                <button type="button" onclick="return(get_unit());" class="btn btn-primary btn-sm">Get Unit</button>
             </section><br/>
 
             <section>
