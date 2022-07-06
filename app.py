@@ -244,10 +244,15 @@ def unit_update(id):
 
 @app.route('/unit_delete/<int:id>', methods=['POST', 'GET'])
 def unit_delete(id):
-    form_to_delete = CreateUnits.query.get_or_404(id)
+    unit_to_delete = CreateUnits.query.get_or_404(id)
+    hosts = [instance for instance in db.session.query(CreateForm)]
 
     try:
-        db.session.delete(form_to_delete)
+        for h in hosts:
+            if h.unit_belong == unit_to_delete.unit_name:
+                h.unit_belong = None
+
+        db.session.delete(unit_to_delete)
         db.session.commit()
         return redirect('/unit')
     except:
@@ -259,7 +264,7 @@ def unit():
                                    CreateForm.unit_belong)
 
     units = (CreateUnits.query
-                              .order_by(CreateUnits.date_created).all())
+                        .order_by(CreateUnits.date_created).all())
 
     hosts = [instance for instance in hosts_query]
     hc = {cl.unit_name: list() for cl in units}
