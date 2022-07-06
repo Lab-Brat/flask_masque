@@ -206,13 +206,13 @@ def unit_new():
 
 @app.route('/unit_update/<int:id>', methods=['POST', 'GET'])
 def unit_update(id):
-    units = CreateUnits.query.get_or_404(id)
+    unit = CreateUnits.query.get_or_404(id)
     hosts = [instance for instance in db.session.query(CreateForm)]
 
     if request.method == 'POST':
         for h in hosts:
-            if h.unit_belong == unit.unit:
-                h.unit_belong = request.form['unit']
+            if h.unit_belong == unit.unit_name:
+                h.unit_belong = request.form['unit_name']
         
         unit.unit_name = request.form['unit_name']
         unit.unit_level = request.form['unit_level']
@@ -227,7 +227,7 @@ def unit_update(id):
 
         return redirect('/unit')
     else:
-        return render_template('unit_update.html', units=units)  
+        return render_template('unit_update.html', unit=unit)  
 
 @app.route('/unit_delete/<int:id>', methods=['POST', 'GET'])
 def unit_delete(id):
