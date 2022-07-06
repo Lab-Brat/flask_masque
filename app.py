@@ -186,6 +186,14 @@ def index():
 # ---------------------------- Org. Unit Routes ----------------------------- #
 @app.route('/unit_new', methods=['POST', 'GET'])
 def unit_new():
+    clusters_query = db.session.query(CreateUnits.cluster)
+    container_query = db.session.query(CreateUnits.containerization)
+    pod_query = db.session.query(CreateUnits.pod)
+
+    clusters = set([instance[0] for instance in clusters_query])
+    containerizations = set([instance[0] for instance in container_query])
+    pods = set([instance[0] for instance in pod_query])
+
     if request.method == 'POST':
         new_unit = CreateUnits(
                         unit_name=request.form['unit_name'],
@@ -202,7 +210,10 @@ def unit_new():
 
         return redirect('/unit')
     else:
-        return render_template('unit_new.html') 
+        return render_template('unit_new.html', 
+                               clusters=clusters, 
+                               containerizations=containerizations,
+                               pods=pods) 
 
 @app.route('/unit_update/<int:id>', methods=['POST', 'GET'])
 def unit_update(id):

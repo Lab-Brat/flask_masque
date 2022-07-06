@@ -28,9 +28,26 @@
         <section>
             <h5>Level Details</h5>
             <h5>Available Levels: Cluster > Containerization > Pod</h5>
-            <input type="text" name="cluster" required/>
-            <input type="text" name="containerization"/>
-            <input type="text" name="pod"/>
+            <input type="text" name="cluster" list="cluster_list" required/>
+            <datalist id="cluster_list">
+                {% for c in clusters %}
+                <option>{{c}}</option>
+                {% endfor %}
+            </datalist>
+
+            <input type="text" name="containerization" list="cont_list" />
+            <datalist id="cont_list">
+                {% for co in containerizations %}
+                <option>{{co}}</option>
+                {% endfor %}
+            </datalist>
+
+            <input type="text" name="pod" list="pods_list"/>
+            <datalist id="pods_list">
+                {% for p in pods %}
+                <option>{{p}}</option>
+                {% endfor %}
+            </datalist>
         </section><br/>
 
         <section>
