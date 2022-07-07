@@ -12,79 +12,75 @@
 
 
 <div class="content">
-    <h1 style="text-align: left">Update Form</h1>
-    <hr/>
+    <h1 style="text-align: left">Update Form</h1><hr/>
 
-    <div>
-        <form action="/update/{{form.id}}" name="theForm" method="POST">
-            <section>
-                <h5>System's Name</h5>
-                <input type="text" name="name" value="{{form.name}}" />
-            </section><br/>
+    <form action="/update/{{form.id}}" name="theForm" method="POST">
+        <section>
+            <h5>System's Name</h5>
+            <input type="text" name="name" value="{{form.name}}" />
+        </section><br/>
 
-            <section>
-                <h5>Hostname</h5>
-                <input type="integer" name="hostname" value="{{form.hostname}}" />
-                <button type="button" onclick="return(validate());" class="btn btn-primary btn-sm">Check Hostname</button>
-            </section><br/>
+        <section>
+            <h5>Hostname</h5>
+            <input type="integer" name="hostname" value="{{form.hostname}}" />
+            <button type="button" onclick="return(validate());" class="btn btn-primary btn-sm">Check Hostname</button>
+        </section><br/>
 
-            <section>
-                <h5>Unit Affiliation</h5>
-                <input type="text" name="unit_belong" value="{{form.unit_belong}}" list="unit_list"/>
-                <datalist id="unit_list">
-                    {% for u in units %}
-                    <option>{{u}}</option>
-                    {% endfor %}
-                </datalist>
-                <button type="button" onclick="return(get_unit());" class="btn btn-primary btn-sm">Get Unit</button>
-            </section><br/>
-
-            <section>
-                <h5>IP address  format: 1.1.1.1/24</h5>
-                <input type="text" name="ip" value="{{form.ip}}" />
-                    <div class="input-wrapper">
-                        <div>Extra IP Addresses
-                        <a href="javascript:void(0);" class="add-input" title="Add input">Add</a>
-                        </div>
-                    </div>
-            </section>
-                   
-            <section>
-                <h5>Extra IP addresses</h5>
-                {% for exip in form.extra_ips %}
-                <input type="text" name="extra_ips[]" value="{{exip.extra_ip}}" />
+        <section>
+            <h5>Unit Affiliation</h5>
+            <input type="text" name="unit_belong" value="{{form.unit_belong}}" list="unit_list"/>
+            <datalist id="unit_list">
+                {% for u in units %}
+                <option>{{u}}</option>
                 {% endfor %}
-            </section><br/>
+            </datalist>
+            <button type="button" onclick="return(get_unit());" class="btn btn-primary btn-sm">Get Unit</button>
+        </section><br/>
 
-            <section>
-                <h5>Server's Linux Distribution</h5>
-                <select name="distro" method="GET" action="/form">
-                    {% for d in dirlist %}
-                        {% if d == form.distro %}
-                            <option value="{{d}}" selected>{{d}}</option>
-                        {% else %}
-                            <option value="{{d}}">{{d}}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            </section><br/>
+        <section>
+            <h5>IP address  format: 1.1.1.1/24</h5>
+            <input type="text" name="ip" value="{{form.ip}}" />
+                <div class="input-wrapper">
+                    <div>Extra IP Addresses
+                    <a href="javascript:void(0);" class="add-input" title="Add input">Add</a>
+                    </div>
+                </div>
+        </section>
+                
+        <section>
+            <h5>Extra IP addresses</h5>
+            {% for exip in form.extra_ips %}
+            <input type="text" name="extra_ips[]" value="{{exip.extra_ip}}" />
+            {% endfor %}
+        </section><br/>
 
-            <section>
-                <h5>System’s functions</h5>
-                <textarea name="functions" rows="5" cols="60" required>{{form.functions}}</textarea>
-            </section><br/>
+        <section>
+            <h5>Server's Linux Distribution</h5>
+            <select name="distro" method="GET" action="/form">
+                {% for d in dirlist %}
+                    {% if d == form.distro %}
+                        <option value="{{d}}" selected>{{d}}</option>
+                    {% else %}
+                        <option value="{{d}}">{{d}}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </section><br/>
 
-            <section>
-                <h5>Subsystems</h5>
-                <textarea name="subsystems" rows="5" cols="60" required>{{form.subsystems}}</textarea>
-            </section><br/>
+        <section>
+            <h5>System’s functions</h5>
+            <textarea name="functions" rows="5" cols="60" required>{{form.functions}}</textarea>
+        </section><br/>
 
-            <section>
-                <button type="submit" class="btn btn-primary">Update</button>
-            </section>
+        <section>
+            <h5>Subsystems</h5>
+            <textarea name="subsystems" rows="5" cols="60" required>{{form.subsystems}}</textarea>
+        </section><br/>
 
-        </form>
-    </div>
+        <section>
+            <button type="submit" class="btn btn-primary">Update</button>
+        </section>
 
+    </form>
 </div>
 {% endblock %}
