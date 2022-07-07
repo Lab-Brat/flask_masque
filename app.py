@@ -241,6 +241,31 @@ def unit_delete(id):
     except:
         return "Failed to Delete Form"
 
+@app.route('/unit_dump', methods=['GET'])
+def unit_dump():
+    header = ['Name', 'Level', 'Level Details', 'Description',
+              'Service Provider Name', 'Service Provider Description',
+              'Service Provider Name', 'Service Provider Description']
+
+    now = datetime.now().replace(microsecond=0)
+    timestamp = f"{now.date()}_{now.time()}".replace(':','-')
+    dump_file = f'{dump_path}/dump_{timestamp}.csv'
+
+    with open(dump_file, 'w', encoding='UTF8') as dump:
+        writer = csv.writer(dump)
+        writer.writerow(header)
+        for instance in (db.session.query(CreateUnits)
+                                   .order_by(CreateUnits.id)):
+            row_data = [instance.unit_name, instance.unit_level, 
+                        instance.description, 
+                        (f"{instance.cluster} / "
+                         f"{instance.containerization} /" 
+                         f"{instance.pod}"),
+                        instance.unit_functions, instance.unit_subsystems]
+            writer.writerow(row_data)
+    
+    return send_file(dump_file, mimetype='text/csv', download_name='db_dump_units.csv')
+
 @app.route('/unit', methods=['POST', 'GET'])
 def unit():
     hosts_query = db.session.query(CreateForm.hostname, 
