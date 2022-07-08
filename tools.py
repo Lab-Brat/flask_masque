@@ -8,6 +8,10 @@ class DB_Tools():
         return (self.db.session.query(CreateForm.hostname)
                                .order_by(CreateForm.hostname))
 
+    def host_unit_query(self):
+        return (self.db.session.query(CreateForm.hostname, 
+                                      CreateForm.unit_belong))
+
     def extra_ip_query(self):
         return (self.db.session.query(CreateExIP)
                        .order_by(CreateExIP.id))
@@ -20,3 +24,7 @@ class DB_Tools():
         return (self.db.session.query(CreateUnits.unit_functions,
                                  CreateUnits.unit_subsystems)
                                .order_by(CreateUnits.unit_name))
+                               
+    def model_units_query(self):
+        return (CreateUnits.query
+                           .order_by(CreateUnits.date_created).all())

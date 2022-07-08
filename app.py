@@ -264,21 +264,17 @@ def unit_dump():
                         instance.unit_functions, instance.unit_subsystems]
             writer.writerow(row_data)
     
-    return send_file(dump_file, mimetype='text/csv', download_name='db_dump_units.csv')
+    return send_file(dump_file, mimetype='text/csv', 
+                     download_name='db_dump_units.csv')
 
 @app.route('/unit', methods=['POST', 'GET'])
 def unit():
-    hosts_query = db.session.query(CreateForm.hostname, 
-                                   CreateForm.unit_belong)
-
-    units = (CreateUnits.query
-                        .order_by(CreateUnits.date_created).all())
-
-    hosts = [instance for instance in hosts_query]
-    hc = {cl.unit_name: list() for cl in units}
+    hosts = [instance for instance in DB_Tools(db).host_unit_query()]
+    hc = {cl.unit_name: list() for cl in DB_Tools(db).model_units_query()}
     [hc[h[1]].append(h[0]) for h in hosts if h[1] in hc.keys()]
 
-    return render_template('unit.html', units=units, hc_dict=hc)
+    return render_template('unit.html', hc_dict=hc, 
+                           units=DB_Tools(db).model_units_query())
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
