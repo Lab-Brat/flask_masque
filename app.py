@@ -2,7 +2,7 @@ from flask import Flask
 from flask import request, redirect, render_template, send_file
 from flask_migrate import Migrate
 from models import db, CreateForm, CreateExIP, CreateUnits
-from tools import DB_Tools
+from tools import Tools, DB_Tools
 from datetime import datetime
 import configparser
 import csv
@@ -228,40 +228,31 @@ def unit_update(id):
 @app.route('/unit_delete/<int:id>', methods=['POST', 'GET'])
 def unit_delete(id):
     unit_to_delete = CreateUnits.query.get_or_404(id)
-    hosts = [instance for instance in db.session.query(CreateForm)]
 
-    try:
-        for h in hosts:
-            if h.unit_belong == unit_to_delete.unit_name:
-                h.unit_belong = None
+    for h in [instance for instance in DB_Tools(db).get_form()]:
+        if h.unit_belong == unit_to_delete.unit_name:
+            h.unit_belong = None
 
-        db.session.delete(unit_to_delete)
-        db.session.commit()
-        return redirect('/unit')
-    except:
-        return "Failed to Delete Form"
+    db.session.delete(unit_to_delete)
+    db.session.commit()
+    return redirect('/unit')
 
 @app.route('/unit_dump', methods=['GET'])
 def unit_dump():
-    header = ['Name', 'Level', 'Level Details', 'Description',
-              'Service Provider Name', 'Service Provider Description',
-              'Service Provider Name', 'Service Provider Description']
-
-    now = datetime.now().replace(microsecond=0)
-    timestamp = f"{now.date()}_{now.time()}".replace(':','-')
-    dump_file = f'{dump_path}/dump_{timestamp}.csv'
+    header = ['Name', 'Level', 'Description', 'Level Details',
+              'Functions', 'Subsystems']
+    dump_file = f'{dump_path}/dump_{Tools().timestamp()}.csv'
 
     with open(dump_file, 'w', encoding='UTF8') as dump:
         writer = csv.writer(dump)
         writer.writerow(header)
-        for instance in (db.session.query(CreateUnits)
-                                   .order_by(CreateUnits.id)):
+        for instance in DB_Tools(db).model_units_query():
             row_data = [instance.unit_name, instance.unit_level, 
                         instance.description, 
                         (f"{instance.cluster} / "
                          f"{instance.containerization} /" 
                          f"{instance.pod}"),
-                        instance.unit_functions, instance.unit_subsystems]
+                         instance.unit_functions, instance.unit_subsystems]
             writer.writerow(row_data)
     
     return send_file(dump_file, mimetype='text/csv', 
