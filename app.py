@@ -135,17 +135,14 @@ def dump():
         else:
             exip_dict[str(instance.forms_id)] = instance.extra_ip
 
-    now = datetime.now().replace(microsecond=0)
-    timestamp = f"{now.date()}_{now.time()}".replace(':','-')
-    dump_file = f'{dump_path}/dump_{timestamp}.csv'
+    dump_file = f'{dump_path}/dump_{Tools().timestamp()}.csv'
     header = ['Name', 'Hostname', 'Org. Unit', 'IP', 
               'Extra IPs', 'Functions', 'Subsystems']
 
     with open(dump_file, 'w', encoding='UTF8') as dump:
         writer = csv.writer(dump)
         writer.writerow(header)
-        form_query = db.session.query(CreateForm).order_by(CreateForm.id)
-        for instance in form_query:
+        for instance in DB_Tools(db).get_model('form'):
             try:
                 exip_csv = exip_dict[str(instance.id)]
             except:
