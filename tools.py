@@ -1,6 +1,4 @@
 from datetime import datetime
-
-from sqlalchemy import extract
 from models import CreateForm, CreateExIP, CreateUnits
 
 class DB_Tools():
@@ -9,10 +7,10 @@ class DB_Tools():
 
     def get_model(self, model):
         if model == 'form':
-            return (CreateUnits.query
+            return (CreateForm.query
                                .order_by(CreateForm.date_created).all())     
         elif model == 'extra_ip':
-            return (CreateUnits.query
+            return (CreateExIP.query
                                .order_by(CreateExIP.id).all())
         elif model == 'unit':
             return (CreateUnits.query
@@ -51,7 +49,7 @@ class DB_Tools():
         contents = [element for query in queries for element in query]
         if len(contents) != 1 and '' in contents:
             contents.remove('')
-            
+
         return list(set(contents))
 
     def unit_details_query(self):

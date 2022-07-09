@@ -162,7 +162,7 @@ def dump():
 # main page
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    forms = CreateForm.query.order_by(CreateForm.date_created).all()
+    forms = DB_Tools(db).get_model('form')
     return render_template('index.html', forms=forms)
 
 
