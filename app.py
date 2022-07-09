@@ -3,7 +3,6 @@ from flask import request, redirect, render_template, send_file
 from flask_migrate import Migrate
 from models import db, CreateForm, CreateExIP, CreateUnits
 from tools import Tools, DB_Tools
-from datetime import datetime
 import configparser
 import csv
 import json
@@ -34,11 +33,6 @@ migrate = Migrate(app, db)
 # open new form input page after pressing "Add Form"
 @app.route('/form', methods=['POST', 'GET'])
 def form():
-    hosts = [instance[0] for instance in DB_Tools(db).host_query()]
-    orgunits = [unit[0] for unit in DB_Tools(db).unit_query()]
-    level_data = [list(instance) for instance in DB_Tools(db).data_query()]
-    level_dict = [[c, [cd[0], cd[1]]] for c, cd in zip(orgunits, level_data)]
-
     if request.method == 'POST':
         new_form = CreateForm(
                 name=request.form['name'],
@@ -49,7 +43,7 @@ def form():
                 functions=request.form['functions'],
                 subsystems=request.form['subsystems'])
 
-        if new_form.hostname in hosts:
+        if new_form.hostname in DB_Tools(db).host_query():
             return ('HOSTNAME EXISTS!!!\n'
                     'Next time please click on "Check Hostname"'
                     'button before filling out the whole form!')
@@ -61,16 +55,15 @@ def form():
         new_extra_ips = [CreateExIP(forms_id=new_form.id, 
                                     extra_ip=ip) for ip in extra_ip]
         db.session.add_all(new_extra_ips)
-
         db.session.commit()
         return redirect('/')
 
     else:
         return render_template('form.html',
-                               dirlist=dirlist, 
-                               units=orgunits,
-                               hosts=json.dumps(hosts),
-                               unit_data=json.dumps(level_dict))
+                            dirlist=dirlist, 
+                            units=DB_Tools(db).unit_query(),
+                            hosts=json.dumps(DB_Tools(db).host_query()),
+                            unit_data=json.dumps(DB_Tools(db).data_query()))
 
 # delete form after pressing "Delete" link
 @app.route('/delete/<int:id>')
