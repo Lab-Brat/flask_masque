@@ -8,9 +8,10 @@ db_port=$(grep 'db_port' ../config.ini | cut -d" " -f3 | tr -d $'\r')
 form_columns="(name, hostname, cluster_belong, ip, distro, functions, subsystems, date_created)"
 exip_columns="(forms_id, extra_ip)"
 cluster_columns="(cluster, description, cluster_functions,cluster_subsystems, date_created)"
-form_entries=$(grep 'form_entries' ../config.ini | awk '{print $3}' | tr -d $'\r')
-exip_entries=$(grep 'exip_entries' ../config.ini | awk '{print $3}' | tr -d $'\r')
-cluster_entries=$(grep 'cluster_entries' ../config.ini | awk '{print $3}' | tr -d $'\r')
+sample_path=$(grep 'sample_path' ../config.ini | awk '{print $3}' | tr -d $'\r')
+form_entries="$sample_path/form_entries.csv"
+exip_entries="$sample_path/cluster_entries.csv"
+cluster_entries="$sample_path/exip_entries.csv"
 
 psql -U $db_user \
      -d $db_name \
