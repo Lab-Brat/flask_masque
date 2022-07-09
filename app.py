@@ -201,7 +201,7 @@ def unit_new():
 @app.route('/unit_update/<int:id>', methods=['POST', 'GET'])
 def unit_update(id):
     unit = CreateUnits.query.get_or_404(id)
-    hosts = [instance for instance in db.session.query(CreateForm)]
+    hosts = DB_Tools(db).model_query('form')    
 
     if request.method == 'POST':
         for h in hosts:
@@ -229,7 +229,7 @@ def unit_update(id):
 def unit_delete(id):
     unit_to_delete = CreateUnits.query.get_or_404(id)
 
-    for h in [instance for instance in DB_Tools(db).get_form()]:
+    for h in DB_Tools(db).model_query('form'):
         if h.unit_belong == unit_to_delete.unit_name:
             h.unit_belong = None
 
@@ -246,7 +246,7 @@ def unit_dump():
     with open(dump_file, 'w', encoding='UTF8') as dump:
         writer = csv.writer(dump)
         writer.writerow(header)
-        for instance in DB_Tools(db).model_units_query():
+        for instance in DB_Tools(db).get_model('unit'):
             row_data = [instance.unit_name, instance.unit_level, 
                         instance.description, 
                         (f"{instance.cluster} / "
@@ -260,12 +260,13 @@ def unit_dump():
 
 @app.route('/unit', methods=['POST', 'GET'])
 def unit():
-    hosts = [instance for instance in DB_Tools(db).host_unit_query()]
-    hc = {cl.unit_name: list() for cl in DB_Tools(db).model_units_query()}
+    hosts = DB_Tools(db).host_unit_query()
+
+    hc = {cl.unit_name: [] for cl in DB_Tools(db).get_model('unit')}
     [hc[h[1]].append(h[0]) for h in hosts if h[1] in hc.keys()]
 
     return render_template('unit.html', hc_dict=hc, 
-                           units=DB_Tools(db).model_units_query())
+                           units=DB_Tools(db).get_model('unit'))
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')

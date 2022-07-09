@@ -5,22 +5,37 @@ class DB_Tools():
     def __init__(self, db):
         self.db = db
 
-    def get_form(self):
-        return self.db.session.query(CreateForm)
+    def get_model(self, model):
+        if model == 'form':
+            return (CreateUnits.query
+                               .order_by(CreateForm.date_created)
+                               .all())        
+        elif model == 'extra_ip':
+            return (CreateUnits.query
+                               .order_by(CreateExIP.id)
+                               .all())
+        elif model == 'unit':
+            return (CreateUnits.query
+                               .order_by(CreateUnits.date_created)
+                               .all())
 
-    def get_unit(self):
-        return self.db.session.query(CreateUnits)
-
-    def get_extra_ip(self):
-        return self.db.session.query(CreateExIP)        
+    def model_query(self, model):
+        if model == 'form':
+            return self.db.session.query(CreateForm).all()
+        elif model == 'extra_ip':
+            return self.db.session.query(CreateExIP).all()
+        elif model == 'unit':
+            return self.db.session.query(CreateUnits).all()
 
     def host_query(self):
         return (self.db.session.query(CreateForm.hostname)
-                               .order_by(CreateForm.hostname))
+                               .order_by(CreateForm.hostname)
+                               .all())
 
     def host_unit_query(self):
         return (self.db.session.query(CreateForm.hostname, 
-                                      CreateForm.unit_belong))
+                                      CreateForm.unit_belong)
+                               .all())
 
     def extra_ip_query(self):
         return (self.db.session.query(CreateExIP)
@@ -34,10 +49,6 @@ class DB_Tools():
         return (self.db.session.query(CreateUnits.unit_functions,
                                  CreateUnits.unit_subsystems)
                                .order_by(CreateUnits.unit_name))
-
-    def model_units_query(self):
-        return (CreateUnits.query
-                           .order_by(CreateUnits.date_created).all())
 
 class Tools():
     def __init__(self):
