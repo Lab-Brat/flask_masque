@@ -89,29 +89,27 @@ def delete(id):
 def update(id):
     form = CreateForm.query.get_or_404(id)
 
-    hosts = DB_Tools(db).host_query()
-    orgunits = DB_Tools(db).unit_query()
-    level_dict = DB_Tools(db).data_query()
-
     if request.method == 'POST':
-        eips = request.form.getlist('extra_ips[]')
-        ip_index = 0
-
         form.name=request.form['name']
         form.hostname=request.form['hostname']
         form.unit_belong=request.form['unit_belong'],
         form.ip=request.form['ip']
-        for instance in db.session.query(CreateExIP).order_by(CreateExIP.id):
-            if instance.forms_id == id:
-                instance.extra_ip = eips[ip_index]
-                ip_index += 1
         form.distro=request.form['distro']
         form.functions=request.form['functions']
         form.subsystems=request.form['subsystems']
 
+        # change existring extra IPs
+        exip_form = request.form.getlist('extra_ips[]')
+        exip_db = [ip for ip in DB_Tools(db).extra_ip_query()
+                             if ip.forms_id == id]
+        for i, ip in enumerate(exip_form):
+            exip_db[i].extra_ip = ip
+
+        # process newly created extra IPs
         extra_ip = request.form.getlist('field[]')
         new_extra_ips = [CreateExIP(forms_id=form.id, 
                                     extra_ip=ip) for ip in extra_ip]
+
         db.session.add_all(new_extra_ips)
 
         try:
@@ -121,8 +119,9 @@ def update(id):
             return "Failed to Update Form"
     else:
         return render_template('update.html', form=form, dirlist=dirlist, 
-                               hosts=json.dumps(hosts), units=orgunits, 
-                               unit_data=json.dumps(level_dict))
+                            units=DB_Tools(db).unit_query(),
+                            hosts=json.dumps(DB_Tools(db).host_query()),
+                            unit_data=json.dumps(DB_Tools(db).data_query()))
 
 # Save all database data into csv file
 @app.route('/dump', methods=['GET'])
@@ -191,10 +190,9 @@ def unit_new():
 @app.route('/unit_update/<int:id>', methods=['POST', 'GET'])
 def unit_update(id):
     unit = CreateUnits.query.get_or_404(id)
-    forms = DB_Tools(db).model_query('form')    
 
     if request.method == 'POST':
-        for h in forms:
+        for h in DB_Tools(db).model_query('form'):
             if h.unit_belong == unit.unit_name:
                 h.unit_belong = request.form['unit_name']
                 h.functions = request.form['unit_functions']
