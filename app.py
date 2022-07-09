@@ -169,13 +169,7 @@ def index():
 # ---------------------------- Org. Unit Routes ----------------------------- #
 @app.route('/unit_new', methods=['POST', 'GET'])
 def unit_new():
-    clusters_query = db.session.query(CreateUnits.cluster)
-    container_query = db.session.query(CreateUnits.containerization)
-    pod_query = db.session.query(CreateUnits.pod)
-
-    clusters = set([instance[0] for instance in clusters_query])
-    containerizations = set([instance[0] for instance in container_query])
-    pods = set([instance[0] for instance in pod_query])
+    clusters, containerizations, pods = DB_Tools(db).unit_details_query()
 
     if request.method == 'POST':
         new_unit = CreateUnits(
