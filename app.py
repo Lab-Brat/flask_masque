@@ -89,10 +89,9 @@ def delete(id):
 def update(id):
     form = CreateForm.query.get_or_404(id)
 
-    hosts = [instance[0] for instance in DB_Tools(db).host_query()]
-    orgunits = [unit[0] for unit in DB_Tools(db).unit_query()]
-    level_data = [list(instance) for instance in DB_Tools(db).data_query()]
-    level_dict = [[c, [cd[0], cd[1]]] for c, cd in zip(orgunits, level_data)]
+    hosts = DB_Tools(db).host_query()
+    orgunits = DB_Tools(db).unit_query()
+    level_dict = DB_Tools(db).data_query()
 
     if request.method == 'POST':
         eips = request.form.getlist('extra_ips[]')
@@ -192,10 +191,10 @@ def unit_new():
 @app.route('/unit_update/<int:id>', methods=['POST', 'GET'])
 def unit_update(id):
     unit = CreateUnits.query.get_or_404(id)
-    hosts = DB_Tools(db).model_query('form')    
+    forms = DB_Tools(db).model_query('form')    
 
     if request.method == 'POST':
-        for h in hosts:
+        for h in forms:
             if h.unit_belong == unit.unit_name:
                 h.unit_belong = request.form['unit_name']
                 h.functions = request.form['unit_functions']

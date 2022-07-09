@@ -25,8 +25,22 @@ class DB_Tools():
             return self.db.session.query(CreateUnits).all()
 
     def host_query(self):
-        return (self.db.session.query(CreateForm.hostname)
-                               .order_by(CreateForm.hostname).all())
+        hosts = (self.db.session.query(CreateForm.hostname)
+                                .order_by(CreateForm.hostname).all())
+        return self._extract(hosts)
+
+    def unit_query(self):
+        units =  (self.db.session.query(CreateUnits.unit_name)
+                                 .order_by(CreateUnits.unit_name).all())
+        return self._extract(units)
+
+    def data_query(self):
+        data = (self.db.session.query(CreateUnits.unit_name,
+                                      CreateUnits.unit_functions,
+                                      CreateUnits.unit_subsystems)
+                               .order_by(CreateUnits.unit_name).all())
+        
+        return [[d[0], [d[1],d[2]]] for d in data]
 
     def host_unit_query(self):
         return (self.db.session.query(CreateForm.hostname, 
@@ -35,15 +49,6 @@ class DB_Tools():
     def extra_ip_query(self):
         return (self.db.session.query(CreateExIP)
                        .order_by(CreateExIP.id))
-
-    def unit_query(self):
-        return (self.db.session.query(CreateUnits.unit_name)
-                               .order_by(CreateUnits.unit_name))
-
-    def data_query(self):
-        return (self.db.session.query(CreateUnits.unit_functions,
-                                      CreateUnits.unit_subsystems)
-                               .order_by(CreateUnits.unit_name))
 
     def _extract(self, queries):
         contents = [element for query in queries for element in query]
