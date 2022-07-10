@@ -29,8 +29,8 @@ class CreateForm(db.Model):
                  ip, distro, functions, subsystems):
         self.name = name
         self.hostname = hostname
-        self.ip = ip
         self.unit_belong = unit_belong
+        self.ip = ip
         self.distro = distro
         self.functions = functions
         self.subsystems = subsystems
