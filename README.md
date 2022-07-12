@@ -41,10 +41,11 @@ sudo usermod -aG docker <user>
 git clone https://github.com/Lab-Brat/flask_masque.git
 cd flask_masque
 ```
+* make sure the PostgrSQL parameters in ```docker-compose.yml``` and in ```config.ini``` are the same.
 * run docker-compose, it will build the image containing the app and create two containers - postgresql and the app  
 **\# Note that in this case the repository will be mounted into the container**
 ```bash
-docker-compose -f Docker/docker-compose.yml up
+docker-compose -f docker-compose.yml up
 ```
 
 #### Ansible
