@@ -19,7 +19,11 @@
         <li><a class="active" href="{{ url_for('index') }}">Main</a></li>
         <li><a href="{{ url_for('unit') }}">Org. Units</a></li>
         <li><a href="#">About</a></li>
-      </ul>
+        <li style="float: right;"><a href="/unit_dump">Dump Units</a></ri>
+        <li style="float: right;"><a href="/dump">Dump Hosts</a></ri>
+        <li style="float: right;"><a href="/unit_new">Add Unit</a></ri>
+        <li style="float: right;"><a href="/form">Add Host</a></ri>
+    </ul>
     {% block body %}{% endblock %}
 </body>
 <br/><br/><br/><br/>
