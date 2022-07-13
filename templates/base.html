@@ -13,14 +13,13 @@
 	
     {% block head %}{% endblock %}
 </head>
+
 <body>
-    <div class="jumbotron text-center">
-        <nav style="text-align: center">
-            <a href="{{ url_for('index') }}">Main</a>
-            <a href="{{ url_for('unit') }}">Org. Units</a>
-            <a href="#">About</a>
-        </nav>
-    </div>
+    <ul>
+        <li><a class="active" href="{{ url_for('index') }}">Main</a></li>
+        <li><a href="{{ url_for('unit') }}">Org. Units</a></li>
+        <li><a href="#">About</a></li>
+      </ul>
     {% block body %}{% endblock %}
 </body>
 <br/><br/><br/><br/>
