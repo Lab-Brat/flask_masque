@@ -1,29 +1,20 @@
-from flask import Flask
-from flask import request, redirect, render_template, send_file
+from flask import Flask, request
+from flask import redirect, render_template, send_file
 from flask_migrate import Migrate
 from models import db, CreateForm, CreateExIP, CreateUnits
 from tools import Tools, DB_Tools
-import configparser
+import os
 import csv
 import json
 
 
 # ------------------------------ Load Configs ------------------------------- #
-config = configparser.ConfigParser()
-config.read_file(open('config.ini'))
-dump_path = config.get("User", "dump_path")
-db_user = config.get("Database", 'db_user')
-db_password = config.get("Database", "db_password")
-db_address = config.get("Database", "db_address")
-db_port = config.get("Database", "db_port")
-db_name = config.get("Database", "db_name")
-
 app = Flask(__name__)
-# define database engine, format: engine://user:password@host:port/database
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    f'postgresql://{db_user}:{db_password}@{db_address}:{db_port}/{db_name}')
+
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URI")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'topsecretkey'
+
 dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
 
 db.init_app(app)
@@ -125,8 +116,10 @@ def dump():
             exip_dict[str(instance.forms_id)] += '\r\n' + instance.extra_ip
         else:
             exip_dict[str(instance.forms_id)] = instance.extra_ip
+    
+    dump_file = f'./dumps/dump_{Tools().timestamp()}.csv'
+    os.makedirs(os.path.dirname(dump_file), exist_ok=True)
 
-    dump_file = f'{dump_path}/dump_{Tools().timestamp()}.csv'
     header = ['Name', 'Hostname', 'Org. Unit', 'IP', 
               'Extra IPs', 'Functions', 'Subsystems']
 
@@ -222,7 +215,9 @@ def unit_delete(id):
 def unit_dump():
     header = ['Name', 'Level', 'Description', 'Level Details',
               'Functions', 'Subsystems']
-    dump_file = f'{dump_path}/dump_{Tools().timestamp()}.csv'
+
+    dump_file = f'./dumps/dump_{Tools().timestamp()}.csv'
+    os.makedirs(os.path.dirname(dump_file), exist_ok=True)
 
     with open(dump_file, 'w', encoding='UTF8') as dump:
         writer = csv.writer(dump)
