@@ -29,16 +29,7 @@ source env.sh
 
 ## Installation
 #### Docker
-* make sure that Docker is installed on your system. To install on AlmaLinux:
-```bash
-yum install -y yum-utils
-sudo yum-config-manager --add-repo \
-     https://download.docker.com/linux/centos/docker-ce.repo
-sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-sudo systemctl start docker
-sudo usermod -aG docker <user>
-```
-* download the repository and navigate to it
+* download the repository and navigate into it
 ```bash
 git clone https://github.com/Lab-Brat/flask_masque.git
 cd flask_masque
@@ -70,7 +61,7 @@ python app.py
 ```
 
 #### Open
-To open app interface, open a browser and enter server's IP address (or hostname) and port in the search bar, for example:
+App's web interface can be opened by entering server's IP address (or hostname) and port in the search bar, for example:
 ```
 http://192.168.0.1:5000
 ```
