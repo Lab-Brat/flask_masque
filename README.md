@@ -10,10 +10,10 @@
 - [Open](#open)
 
 ## Introduction
-Small web-forms app, allows a user to record some information about his VMs, like hostname, IP address, describtion etc.  
+Web application for recording and cataloging infrastructure components (VMs or containers).
 Main logic is built with Python's Flask framework and HTML, with a small addition of CSS and JS.  
 Data is stored in PostgreSQL database.  
-Repository comes with an Ansible playbook (at ../linux_scripts/ansible) to configure the app and the database on Alma Linux 8.  
+App can be deployed either by an Ansible playbook on a virtual machine (Alma Linux 8) or in a container form using Docker.  
 
 ## Configuration 
 Web app relies on environmental variables for it's configuration. They should be configured by the user in ```env.sh```, and exported to the system
