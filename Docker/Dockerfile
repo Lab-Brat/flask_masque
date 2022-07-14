@@ -6,14 +6,9 @@ RUN dnf update -y
 RUN dnf install -y gcc libpq-devel postgresql-devel \
                        python3 python3-pip python3-devel
 
-# Copy everything into docker container
+# Copy everything into docker container and cd
 COPY . /app
-
-# Switch working directory
 WORKDIR /app
-
-RUN pwd
-RUN ls -l
 
 # Install Python libraries
 RUN python3 -m pip install -r Docker/requirements.txt
@@ -26,4 +21,4 @@ ENV FLASK_ENV=development
 RUN chmod +x Docker/entry_point.sh
 
 # configure the container to run in an executed manner
-ENTRYPOINT [ "sh", "/Docker/entry_point.sh" ]
+ENTRYPOINT [ "Docker/./entry_point.sh" ]

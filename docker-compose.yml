@@ -1,6 +1,14 @@
 version: "3.9"
 
 services:
+  masq_db:
+    image: "postgres"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PORT: ${DB_PORT}
+      POSTGRES_PASSWORD: ${DB_PASS}
+      POSTGRES_DB: ${DB_NAME}
+
   masq_app:
     build:
       context: .
@@ -11,12 +19,4 @@ services:
       - .:/app
     environment:
       FLASK_ENV: development
-      SQLALCHEMY_DATABASE_URI: "$DB_URI"
-      
-  masq_db:
-    image: "postgres"
-    environment:
-      POSTGRES_USER: "$DB_USER"
-      POSTGRES_PORT: "$DB_PORT"
-      POSTGRES_PASSWORD: "$DB_PASS"
-      POSTGRES_DB: "$DB_NAME"
+      DB_URI: ${DB_URI}
