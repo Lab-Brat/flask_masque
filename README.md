@@ -16,14 +16,16 @@ Data is stored in PostgreSQL database.
 Repository comes with an Ansible playbook (at ../linux_scripts/ansible) to configure the app and the database on Alma Linux 8.  
 
 ## Configuration 
-There is a configuration file in the repository that needs to be filled out for the app to work properly. Required fields:  
-* dump_path -> path where the database dumps will be saved on the system
-* sample_entries -> sample entries that will be added to the database after the installation
-* db_user -> admin user for the created tables in PostgreSQL
-* db_password -> password for the admin user
-* db_address -> IP address or hostname of the database (usually localhost)
-* db_port -> port which PostgreSQL will be listening on
-* db_name -> name of the database where everything will be stored
+Web app relies on environmental variables for it's configuration. They should be configured by the user in ```env.sh```, and exported to the system
+```bash
+source env.sh
+```
+* DB_USER -> admin user for the created tables in PostgreSQL
+* DB_PASS -> password for the admin user
+* DB_ADDRESS -> IP address or hostname of the database (usually localhost)
+* DB_PORT -> port which PostgreSQL will be listening on
+* DB_NAME -> name of the database where everything will be stored
+* DB_URI -> database URI, uses all previous variables and doesn't need to be manually filled
 
 ## Installation
 #### Docker
@@ -41,11 +43,10 @@ sudo usermod -aG docker <user>
 git clone https://github.com/Lab-Brat/flask_masque.git
 cd flask_masque
 ```
-* make sure the PostgrSQL parameters in ```docker-compose.yml``` and in ```config.ini``` are the same.
 * run docker-compose, it will build the image containing the app and create two containers - postgresql and the app  
 **\# Note that in this case the repository will be mounted into the container**
 ```bash
-docker-compose -f docker-compose.yml up
+docker-compose up
 ```
 
 #### Ansible
