@@ -1,17 +1,23 @@
 #!/bin/bash
 
-db_user=$(grep 'db_user' ../config.ini | cut -d" " -f3 | tr -d $'\r')
-db_name=$(grep 'db_name' ../config.ini | cut -d" " -f3 | tr -d $'\r')
-db_address=$(grep 'db_address' ../config.ini | cut -d" " -f3 | tr -d $'\r')
-db_port=$(grep 'db_port' ../config.ini | cut -d" " -f3 | tr -d $'\r')
+export DB_USER=postgres
+export DB_PASS=password
+export DB_ADDRESS=127.0.0.1
+export DB_PORT=5432
+export DB_NAME=masq_forms
+
+
+db_user=$DB_USER
+db_name=$DB_NAME
+db_address=$DB_ADDRESS
+db_port=$DB_PORT
 
 form_columns="(name, hostname, unit_belong, ip, distro, functions, subsystems, date_created)"
 exip_columns="(forms_id, extra_ip)"
 unit_columns="(unit_name, unit_level, description, cluster, containerization, pod, unit_functions, unit_subsystems, date_created)"
-sample_path=$(grep 'sample_path' ../config.ini | awk '{print $3}' | tr -d $'\r')
-form_entries="$sample_path/form_entries.csv"
-exip_entries="$sample_path/exip_entries.csv"
-unit_entries="$sample_path/unit_entries.csv"
+form_entries="./form_entries.csv"
+exip_entries="./exip_entries.csv"
+unit_entries="./unit_entries.csv"
 
 psql -U $db_user \
      -d $db_name \
