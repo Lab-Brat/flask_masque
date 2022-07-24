@@ -5,21 +5,22 @@ from routes_hosts import routes_hosts
 from routes_units import routes_units
 import os
 
-# ------------------------------ Load Configs ------------------------------- #
-app = Flask(__name__)
+def create_app():
+    app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URI")
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'topsecretkey'
+    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URI")
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SECRET_KEY'] = 'topsecretkey'
 
-db.init_app(app)
-migrate = Migrate(app, db)
+    db.init_app(app)
+    migrate = Migrate(app, db)
 
-# ------------------------------- App Routes -------------------------------- #
-app.register_blueprint(routes_hosts, url_prefix='')
-app.register_blueprint(routes_units, url_prefix='')
+    app.register_blueprint(routes_hosts, url_prefix='')
+    app.register_blueprint(routes_units, url_prefix='')
+
+    return app
 
 
 if __name__ == '__main__':
+    app = create_app()
     app.run(debug=True, host='0.0.0.0')
-
