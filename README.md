@@ -16,10 +16,7 @@ Data is stored in PostgreSQL database.
 App can be deployed either by an Ansible playbook on a virtual machine (Alma Linux 8) or in a container form using Docker.  
 
 ## Configuration 
-Web app relies on environmental variables for it's configuration. They should be configured by the user in ```env.sh```, and exported to the system
-```bash
-source env.sh
-```
+Web app relies on environmental variables for it's configuration. They should be configured by the user in ```env.sh```, and exported to the OS.
 * DB_USER -> admin user for the created tables in PostgreSQL
 * DB_PASS -> password for the admin user
 * DB_ADDRESS -> IP address or hostname of the database (usually localhost)
@@ -33,6 +30,10 @@ source env.sh
 ```bash
 git clone https://github.com/Lab-Brat/flask_masque.git
 cd flask_masque
+```
+* load environmental variables
+```bash
+source env.sh
 ```
 * run docker-compose, it will build the image (based on AlmaLinux 8 image) containing the app and create two containers - postgresql and the app  
 **\# Note that in this case the repository will be mounted into the container**
