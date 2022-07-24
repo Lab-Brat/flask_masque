@@ -3,3 +3,4 @@ Flask-Migrate
 Flask-SQLAlchemy
 SQLAlchemy
 psycopg2
+flask-unittest
