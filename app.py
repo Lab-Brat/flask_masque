@@ -12,8 +12,6 @@ app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URI")
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'topsecretkey'
 
-dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
-
 db.init_app(app)
 migrate = Migrate(app, db)
 

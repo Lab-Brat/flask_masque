@@ -6,7 +6,8 @@ import os
 import csv
 import json
 
-dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
+
+dirlist = Tools().dirlist
 routes_hosts = Blueprint("routes_hosts", __name__)
 
 # open form to register host information

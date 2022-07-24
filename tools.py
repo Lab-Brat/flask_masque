@@ -67,7 +67,7 @@ class DB_Tools():
 
 class Tools():
     def __init__(self):
-        pass
+        self.dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
 
     def timestamp(self):
         now = datetime.now().replace(microsecond=0)

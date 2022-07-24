@@ -6,7 +6,7 @@ import os
 import csv
 
 
-dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
+dirlist = Tools().dirlist
 routes_units = Blueprint("routes_units", __name__)
 
 # open form to register organizational unit information
