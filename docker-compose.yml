@@ -5,6 +5,7 @@ services:
     image: "postgres"
     environment:
       POSTGRES_USER: ${DB_USER}
+      POSTGRES_ADDRESS: ${DB_ADDRESS}
       POSTGRES_PORT: ${DB_PORT}
       POSTGRES_PASSWORD: ${DB_PASS}
       POSTGRES_DB: ${DB_NAME}
@@ -19,4 +20,4 @@ services:
       - .:/app
     environment:
       FLASK_ENV: development
-      DB_URI: ${DB_URI}
+      DB_URI: "postgresql://${DB_USER}:${DB_PASS}@${DB_ADDRESS}:${DB_PORT}/${DB_NAME}"
