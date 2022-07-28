@@ -1,4 +1,5 @@
 from datetime import datetime
+from collections import defaultdict
 from models import CreateForm, CreateExIP, CreateUnits
 
 class DB_Tools():
@@ -72,3 +73,10 @@ class Tools():
     def timestamp(self):
         now = datetime.now().replace(microsecond=0)
         return f"{now.date()}_{now.time()}".replace(':','-')
+
+    def prepare_csv(self, db):
+        exip_dict = defaultdict(list)
+        for instance in DB_Tools(db).extra_ip_query():
+            exip_dict[str(instance.forms_id)].append(instance.extra_ip)
+
+        return {key: '\r\n'.join(exip_dict[key]) for key in exip_dict}

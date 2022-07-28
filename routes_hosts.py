@@ -99,13 +99,7 @@ def update(id):
 # Save all database data into csv file
 @routes_hosts.route('/dump', methods=['GET'])
 def dump():
-    exip_dict = {}
-    for instance in DB_Tools(db).extra_ip_query():
-        if str(instance.forms_id) in exip_dict:
-            exip_dict[str(instance.forms_id)] += '\r\n' + instance.extra_ip
-        else:
-            exip_dict[str(instance.forms_id)] = instance.extra_ip
-    
+    exip_dict = Tools().prepare_csv(db)
     dump_file = f'./dumps/dump_{Tools().timestamp()}.csv'
     os.makedirs(os.path.dirname(dump_file), exist_ok=True)
 
