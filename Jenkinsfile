@@ -27,13 +27,18 @@ pipeline {
             }
         }
 
-        stage('Run tests against the container') {
+        stage('Run connectivity test') {
             steps {
                 sh 'sleep 10'
                 sh 'curl -I http://127.0.0.1:5000/'
             }
         }
-    
+
+        stage('Run unit tests') {
+            steps {
+                sh 'pytest'
+            }
+        }
     }
 
     post {
