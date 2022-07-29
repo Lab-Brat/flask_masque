@@ -1,6 +1,7 @@
 import csv
 from datetime import datetime
 from collections import defaultdict
+from models import db
 from models import CreateForm, CreateExIP, CreateUnits
 
 class DB_Tools():
@@ -70,6 +71,8 @@ class DB_Tools():
 class Tools():
     def __init__(self):
         self.dirlist = ['RedHat', 'Debian', 'Arch', 'SUSE', 'Gentoo', 'BSD']
+        self.header =  ['Name', 'Hostname', 'Org. Unit', 'IP', 
+                        'Extra IPs', 'Distro', 'Functions', 'Subsystems']
 
     def timestamp(self):
         now = datetime.now().replace(microsecond=0)
@@ -85,6 +88,24 @@ class Tools():
     def read_csv(self, filename):
         with open(f"uploads/{filename}", 'r') as f:
             csvreader = csv.reader(f)
-            header = next(csvreader)
+            header = self.header
+            next(csvreader)
             content = [row for row in csvreader]
         return header, content
+
+    def write_csv(self, filename):
+        exip_dict = self.prepare_csv(db)
+        with open(filename, 'w', encoding='UTF8') as dump:
+            writer = csv.writer(dump)
+            writer.writerow(self.header)
+            for instance in DB_Tools(db).get_model('form'):
+                try:
+                    exip_csv = exip_dict[str(instance.id)]
+                except:
+                    exip_csv = ''
+                row_data = [instance.name, instance.hostname, 
+                            instance.unit_belong, 
+                            instance.ip, exip_csv,
+                            instance.distro,
+                            instance.functions, instance.subsystems]
+                writer.writerow(row_data)

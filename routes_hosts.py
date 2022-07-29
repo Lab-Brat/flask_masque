@@ -100,27 +100,10 @@ def update(id):
 # Save all database data into csv file
 @routes_hosts.route('/dump', methods=['GET'])
 def dump():
-    exip_dict = Tools().prepare_csv(db)
     dump_file = f'./dumps/dump_{Tools().timestamp()}.csv'
     os.makedirs(os.path.dirname(dump_file), exist_ok=True)
 
-    header = ['Name', 'Hostname', 'Org. Unit', 'IP', 
-              'Extra IPs', 'Distro', 'Functions', 'Subsystems']
-
-    with open(dump_file, 'w', encoding='UTF8') as dump:
-        writer = csv.writer(dump)
-        writer.writerow(header)
-        for instance in DB_Tools(db).get_model('form'):
-            try:
-                exip_csv = exip_dict[str(instance.id)]
-            except:
-                exip_csv = ''
-            row_data = [instance.name, instance.hostname, 
-                        instance.unit_belong, 
-                        instance.ip, exip_csv,
-                        instance.distro,
-                        instance.functions, instance.subsystems]
-            writer.writerow(row_data)
+    Tools().write_csv(dump_file)
 
     return send_file(dump_file, mimetype='text/csv', 
                      download_name='db_dump.csv')
@@ -139,7 +122,8 @@ def upload_csv():
             if len(data) != len(header):
                 return f"Wrong Column Count in host: {data[0]}"
             else:
-                new_form = CreateForm(name = data[0],hostname = data[1],
+                new_form = CreateForm(
+                                name = data[0],hostname = data[1],
                                 unit_belong = data[2],
                                 ip=data[3], distro=data[5],
                                 functions = data[6], subsystems = data[7])
@@ -154,8 +138,6 @@ def upload_csv():
                     db.session.add_all(ne)
 
                 db.session.commit()
-            
-
         return redirect('/')
     return render_template('upload_csv.html')
 
