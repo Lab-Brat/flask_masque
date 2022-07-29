@@ -80,3 +80,6 @@ class Tools():
             exip_dict[str(instance.forms_id)].append(instance.extra_ip)
 
         return {key: '\r\n'.join(exip_dict[key]) for key in exip_dict}
+
+    def read_csv(self, file):
+        pass

@@ -2,4 +2,5 @@ venv/
 __pycache__/
 migrations/
 dumps/
+uploads/
 env_test.sh

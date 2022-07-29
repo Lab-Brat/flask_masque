@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flask import request, render_template, redirect, send_file
+from werkzeug.utils import secure_filename
 from models import db, CreateForm, CreateExIP
 from tools import Tools, DB_Tools
 import os
@@ -122,6 +123,43 @@ def dump():
 
     return send_file(dump_file, mimetype='text/csv', 
                      download_name='db_dump.csv')
+
+@routes_hosts.route('/upload_csv', methods=['GET', 'POST'])
+def upload_csv():
+    if request.method == 'POST':
+        file = request.files['file']
+        filename = secure_filename(file.filename)
+        os.makedirs(os.path.dirname('uploads/'), exist_ok=True)
+        file.save(os.path.join('uploads/', filename))
+
+        with open(f"uploads/{filename}", 'r') as f:
+            csvreader = csv.reader(f)
+            header = next(csvreader)
+            content = [row for row in csvreader]
+
+        for data in content:
+            if len(data) != len(header):
+                return f"Wrong Column Count in host: {data[0]}"
+            else:
+                new_form = CreateForm(name = data[0],hostname = data[1],
+                                unit_belong = data[2],
+                                ip=data[3], distro=data[4],
+                                functions = data[5], subsystems = data[6])
+
+                db.session.add(new_form)
+                db.session.flush()
+
+                exip = data[4].split('\n')
+                if exip != ['']:
+                    ne = [CreateExIP(forms_id = new_form.id, 
+                                     extra_ip = ip) for ip in exip]
+                    db.session.add_all(ne)
+
+                db.session.commit()
+            
+
+        return redirect('/')
+    return render_template('upload_csv.html')
 
 # main page
 @routes_hosts.route('/', methods=['GET', 'POST'])
