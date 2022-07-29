@@ -105,7 +105,7 @@ def dump():
     os.makedirs(os.path.dirname(dump_file), exist_ok=True)
 
     header = ['Name', 'Hostname', 'Org. Unit', 'IP', 
-              'Extra IPs', 'Functions', 'Subsystems']
+              'Extra IPs', 'Distro', 'Functions', 'Subsystems']
 
     with open(dump_file, 'w', encoding='UTF8') as dump:
         writer = csv.writer(dump)
@@ -118,6 +118,7 @@ def dump():
             row_data = [instance.name, instance.hostname, 
                         instance.unit_belong, 
                         instance.ip, exip_csv,
+                        instance.distro,
                         instance.functions, instance.subsystems]
             writer.writerow(row_data)
 
@@ -132,10 +133,7 @@ def upload_csv():
         os.makedirs(os.path.dirname('uploads/'), exist_ok=True)
         file.save(os.path.join('uploads/', filename))
 
-        with open(f"uploads/{filename}", 'r') as f:
-            csvreader = csv.reader(f)
-            header = next(csvreader)
-            content = [row for row in csvreader]
+        header, content = Tools().read_csv(filename)
 
         for data in content:
             if len(data) != len(header):
@@ -143,8 +141,8 @@ def upload_csv():
             else:
                 new_form = CreateForm(name = data[0],hostname = data[1],
                                 unit_belong = data[2],
-                                ip=data[3], distro=data[4],
-                                functions = data[5], subsystems = data[6])
+                                ip=data[3], distro=data[5],
+                                functions = data[6], subsystems = data[7])
 
                 db.session.add(new_form)
                 db.session.flush()

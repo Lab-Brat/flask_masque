@@ -1,3 +1,4 @@
+import csv
 from datetime import datetime
 from collections import defaultdict
 from models import CreateForm, CreateExIP, CreateUnits
@@ -81,5 +82,9 @@ class Tools():
 
         return {key: '\r\n'.join(exip_dict[key]) for key in exip_dict}
 
-    def read_csv(self, file):
-        pass
+    def read_csv(self, filename):
+        with open(f"uploads/{filename}", 'r') as f:
+            csvreader = csv.reader(f)
+            header = next(csvreader)
+            content = [row for row in csvreader]
+        return header, content
