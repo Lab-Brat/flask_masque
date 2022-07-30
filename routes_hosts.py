@@ -4,7 +4,6 @@ from werkzeug.utils import secure_filename
 from models import db, CreateForm, CreateExIP
 from tools import Tools, DB_Tools
 import os
-import csv
 import json
 
 
@@ -113,11 +112,20 @@ def dump():
 def upload_csv():
     if request.method == 'POST':
         file = request.files['file']
-        filename = secure_filename(file.filename)
+        filename = secure_filename(file.filename).split('.')
+        # Tools()._extension_check(filename)
+        filename = filename[0] + f"_{Tools().timestamp()}" + ".csv"
         os.makedirs(os.path.dirname('uploads/'), exist_ok=True)
         file.save(os.path.join('uploads/', filename))
 
-        Tools().import_csv(filename)
+        header, content = Tools()._read_csv(filename)
+        new_forms = Tools().extract_csv_form(header, content)
+        for form in new_forms:
+            db.session.add(form)
+        db.session.flush()
+        
+        db.session.add_all(Tools().extract_csv_exip(content, new_forms))
+        db.session.commit()
 
         return redirect('/')
     return render_template('upload_csv.html')

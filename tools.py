@@ -110,26 +110,26 @@ class Tools():
             content = [row for row in csvreader]
         return header, content
 
-    def import_csv(self, filename):
-        header, content = Tools()._read_csv(filename)
+    def extract_csv_form(self, header, content):
+        new_forms = []
 
         for data in content:
             if len(data) != len(header):
                 return f"Wrong Column Count in host: {data[0]}"
             else:
-                new_form = CreateForm(
-                            name = data[0],hostname = data[1],
-                            unit_belong = data[2],
-                            ip=data[3], distro=data[5],
-                            functions = data[6], subsystems = data[7])
+                new_form = CreateForm( name = data[0],
+                                hostname = data[1], unit_belong = data[2],
+                                ip = data[3], distro = data[5],
+                                functions = data[6], subsystems = data[7])
+                new_forms.append(new_form)
+        return new_forms
 
-                db.session.add(new_form)
-                db.session.flush()
-
-                exip = data[4].split('\n')
-                if exip != ['']:
-                    ne = [CreateExIP(forms_id = new_form.id, 
-                                     extra_ip = ip) for ip in exip]
-                    db.session.add_all(ne)
-
-                db.session.commit()
+    def extract_csv_exip(self, content, forms):
+        new_exips = []
+        for data, form in zip(content, forms):
+            exip = data[4].split('\n')
+            if exip != ['']:
+                ne = [CreateExIP(forms_id = form.id, 
+                                 extra_ip = ip) for ip in exip]
+                new_exips.extend(ne)
+        return new_exips
