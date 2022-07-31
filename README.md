@@ -10,13 +10,12 @@
 - [Open](#open)
 
 ## Introduction
-Web application for recording and cataloging infrastructure components (VMs or containers).
-Main logic is built with Python's Flask framework and HTML, with a small addition of CSS and JS.  
-Data is stored in PostgreSQL database.  
+Web application for recording and cataloging infrastructure components (VMs or containers).  
+Stack: Python (Flask, psycopg2, SQLAlchemy, pytest) PostgreSQL, HTML, CSS, Javascript, Docker, Docker-Compose, Jenkins.  
 App can be deployed either by an Ansible playbook on a virtual machine (Alma Linux 8) or in a container form using Docker.  
 
-## Configuration 
-Web app relies on environmental variables for it's configuration. They should be configured by the user in ```env.sh```, and exported to the OS.
+## Configuration
+Web app relies on environmental variables for it's configuration. They should be configured by the user in ```.env```, which will be read by Docker-Comose.
 * DB_USER -> admin user for the created tables in PostgreSQL
 * DB_PASS -> password for the admin user
 * DB_ADDRESS -> IP address or hostname of the database (usually localhost)
@@ -30,10 +29,6 @@ Web app relies on environmental variables for it's configuration. They should be
 ```bash
 git clone https://github.com/Lab-Brat/flask_masque.git
 cd flask_masque
-```
-* load environmental variables
-```bash
-source env.sh
 ```
 * run docker-compose, it will build the image (based on AlmaLinux 8 image) containing the app and create two containers - postgresql and the app  
 **\# Note that in this case the repository will be mounted into the container**
