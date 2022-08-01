@@ -110,6 +110,12 @@ class Tools():
             content = [row for row in csvreader]
         return header, content
 
+    def _extension_check(self, filename):
+        if filename[-1] == 'csv':
+            return True
+        else:
+            return False
+
     def extract_csv_form(self, header, content):
         new_forms = []
 

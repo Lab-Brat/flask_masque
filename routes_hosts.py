@@ -113,21 +113,23 @@ def upload_csv():
     if request.method == 'POST':
         file = request.files['file']
         filename = secure_filename(file.filename).split('.')
-        # Tools()._extension_check(filename)
-        filename = filename[0] + f"_{Tools().timestamp()}" + ".csv"
-        os.makedirs(os.path.dirname('uploads/'), exist_ok=True)
-        file.save(os.path.join('uploads/', filename))
+        if Tools()._extension_check(filename) is True:
+            filename = filename[0] + f"_{Tools().timestamp()}" + ".csv"
+            os.makedirs(os.path.dirname('uploads/'), exist_ok=True)
+            file.save(os.path.join('uploads/', filename))
 
-        header, content = Tools()._read_csv(filename)
-        new_forms = Tools().extract_csv_form(header, content)
-        for form in new_forms:
-            db.session.add(form)
-        db.session.flush()
-        
-        db.session.add_all(Tools().extract_csv_exip(content, new_forms))
-        db.session.commit()
+            header, content = Tools()._read_csv(filename)
+            new_forms = Tools().extract_csv_form(header, content)
+            for form in new_forms:
+                db.session.add(form)
+            db.session.flush()
+            
+            db.session.add_all(Tools().extract_csv_exip(content, new_forms))
+            db.session.commit()
 
-        return redirect('/')
+            return redirect('/')
+        else:
+            return 'Wrong File Extension'
     return render_template('upload_csv.html')
 
 # main page
