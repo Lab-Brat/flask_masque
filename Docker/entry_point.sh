@@ -4,4 +4,5 @@ flask db stamp head
 flask db migrate
 flask db upgrade
 
-flask run --host=0.0.0.0
+# flask run --host=0.0.0.0
+python3 app.py
