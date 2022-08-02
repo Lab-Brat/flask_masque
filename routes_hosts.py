@@ -120,8 +120,12 @@ def upload_csv():
 
             header, content = Tools()._read_csv(filename)
             new_forms = Tools().extract_csv_form(header, content)
+
             for form in new_forms:
-                db.session.add(form)
+                try:
+                    db.session.add(form)
+                except:
+                    return new_forms 
             db.session.flush()
             
             db.session.add_all(Tools().extract_csv_exip(content, new_forms))
