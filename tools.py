@@ -78,6 +78,12 @@ class Tools():
         now = datetime.now().replace(microsecond=0)
         return f"{now.date()}_{now.time()}".replace(':','-')
 
+    def check_host_existence(self, form):
+        if form.hostname in DB_Tools(db).host_query():
+            return False
+        else:
+            return True
+
     def prepare_csv(self):
         exip_dict = defaultdict(list)
         for instance in DB_Tools(db).extra_ip_query():

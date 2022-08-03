@@ -23,8 +23,8 @@ def form():
                 functions=request.form['functions'],
                 subsystems=request.form['subsystems'])
 
-        if new_form.hostname in DB_Tools(db).host_query():
-            return ('HOSTNAME EXISTS!!!\n'
+        if Tools().check_host_existence(new_form) is False:
+            return ('HOSTNAME EXISTS!!!'
                     'Next time please click on "Check Hostname"'
                     'button before filling out the whole form!')
 
@@ -122,10 +122,13 @@ def upload_csv():
             new_forms = Tools().extract_csv_form(header, content)
 
             for form in new_forms:
-                try:
-                    db.session.add(form)
-                except:
-                    return new_forms 
+                if Tools().check_host_existence(form) is True:
+                    try:
+                        db.session.add(form)
+                    except:
+                        return new_forms 
+                else:
+                    return f'HOSTNAME {form.hostname} EXISTS in DB!!!'
             db.session.flush()
             
             db.session.add_all(Tools().extract_csv_exip(content, new_forms))
