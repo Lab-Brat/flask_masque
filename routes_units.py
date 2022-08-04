@@ -52,6 +52,7 @@ def unit_delete(id):
 @routes_units.route('/unit_update/<int:id>', methods=['POST', 'GET'])
 def unit_update(id):
     unit = CreateUnits.query.get_or_404(id)
+    unit_lvl_checks = Tools().get_lvl_checklist(unit)
 
     if request.method == 'POST':
         for h in DB_Tools(db).model_query('form'):
@@ -73,7 +74,8 @@ def unit_update(id):
 
         return redirect('/unit')
     else:
-        return render_template('unit_update.html', unit=unit)  
+        return render_template('unit_update.html', 
+                               unit=unit, lvl=unit_lvl_checks)  
 
 # Save and download all unit records into csv file
 @routes_units.route('/unit_dump', methods=['GET'])
