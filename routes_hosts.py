@@ -49,13 +49,9 @@ def form():
 @routes_hosts.route('/delete/<int:id>')
 def delete(id):
     form_to_delete = CreateForm.query.get_or_404(id)
-
-    try:
-        db.session.delete(form_to_delete)
-        db.session.commit()
-        return redirect('/')
-    except:
-        return "Failed to Delete Form"
+    db.session.delete(form_to_delete)
+    db.session.commit()
+    return redirect('/')
 
 # open update page after pressing "Update" link
 @routes_hosts.route('/update/<int:id>', methods=['GET', 'POST'])
@@ -84,12 +80,9 @@ def update(id):
                                     extra_ip=ip) for ip in extra_ip]
 
         db.session.add_all(new_extra_ips)
+        db.session.commit()
+        return redirect('/')
 
-        try:
-            db.session.commit()
-            return redirect('/')
-        except:
-            return "Failed to Update Form"
     else:
         return render_template('update.html', form=form, dirlist=dirlist, 
                             units=DB_Tools(db).unit_query(),
