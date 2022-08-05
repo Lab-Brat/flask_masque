@@ -79,15 +79,16 @@ class Tools():
         return f"{now.date()}_{now.time()}".replace(':','-')
 
     def get_lvl_checklist(self, unit):
-        unit_lvl_checks = ['false', 'false', 'false']
-        for i, lvl in enumerate(unit_lvl_checks):
-            if unit.unit_level == 'cluster':
-                unit_lvl_checks[0] = 'checked'
-            elif unit.unit_level == 'containerization':
-                unit_lvl_checks[1] = 'checked'
-            elif unit.unit_level == 'pod':
-                unit_lvl_checks[2] = 'checked'
-        return unit_lvl_checks
+        lvls = [['cluster','uncheked'], 
+                ['containerization', 'uncheked'], 
+                ['pod', 'uncheked']]
+        
+        for lvl in lvls:
+            match lvl:
+                case (unit.unit_level, 'uncheked'):
+                    lvls[lvls.index(lvl)][1] = 'checked'
+
+        return lvls
 
     def check_host_existence(self, form):
         if form.hostname in DB_Tools(db).host_query():
