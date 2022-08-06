@@ -1,3 +1,4 @@
+# Unit test for flask application
 from app import create_app
 
 app = create_app()
