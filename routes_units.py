@@ -10,20 +10,20 @@ dirlist = Tools().dirlist
 routes_units = Blueprint("routes_units", __name__)
 
 # open form to register organizational unit information
-@routes_units.route('/unit_new', methods=['POST', 'GET'])
+@routes_units.route('/unit_new', methods = ['POST', 'GET'])
 def unit_new():
     clusters, containerizations, pods = DB_Tools(db).unit_details_query()
 
     if request.method == 'POST':
         new_unit = CreateUnits(
-                        unit_name=request.form['unit_name'],
-                        unit_level=request.form['unit_level'],
-                        description=request.form['description'],
-                        cluster=request.form['cluster'],
-                        containerization=request.form['containerization'],
-                        pod=request.form['pod'],
-                        unit_functions=request.form['unit_functions'],
-                        unit_subsystems=request.form['unit_subsystems'])
+                        unit_name = request.form['unit_name'],
+                        unit_level = request.form['unit_level'],
+                        description = request.form['description'],
+                        cluster = request.form['cluster'],
+                        containerization = request.form['containerization'],
+                        pod = request.form['pod'],
+                        unit_functions = request.form['unit_functions'],
+                        unit_subsystems = request.form['unit_subsystems'])
 
         db.session.add(new_unit)
         db.session.commit()
@@ -31,9 +31,9 @@ def unit_new():
         return redirect('/unit')
     else:
         return render_template('unit_new.html', 
-                               clusters=clusters, 
-                               containerizations=containerizations,
-                               pods=pods) 
+                               clusters = clusters, 
+                               containerizations = containerizations,
+                               pods = pods) 
 
 #delete unit after pressing "Delete" link
 @routes_units.route('/unit_delete/<int:id>', methods=['POST', 'GET'])
@@ -49,7 +49,7 @@ def unit_delete(id):
     return redirect('/unit')
 
 # open update page after pressing "Update" link
-@routes_units.route('/unit_update/<int:id>', methods=['POST', 'GET'])
+@routes_units.route('/unit_update/<int:id>', methods = ['POST', 'GET'])
 def unit_update(id):
     unit = CreateUnits.query.get_or_404(id)
     unit_lvl_checks = Tools().get_lvl_checklist(unit)
@@ -75,16 +75,16 @@ def unit_update(id):
         return redirect('/unit')
     else:
         return render_template('unit_update.html', 
-                               unit=unit, lvl=unit_lvl_checks)  
+                               unit = unit, lvl = unit_lvl_checks)  
 
 # Save and download all unit records into csv file
-@routes_units.route('/unit_dump', methods=['GET'])
+@routes_units.route('/unit_dump', methods = ['GET'])
 def unit_dump():
     header = ['Name', 'Level', 'Description', 'Level Details',
               'Functions', 'Subsystems']
 
     dump_file = f'./dumps/dump_{Tools().timestamp()}.csv'
-    os.makedirs(os.path.dirname(dump_file), exist_ok=True)
+    os.makedirs(os.path.dirname(dump_file), exist_ok = True)
 
     with open(dump_file, 'w', encoding='UTF8') as dump:
         writer = csv.writer(dump)
@@ -98,16 +98,16 @@ def unit_dump():
                          instance.unit_functions, instance.unit_subsystems]
             writer.writerow(row_data)
     
-    return send_file(dump_file, mimetype='text/csv', 
-                     download_name='db_dump_units.csv')
+    return send_file(dump_file, mimetype = 'text/csv', 
+                     download_name = 'db_dump_units.csv')
 
 # units infromation page
-@routes_units.route('/unit', methods=['POST', 'GET'])
+@routes_units.route('/unit', methods = ['POST', 'GET'])
 def unit():
     hosts = DB_Tools(db).host_unit_query()
 
     hc = {cl.unit_name: [] for cl in DB_Tools(db).get_model('unit')}
     [hc[h[1]].append(h[0]) for h in hosts if h[1] in hc.keys()]
 
-    return render_template('unit.html', hc_dict=hc, 
-                           units=DB_Tools(db).get_model('unit'))
+    return render_template('unit.html', hc_dict = hc, 
+                           units = DB_Tools(db).get_model('unit'))
