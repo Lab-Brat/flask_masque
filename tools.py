@@ -11,10 +11,10 @@ class DB_Tools():
     def get_model(self, model):
         if model == 'form':
             return (CreateForm.query
-                               .order_by(CreateForm.date_created).all())     
+                              .order_by(CreateForm.date_created).all())     
         elif model == 'extra_ip':
             return (CreateExIP.query
-                               .order_by(CreateExIP.id).all())
+                              .order_by(CreateExIP.id).all())
         elif model == 'unit':
             return (CreateUnits.query
                                .order_by(CreateUnits.date_created).all())
