@@ -7,7 +7,8 @@ import os
 import json
 
 
-dirlist = Tools().dirlist
+T = Tools()
+DBT = DB_Tools(db)
 routes_hosts = Blueprint("routes_hosts", __name__)
 
 # open form to register host information
@@ -23,7 +24,7 @@ def form():
                 functions = request.form['functions'],
                 subsystems = request.form['subsystems'])
 
-        if Tools().check_host_existence(new_form) is False:
+        if T.check_host_existence(new_form) is False:
             return ('HOSTNAME EXISTS!!!'
                     'Next time please click on "Check Hostname"'
                     'button before filling out the whole form!')
@@ -40,10 +41,10 @@ def form():
 
     else:
         return render_template('form.html',
-                        dirlist = dirlist, 
-                        units = DB_Tools(db).unit_query(),
-                        hosts = json.dumps(DB_Tools(db).host_query()),
-                        unit_data = json.dumps(DB_Tools(db).data_query()))
+                        dirlist = T.dirlist, 
+                        units = DBT.unit_query(),
+                        hosts = json.dumps(DBT.host_query()),
+                        unit_data = json.dumps(DBT.data_query()))
 
 #delete form after pressing "Delete" link
 @routes_hosts.route('/delete/<int:id>')
@@ -69,7 +70,7 @@ def update(id):
 
         # change existring extra IPs
         exip_form = request.form.getlist('extra_ips[]')
-        exip_db = [ip for ip in DB_Tools(db).extra_ip_query()
+        exip_db = [ip for ip in DBT.extra_ip_query()
                              if ip.forms_id == id]
         for i, ip in enumerate(exip_form):
             exip_db[i].extra_ip = ip
@@ -84,18 +85,19 @@ def update(id):
         return redirect('/')
 
     else:
-        return render_template('update.html', form = form, dirlist = dirlist,
-                        units = DB_Tools(db).unit_query(),
-                        hosts = json.dumps(DB_Tools(db).host_query()),
-                        unit_data = json.dumps(DB_Tools(db).data_query()))
+        return render_template('update.html', form = form, 
+                        dirlist = T.dirlist,
+                        units = DBT.unit_query(),
+                        hosts = json.dumps(DBT.host_query()),
+                        unit_data = json.dumps(DBT.data_query()))
 
 # Save all database data into csv file
 @routes_hosts.route('/dump', methods = ['GET'])
 def dump():
-    dump_file = f'./dumps/dump_{Tools().timestamp()}.csv'
+    dump_file = f'./dumps/dump_{T.timestamp()}.csv'
     os.makedirs(os.path.dirname(dump_file), exist_ok = True)
 
-    Tools().write_csv(dump_file)
+    T.write_csv(dump_file)
 
     return send_file(dump_file, mimetype = 'text/csv', 
                      download_name = 'db_dump.csv')
@@ -107,16 +109,16 @@ def upload_csv():
         file = request.files['file']
         filename = secure_filename(file.filename).split('.')
 
-        if Tools()._extension_check(filename):
-            filename = filename[0] + f"_{Tools().timestamp()}" + ".csv"
+        if T._extension_check(filename):
+            filename = filename[0] + f"_{T.timestamp()}" + ".csv"
             os.makedirs(os.path.dirname('uploads/'), exist_ok = True)
             file.save(os.path.join('uploads/', filename))
 
-            header, content = Tools()._read_csv(filename)
-            new_forms = Tools().extract_csv_form(header, content)
+            header, content = T._read_csv(filename)
+            new_forms = T.extract_csv_form(header, content)
 
             for form in new_forms:
-                if Tools().check_host_existence(form):
+                if T.check_host_existence(form):
                     try:
                         db.session.add(form)
                     except:
@@ -125,7 +127,7 @@ def upload_csv():
                     return f'HOSTNAME {form.hostname} EXISTS in DB!!!'
             db.session.flush()
             
-            db.session.add_all(Tools().extract_csv_exip(content, new_forms))
+            db.session.add_all(T.extract_csv_exip(content, new_forms))
             db.session.commit()
 
             return redirect('/')

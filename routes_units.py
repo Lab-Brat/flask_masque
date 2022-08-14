@@ -6,13 +6,14 @@ import os
 import csv
 
 
-dirlist = Tools().dirlist
+T = Tools()
+DBT = DB_Tools(db)
 routes_units = Blueprint("routes_units", __name__)
 
 # open form to register organizational unit information
 @routes_units.route('/unit_new', methods = ['POST', 'GET'])
 def unit_new():
-    clusters, containerizations, pods = DB_Tools(db).unit_details_query()
+    clusters, containerizations, pods = DBT.unit_details_query()
 
     if request.method == 'POST':
         new_unit = CreateUnits(
@@ -40,7 +41,7 @@ def unit_new():
 def unit_delete(id):
     unit_to_delete = CreateUnits.query.get_or_404(id)
 
-    for h in DB_Tools(db).model_query('form'):
+    for h in DBT.model_query('form'):
         if h.unit_belong == unit_to_delete.unit_name:
             h.unit_belong = None
 
@@ -52,10 +53,10 @@ def unit_delete(id):
 @routes_units.route('/unit_update/<int:id>', methods = ['POST', 'GET'])
 def unit_update(id):
     unit = CreateUnits.query.get_or_404(id)
-    unit_lvl_checks = Tools().get_lvl_checklist(unit)
+    unit_lvl_checks = T.get_lvl_checklist(unit)
 
     if request.method == 'POST':
-        for h in DB_Tools(db).model_query('form'):
+        for h in DBT.model_query('form'):
             if h.unit_belong == unit.unit_name:
                 h.unit_belong = request.form['unit_name']
                 h.functions = request.form['unit_functions']
@@ -83,13 +84,13 @@ def unit_dump():
     header = ['Name', 'Level', 'Description', 'Level Details',
               'Functions', 'Subsystems']
 
-    dump_file = f'./dumps/dump_{Tools().timestamp()}.csv'
+    dump_file = f'./dumps/dump_{T.timestamp()}.csv'
     os.makedirs(os.path.dirname(dump_file), exist_ok = True)
 
     with open(dump_file, 'w', encoding='UTF8') as dump:
         writer = csv.writer(dump)
         writer.writerow(header)
-        for instance in DB_Tools(db).get_model('unit'):
+        for instance in DBT.get_model('unit'):
             row_data = [instance.unit_name, instance.unit_level, 
                         instance.description, 
                         (f"{instance.cluster} / "
@@ -104,10 +105,10 @@ def unit_dump():
 # units infromation page
 @routes_units.route('/unit', methods = ['POST', 'GET'])
 def unit():
-    hosts = DB_Tools(db).host_unit_query()
+    hosts = DBT.host_unit_query()
 
-    hc = {cl.unit_name: [] for cl in DB_Tools(db).get_model('unit')}
+    hc = {cl.unit_name: [] for cl in DBT.get_model('unit')}
     [hc[h[1]].append(h[0]) for h in hosts if h[1] in hc.keys()]
 
     return render_template('unit.html', hc_dict = hc, 
-                           units = DB_Tools(db).get_model('unit'))
+                           units = DBT.get_model('unit'))
