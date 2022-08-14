@@ -1,3 +1,7 @@
+body {
+    margin: 0;
+}
+
 /* general */
 .content {
     text-align: left;
