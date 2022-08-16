@@ -10,13 +10,13 @@
     <hr/>
 
     <form action="/unit_update/{{ unit.id }}" method="POST">
-        <section>
-            <h5>Unit Name</h5>
+        <section class="form-inline">
+            <label>Unit Name</label>
             <input type="text" name="unit_name" value="{{unit.unit_name}}" required/>
         </section><br/>
 
-        <section>
-            <h5>Unit Level</h5>
+        <section class="form-inline">
+            <label>Unit Level</label>
             <input type="radio" id="cluster" name="unit_level" {{lvl[0][1]}} value="cluster" required>
             <label for="cluster">Cluster</label>
             <input type="radio" id="containerization" name="unit_level" {{lvl[1][1]}} value="containerization" required>
@@ -25,31 +25,30 @@
             <label for="pod">Pod</label>
         </section><br/>
 
-        <section>
-            <h5>Level Details</h5>
-            <h5>Available Levels: Cluster > Containerization > Pod</h5>
+        <section class="form-inline">
+            <label>Level Details</label>
             <input type="text" name="cluster" value="{{unit.cluster}}" required/>
             <input type="text" name="containerization" value="{{unit.containerization}}"/>
             <input type="text" name="pod" value="{{unit.pod}}" name="pod"/>
         </section><br/>
 
-        <section>
-            <h5>Unit Description</h5>
+        <section class="form-inline">
+            <label>Unit Description</label>
             <textarea name="description" rows="5" cols="60">{{unit.description}}</textarea>
         </section>
         <hr/>
 
-        <section>
-            <h5>Unit's Embedded Functions</h5>
+        <section class="form-inline">
+            <label>Unit's Embedded Functions</label>
             <textarea name="unit_functions" rows="5" cols="60" required>{{unit.unit_functions}}</textarea>
         </section>
 
-        <section>
-            <h5>Unit's Subsystems</h5>
+        <section class="form-inline">
+            <label>Unit's Subsystems</label>
             <textarea name="unit_subsystems" rows="5" cols="60" required>{{unit.unit_subsystems}}</textarea>
         </section><br/>
 
-        <section>
+        <section class="form-inline">
             <button type="submit" class="btn btn-primary">Update</button>
         </section>
 
