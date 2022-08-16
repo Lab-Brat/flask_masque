@@ -58,3 +58,48 @@ td {
     text-align: center;
     padding: 5px;
 }
+
+/* Style the form */
+.form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+  
+.form-inline label {
+    margin: 5px 10px 5px 0;
+    width: 17%; 
+}
+  
+.form-inline input {
+    vertical-align: middle;
+    margin: 5px 10px 5px 5px;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+  
+.form-inline button {
+    padding: 10px 20px;
+    margin: 5px 20px 5px 0;
+    background-color: gray;
+    border: 1px solid #ddd;
+    color: white;
+}
+  
+.form-inline button:hover {
+    background-color: rgb(87, 86, 86);
+}
+
+.form-inline select {
+    padding: 10px;
+}
+
+.form-inline textarea {
+    padding: 10px;
+}
+
+/* horizontal breaks */
+hr {
+    margin: 20px 5px 20px 0;
+}

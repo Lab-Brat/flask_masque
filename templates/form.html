@@ -12,33 +12,34 @@
 
 
 <div class="content">
-    <h1 style="text-align: left">Create New Form</h1><hr/>
+    <h1>Create New Form</h1><hr/>
     
     <form action="/form" name="theForm" method="POST">
-        <section>
-            <h5>System's Name</h5>
+
+        <section class="form-inline">
+            <label>System's Name:</label>
             <input type="text" name="name" required/>
         </section><br/>
 
-        <section>
-            <h5>Hostname</h5>
+        <section class="form-inline">
+            <label>Hostname:</label>
             <input type="integer" name="hostname" required/>
-            <button type="button" onclick="return(validate());" class="btn btn-primary btn-sm">Check Hostname</button>
+            <button type="button" onclick="return(validate());">Check Hostname</button>
         </section><br/>
 
-        <section>
-            <h5>Unit Affiliation</h5>
+        <section class="form-inline">
+            <label>Unit Affiliation:</label>
             <input type="text" name="unit_belong" list="unit_list"/>
             <datalist id="unit_list">
                 {% for c in units %}
                 <option>{{c}}</option>
                 {% endfor %}
             </datalist>
-            <button type="button" onclick="return(get_unit());" class="btn btn-primary btn-sm">Get Unit</button>
+            <button type="button" onclick="return(get_unit());">Get Unit</button><br/>
         </section><br/>
 
-        <section>
-            <h5>IP address  format: 1.1.1.1/24</h5>
+        <section class="form-inline">
+            <label>IP address (format: 1.1.1.1/24)</label>
             <input type="text" name="ip" value="" required/>
                 <div class="input-wrapper">
                     <div>Extra IP Addresses
@@ -47,8 +48,8 @@
                 </div>
         </section><br/>
 
-        <section>
-            <h5>Server's Linux Distribution</h5>
+        <section class="form-inline">
+            <label>Server's Linux Distribution</label>
             <select name="distro" method="GET" action="/form" required>
                 <option value="" selected disabled>Select an Option</option>
                 {% for d in dirlist %}
@@ -57,17 +58,19 @@
             </select>
         </section><br/>
 
-        <section>
-            <h5>System’s functions</h5>
+        <hr/>
+
+        <section class="form-inline">
+            <label>System’s functions:</label>
             <textarea name="functions" rows="5" cols="60" required></textarea>
         </section><br/>
 
-        <section>
-            <h5>Subsystems</h5>
+        <section class="form-inline">
+            <label>Subsystems:</label>
             <textarea name="subsystems" rows="5" cols="60" required></textarea>
         </section><br/>
 
-        <section>
+        <section class="form-inline">
             <button type="submit" class="btn btn-primary">Submit</button>
         </section>
 
