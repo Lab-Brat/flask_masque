@@ -97,6 +97,8 @@ td {
 
 .form-inline textarea {
     padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
 }
 
 /* horizontal breaks */
