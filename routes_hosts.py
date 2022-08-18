@@ -138,5 +138,5 @@ def upload_csv():
 # main page
 @routes_hosts.route('/', methods = ['GET', 'POST'])
 def index():
-    forms = DB_Tools(db).get_model('form')
+    forms = DBT.get_model('form')
     return render_template('index.html', forms = forms)
