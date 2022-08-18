@@ -104,7 +104,7 @@ class Tools():
         return {key: '\r\n'.join(exip_dict[key]) for key in exip_dict}
 
     def write_csv(self, filename):
-        exip_dict = self.prepare_csv(db)
+        exip_dict = self.prepare_csv()
         with open(filename, 'w', encoding='UTF8') as dump:
             writer = csv.writer(dump)
             writer.writerow(self.header)
