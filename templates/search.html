@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Form</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block body %}
+<form class="search-inline" method="post" action="" style="margin:auto;max-width:600px">
+    <input type="text" placeholder="Search form" name="book">
+    <button type="submit"><i class="fa fa-search"></i>
+    </button>
+</form>
+
+{% for item in data %}
+<tr>
+    <td>{{item}}</td>
+    </br>
+</tr>
+{% endfor %}
+{% endblock %}
