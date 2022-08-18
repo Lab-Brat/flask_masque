@@ -135,13 +135,6 @@ def upload_csv():
             return 'Wrong File Extension'
     return render_template('upload_csv.html')
 
-@routes_hosts.route('/search', methods=['GET', 'POST'])
-def search():
-    if request.method == "POST":
-        data = ['Your search bar WORKS!']
-        return render_template('search.html', data=data)
-    return render_template('search.html')
-
 # main page
 @routes_hosts.route('/', methods = ['GET', 'POST'])
 def index():
