@@ -27,6 +27,13 @@ class DB_Tools():
         elif model == 'unit':
             return self.db.session.query(CreateUnits).all()
 
+    def get_form_dict(self):
+        fd = defaultdict(object)
+        forms = self.db.session.query(CreateForm).all()
+        for form in forms:
+            fd[form.hostname] = form
+        return fd
+
     def host_query(self):
         hosts = (self.db.session.query(CreateForm.hostname)
                                 .order_by(CreateForm.hostname).all())
