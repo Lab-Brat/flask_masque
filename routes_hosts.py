@@ -3,6 +3,7 @@ from flask import request, render_template, redirect, send_file
 from werkzeug.utils import secure_filename
 from models import db, CreateForm, CreateExIP
 from tools import Tools, DB_Tools
+from datetime import datetime
 import os
 import json
 
@@ -67,6 +68,7 @@ def update(id):
         form.distro = request.form['distro']
         form.functions = request.form['functions']
         form.subsystems = request.form['subsystems']
+        form.date_created = datetime.now().replace(microsecond=0)
 
         # change existring extra IPs
         exip_form = request.form.getlist('extra_ips[]')

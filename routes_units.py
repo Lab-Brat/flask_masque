@@ -2,6 +2,7 @@ from flask import Blueprint
 from flask import request, render_template, redirect, send_file
 from models import db, CreateUnits
 from tools import Tools, DB_Tools
+from datetime import datetime
 import os
 import csv
 
@@ -70,6 +71,7 @@ def unit_update(id):
         unit.description = request.form['description']
         unit.unit_functions = request.form['unit_functions']
         unit.unit_subsystems = request.form['unit_subsystems']
+        unit.date_created = datetime.now().replace(microsecond=0)
 
         db.session.commit()
 
