@@ -31,7 +31,10 @@ def form():
                     'button before filling out the whole form!')
 
         db.session.add(new_form)
-        db.session.flush()
+        try:
+            db.session.flush()
+        except:
+            return 'Wront input data format, probalby wrong IP address'
 
         extra_ip = request.form.getlist('field[]')
         new_extra_ips = [CreateExIP(forms_id = new_form.id, 
@@ -72,8 +75,11 @@ def update(id):
 
         # change existring extra IPs
         exip_form = request.form.getlist('extra_ips[]')
-        exip_db = [ip for ip in DBT.extra_ip_query()
-                             if ip.forms_id == id]
+        try:
+            exip_db = [ip for ip in DBT.extra_ip_query()
+                                 if ip.forms_id == id]
+        except:
+            return 'Wront input data format, probalby wrong IP address'
         for i, ip in enumerate(exip_form):
             exip_db[i].extra_ip = ip
 
@@ -84,6 +90,7 @@ def update(id):
 
         db.session.add_all(new_extra_ips)
         db.session.commit()
+
         return redirect('/')
 
     else:
