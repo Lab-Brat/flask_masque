@@ -41,7 +41,7 @@ def unit_new():
 def unit_delete(id):
     unit_to_delete = CreateUnits.query.get_or_404(id)
 
-    for h in DBT.model_query('form'):
+    for h in DBT.get_model('form'):
         if h.unit_belong == unit_to_delete.unit_name:
             h.unit_belong = None
 
@@ -56,7 +56,7 @@ def unit_update(id):
     unit_lvl_checks = T.get_lvl_checklist(unit)
 
     if request.method == 'POST':
-        for h in DBT.model_query('form'):
+        for h in DBT.get_model('form'):
             if h.unit_belong == unit.unit_name:
                 h.unit_belong = request.form['unit_name']
                 h.functions = request.form['unit_functions']

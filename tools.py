@@ -10,17 +10,6 @@ class DB_Tools():
 
     def get_model(self, model):
         if model == 'form':
-            return (CreateForm.query
-                              .order_by(CreateForm.date_created).all())     
-        elif model == 'extra_ip':
-            return (CreateExIP.query
-                              .order_by(CreateExIP.id).all())
-        elif model == 'unit':
-            return (CreateUnits.query
-                               .order_by(CreateUnits.date_created).all())
-
-    def model_query(self, model):
-        if model == 'form':
             return self.db.session.query(CreateForm).all()
         elif model == 'extra_ip':
             return self.db.session.query(CreateExIP).all()
