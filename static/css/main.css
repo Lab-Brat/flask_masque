@@ -6,7 +6,7 @@ body {
 .content {
     text-align: left;
     margin: 0 auto;
-    width: 1250px;
+    width: 95%;
 }
 
 /* navigation bar */
@@ -144,4 +144,9 @@ hr {
     content: "";
     clear: both;
     display: table;
+}
+
+/* table */
+table th:nth-child(3), td:nth-child(3) {
+    display: none;
 }
