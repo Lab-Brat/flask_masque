@@ -5,33 +5,43 @@
 {% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script src="static/js/table_adv.js"></script>
+
 <div class="content">
     <br/>
-    <table>
-        <tr style="text-align: center">
-            <th>ID</th>
-            <th>Name</th>
-            <th>Level</th>
-            <th>Level Details</th>
-            <th>Hosts</th>
-            <th>Date Created</th>
-            <th>Actions</th>
-        </tr>
-        {% for unit in units %}
-        <tr>
-            <td>{{ unit.id }}</td>
-            <td>{{ unit.unit_name }}</td>
-            <td>{{ unit.unit_level }}</td>
-            <td>{{ unit.cluster }} / {{ unit.containerization }} / {{ unit.pod }}</td>
-            <td>{{ hc_dict.get(unit.unit_name) }}</td>
-            <td>{{ unit.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
-            <td>
-                <a href="/unit_delete/{{unit.id}}" onclick="return confirm('Are you sure you want to DELETE unit {{ unit.id }}?')">Delete</a>
-                <br>
-                <a href="/unit_update/{{unit.id}}">Update</a>
-            </td>
-        </tr>
-        {% endfor %}
+    <table id="main_table" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr style="text-align: center">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Level Details</th>
+                <th>Hosts</th>
+                <th>Date Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for unit in units %}
+            <tr>
+                <td>{{ unit.id }}</td>
+                <td>{{ unit.unit_name }}</td>
+                <td>{{ unit.unit_level }}</td>
+                <td>{{ unit.cluster }} / {{ unit.containerization }} / {{ unit.pod }}</td>
+                <td>{{ hc_dict.get(unit.unit_name) }}</td>
+                <td>{{ unit.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+                <td>
+                    <a href="/unit_delete/{{unit.id}}" onclick="return confirm('Are you sure you want to DELETE unit {{ unit.id }}?')">Delete</a>
+                    <br>
+                    <a href="/unit_update/{{unit.id}}">Update</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
     </table>
 </div>
 {% endblock %}
