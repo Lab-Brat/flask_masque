@@ -101,12 +101,39 @@ td {
     border: 1px solid #ddd;
 }
 
+/* upload form */
+.update-form-inline {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+}
+
+.update-form-inline input {
+    vertical-align: middle;
+    margin: 5px 10px 5px 5px;
+    padding: 15px;
+    background-color: #fff;
+}
+  
+.update-form-inline button {
+    padding: 10px 20px;
+    margin: 5px 20px 5px 0;
+    background-color: gray;
+    border: 1px solid #ddd;
+    color: white;
+}
+  
+.update-form-inline button:hover {
+    background-color: rgb(87, 86, 86);
+}
+
+
 /* horizontal breaks */
 hr {
     margin: 20px 5px 20px 0;
 }
 
-/* table */
+/* main tables */
 table th:nth-child(3), td:nth-child(3) {
     display: none;
 }
