@@ -23,7 +23,7 @@
         <section class="form-inline">
             <label>Hostname</label>
             <input type="integer" name="hostname" value="{{form.hostname}}" />
-            <button type="button" onclick="return(validate());" class="btn btn-primary btn-sm">Check Hostname</button>
+            <button type="button" onclick="return(validate());">Check Hostname</button>
         </section><br/>
 
         <section class="form-inline">
@@ -34,7 +34,7 @@
                 <option>{{u}}</option>
                 {% endfor %}
             </datalist>
-            <button type="button" onclick="return(get_unit());" class="btn btn-primary btn-sm">Get Unit</button>
+            <button type="button" onclick="return(get_unit());">Get Unit</button>
         </section><br/>
 
         <section class="form-inline">
@@ -79,7 +79,7 @@
         </section><br/>
 
         <section>
-            <button type="submit" class="btn btn-primary">Update</button>
+            <button type="submit">Update</button>
         </section>
 
     </form>
