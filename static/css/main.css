@@ -106,46 +106,6 @@ hr {
     margin: 20px 5px 20px 0;
 }
 
-/* search */
-.search-inline {
-    display: flex;
-    flex-flow: row wrap;
-    align-items: center;
-}
-
-.search-inline input[type=text] {
-    vertical-align: middle;
-    font-size: 17px;
-    margin: 20px 10px 5px 5px;
-    padding: 10px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    float: left;
-    width: 80%;
-}
-
-.search-inline button {
-    font-size: 17px;
-    padding: 10px 20px;
-    margin: 20px 20px 5px 0;
-    background-color: gray;
-    border: 1px solid #ddd;
-    border-left: none;
-    color: white;
-    cursor: pointer;
-    float: left;
-}
-
-.search-inline button:hover {
-    background-color: rgb(87, 86, 86);
-}
-
-.search-inline::after {
-    content: "";
-    clear: both;
-    display: table;
-}
-
 /* table */
 table th:nth-child(3), td:nth-child(3) {
     display: none;
