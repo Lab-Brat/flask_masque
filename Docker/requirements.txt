@@ -5,3 +5,4 @@ SQLAlchemy
 psycopg2
 pytest
 flask-unittest
+flask-login
