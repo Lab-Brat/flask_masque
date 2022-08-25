@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+</head>
+
+<body>
+    <h3>Login</h3>
+    <div>
+        <form method="POST" action="/login">
+            <section>
+                <input type="email" name="email" placeholder="Your Email" autofocus="">
+            </section>
+
+            <section>
+                <input type="password" name="password" placeholder="Your Password">
+            </section>
+
+            <section>
+                <label>
+                    <input type="checkbox" name="remember">
+                    Remember me
+                </label>
+            </section>
+            <button>Login</button>
+        </form>
+    </div>
+</body>
+</html>
