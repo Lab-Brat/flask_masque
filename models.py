@@ -44,7 +44,7 @@ class CreateExIP(db.Model):
     def __repr__(self) -> str:
         return '<ExIP %r>' % self.id
 
-
+@dataclass
 class CreateUnits(db.Model):
     '''
     Database model for organizational units
@@ -65,3 +65,4 @@ class CreateUnits(db.Model):
 
     def __repr__(self) -> str:
         return '<Unit %r>' % self.id
+
