@@ -66,3 +66,14 @@ class CreateUnits(db.Model):
     def __repr__(self) -> str:
         return '<Unit %r>' % self.id
 
+@dataclass
+class Users(db.Model):
+    '''
+    Users that can be authenticated in the app
+    '''
+    __tablename__ = 'fm_users'
+
+    id: str  = db.Column(db.Integer, primary_key=True)
+    email: str = db.Column(db.String(100), unique=True)
+    password: str = db.Column(db.String(100))
+    name: str = db.Column(db.String(1000))
