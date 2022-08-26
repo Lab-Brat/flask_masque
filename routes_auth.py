@@ -21,8 +21,8 @@ def login():
             return redirect(url_for('routes_auth.login'))
 
         login_user(user, remember=remember)
-        # return render_template('profile.html')
-        return 'Authenticated!'
+        return render_template('profile.html', 
+                               name = user.name, email = user.email)
     else:
         return render_template('login.html')
 
@@ -32,4 +32,4 @@ def logout():
 
 @routes_auth.route('/profile')
 def profile():
-    return 'Profile'
+    return render_template('profile.html')
