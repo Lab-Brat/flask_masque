@@ -7,7 +7,3 @@ from tools import Tools, DB_Tools
 T = Tools()
 DBT = DB_Tools(db)
 routes_service = Blueprint("routes_service", __name__)
-
-@routes_service.route('/profile')
-def profile():
-    return 'Profile'

@@ -14,7 +14,8 @@
     <ul>
         <li><a class="active" href="{{ url_for('routes_hosts.index') }}">Main</a></li>
         <li><a href="{{ url_for('routes_units.unit') }}">Org. Units</a></li>
-        <li><a href="/login">Profile</a></li>
+        <li><a href="{{ url_for('routes_auth.profile') }}">Profile</a></li>
+        <li><a href="{{ url_for('routes_auth.login') }}">Login</a></li>
         <li style="float: right;"><a href="/upload_csv">Upload CSV</a></ri>
         <li style="float: right;"><a href="/unit_dump">Dump Units</a></ri>
         <li style="float: right;"><a href="/dump">Dump Hosts</a></ri>
