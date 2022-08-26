@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_migrate import Migrate
-from models import db
+from flask_login import LoginManager
+from models import db, Users
 from routes_auth import routes_auth
 from routes_hosts import routes_hosts
 from routes_units import routes_units
@@ -16,6 +17,14 @@ def create_app():
 
     db.init_app(app)
     migrate = Migrate(app, db)
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'routes_auth.login'
+    login_manager.init_app(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return Users.query.get(int(user_id))
 
     app.register_blueprint(routes_auth, url_prefix='')
     app.register_blueprint(routes_hosts, url_prefix='')

@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.postgresql import INET
 from datetime import datetime
@@ -67,7 +68,7 @@ class CreateUnits(db.Model):
         return '<Unit %r>' % self.id
 
 @dataclass
-class Users(db.Model):
+class Users(UserMixin, db.Model):
     '''
     Users that can be authenticated in the app
     '''
