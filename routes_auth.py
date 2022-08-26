@@ -1,8 +1,8 @@
 from flask import Blueprint
 from flask import render_template, redirect, flash, url_for
-from flask_login import login_user
+from flask_login import login_user, login_required, current_user
 from flask import request
-from models import db, Users
+from models import Users
 
 routes_auth = Blueprint('routes_auth', __name__)
 
@@ -22,7 +22,8 @@ def login():
 
         login_user(user, remember=remember)
         return render_template('profile.html', 
-                               name = user.name, email = user.email)
+                               name = current_user.name,
+                               email = current_user.email)
     else:
         return render_template('login.html')
 
@@ -31,5 +32,8 @@ def logout():
     return 'Logout'
 
 @routes_auth.route('/profile')
+@login_required
 def profile():
-    return render_template('profile.html')
+    return render_template('profile.html', 
+                           name = current_user.name,
+                           email = current_user.email)
