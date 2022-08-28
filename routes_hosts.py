@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flask import request, render_template, redirect, send_file
+from flask_login import login_required
 from werkzeug.utils import secure_filename
 from models import db, CreateForm, CreateExIP
 from tools import Tools, DB_Tools
@@ -14,6 +15,7 @@ routes_hosts = Blueprint("routes_hosts", __name__)
 
 # open form to register host information
 @routes_hosts.route('/form', methods = ['POST', 'GET'])
+@login_required
 def form():
     if request.method == 'POST':
         new_form = CreateForm(
@@ -52,6 +54,7 @@ def form():
 
 #delete form after pressing "Delete" link
 @routes_hosts.route('/delete/<int:id>')
+@login_required
 def delete(id):
     form_to_delete = CreateForm.query.get_or_404(id)
     db.session.delete(form_to_delete)
@@ -60,6 +63,7 @@ def delete(id):
 
 # open update page after pressing "Update" link
 @routes_hosts.route('/update/<int:id>', methods = ['GET', 'POST'])
+@login_required
 def update(id):
     form = CreateForm.query.get_or_404(id)
 
@@ -102,6 +106,7 @@ def update(id):
 
 # Save all database data into csv file
 @routes_hosts.route('/dump', methods = ['GET'])
+@login_required
 def dump():
     dump_file = f'./dumps/dump_{T.timestamp()}.csv'
     os.makedirs(os.path.dirname(dump_file), exist_ok = True)
@@ -113,6 +118,7 @@ def dump():
 
 # Upload hosts infromation to the app
 @routes_hosts.route('/upload_csv', methods = ['GET', 'POST'])
+@login_required
 def upload_csv():
     if request.method == 'POST':
         file = request.files['file']
@@ -146,6 +152,7 @@ def upload_csv():
 
 # main page
 @routes_hosts.route('/', methods = ['GET', 'POST'])
+@login_required
 def index():
     forms = DBT.get_model('form')
     return render_template('index.html', forms = forms)

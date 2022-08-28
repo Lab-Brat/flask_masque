@@ -1,5 +1,6 @@
 from flask import Blueprint
 from flask import request, render_template, redirect, send_file
+from flask_login import login_required
 from models import db, CreateUnits
 from tools import Tools, DB_Tools
 from datetime import datetime
@@ -13,6 +14,7 @@ routes_units = Blueprint("routes_units", __name__)
 
 # open form to register organizational unit information
 @routes_units.route('/unit_new', methods = ['POST', 'GET'])
+@login_required
 def unit_new():
     clusters, containerizations, pods = DBT.unit_details_query()
 
@@ -39,6 +41,7 @@ def unit_new():
 
 #delete unit after pressing "Delete" link
 @routes_units.route('/unit_delete/<int:id>', methods=['POST', 'GET'])
+@login_required
 def unit_delete(id):
     unit_to_delete = CreateUnits.query.get_or_404(id)
 
@@ -52,6 +55,7 @@ def unit_delete(id):
 
 # open update page after pressing "Update" link
 @routes_units.route('/unit_update/<int:id>', methods = ['POST', 'GET'])
+@login_required
 def unit_update(id):
     unit = CreateUnits.query.get_or_404(id)
     unit_lvl_checks = T.get_lvl_checklist(unit)
@@ -82,6 +86,7 @@ def unit_update(id):
 
 # Save and download all unit records into csv file
 @routes_units.route('/unit_dump', methods = ['GET'])
+@login_required
 def unit_dump():
     header = ['Name', 'Level', 'Description', 'Level Details',
               'Functions', 'Subsystems']
@@ -106,6 +111,7 @@ def unit_dump():
 
 # units infromation page
 @routes_units.route('/unit', methods = ['POST', 'GET'])
+@login_required
 def unit():
     hosts = DBT.host_unit_query()
 
