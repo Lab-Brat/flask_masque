@@ -2,7 +2,7 @@ import csv
 from datetime import datetime
 from collections import defaultdict
 from models import db
-from models import CreateForm, CreateExIP, CreateUnits
+from models import CreateForm, CreateExIP, CreateUnits, Users
 
 class DB_Tools():
     def __init__(self, db):
@@ -62,6 +62,16 @@ class DB_Tools():
         pods = self.db.session.query(CreateUnits.pod)
 
         return self._extract(clus), self._extract(cons), self._extract(pods)
+
+    def admin_user(self):
+        try:
+            admin = Users(id = 0, email = 'admin@admin', 
+                        password = 'admin', name = 'Admin')
+            db.session.add(admin)
+            db.session.commit()
+            print("Admin user added")
+        except:
+            print("Admin user existed")
 
 
 class Tools():
