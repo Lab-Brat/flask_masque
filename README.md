@@ -61,3 +61,8 @@ App's web interface can be opened by entering server's IP address (or hostname) 
 ```
 http://192.168.0.1:5000
 ```
+
+#### Default User
+There is a default admin user:
+* username: admin@admin
+* password: admin
