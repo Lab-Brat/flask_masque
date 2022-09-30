@@ -39,7 +39,7 @@ docker-compose up
 #### Ansible
 * download Ansible playbook from my GitHub
 ```bash
-wget https://raw.githubusercontent.com/Lab-Brat/linux_scripts/main/ansible/app_forms.yaml
+wget https://raw.githubusercontent.com/Lab-Brat/ansible/main/app_forms.yaml
 ```
 * add your host to the inventory file, and run the playbook 
 ```bash
