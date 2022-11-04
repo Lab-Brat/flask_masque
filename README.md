@@ -30,7 +30,7 @@ Web app relies on environmental variables for it's configuration. They should be
 git clone https://github.com/Lab-Brat/flask_masque.git
 cd flask_masque
 ```
-* run docker-compose, it will build the image (based on AlmaLinux 8 image) containing the app and create two containers - postgresql and the app  
+* run docker-compose, it will build the image (based on Debian image) containing the app and create two containers - postgresql and the app  
 **\# Note that in this case the repository will be mounted into the container**
 ```bash
 docker-compose up
