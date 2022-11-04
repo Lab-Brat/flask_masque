@@ -1,10 +1,10 @@
 # Pull almalinux 8 image
-FROM almalinux
+# FROM almalinux:9.0
+FROM python:3.10-slim
 
 # Install dependencies
-RUN dnf update -y
-RUN dnf install -y gcc libpq-devel postgresql-devel \
-                       python3 python3-pip python3-devel
+RUN apt-get update
+RUN apt-get install -y libpq-dev gcc
 
 # Copy everything into docker container and cd
 COPY . /app
