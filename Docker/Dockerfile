@@ -1,5 +1,4 @@
-# Pull almalinux 8 image
-# FROM almalinux:9.0
+# Pull python docker image
 FROM python:3.10-slim
 
 # Install dependencies
