@@ -9,36 +9,22 @@
 </head>
 
 <body>
-    <h2>Login</h2>
-    <div class="login">
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <div class="notification is-danger">
-                {{ messages[0] }}
-            </div>
-        {% endif %}
-        {% endwith %}
-        <form method="POST" id="login" action="/login">
-            <section>
-                <label>User Email</label><br>
-                <input type="email" name="email" placeholder="Your Email" autofocus="">
-                <br><br>
-            </section>
-
-            <section>
-                <label>Password</label><br>
-                <input type="password" name="password" placeholder="Your Password">
-                <br><br>
-            </section>
-
-            <section>
-                <label>
-                    <input type="checkbox" name="remember">
-                    Remember me
-                </label>
-            </section>
-            <button>Login</button>
-        </form>
-    </div>
+    <div class="wrapper">
+        <div id="formContent">
+          <h2 class="active"> Sign In </h2>
+          <h2 class="inactive underlineHover">Sign Up </h2>
+      
+          <form method="POST" id="login" action="/login">
+            <input type="text" id="email" name="email" placeholder="login">
+            <input type="text" id="password" name="password" placeholder="password">
+            <input type="submit" value="Log In">
+          </form>
+      
+          <div id="formFooter">
+            <a class="underlineHover" href="#">Forgot Password?</a>
+          </div>
+      
+        </div>
+      </div>
 </body>
 </html>
