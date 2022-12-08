@@ -11,9 +11,11 @@
     <h2 class="title">Profile Page</h2>
 
     <div class="container">
-        <p>User Name:  {{name}}</p>
-        <p>User Email: {{email}}</p>
-        <a href="{{ url_for('routes_auth.logout') }}">Logout</a>
+        <div class="user-info">
+            <p>User Name:  {{name}}</p>
+            <p>User Email: {{email}}</p>
+        </div>
+        <a class="logout-a" href="{{ url_for('routes_auth.logout') }}">Logout</a>
     </div>
 </div>
 
