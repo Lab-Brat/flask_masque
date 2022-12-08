@@ -2,15 +2,19 @@
 
 {% block head %}
 <title>Profile</title>
+<link rel="stylesheet" href="static/css/profile.css">
 {% endblock %}
 
 {% block body %}
-<h2>Profile Page</h2><hr/>
 
-<section>
-    <p>User Name:  {{name}}</p>
-    <p>User Email: {{email}}</p>
-    <a href="{{ url_for('routes_auth.logout') }}">Logout</a>
-</section>
+<div class="card">
+    <h2 class="title">Profile Page</h2>
+
+    <div class="container">
+        <p>User Name:  {{name}}</p>
+        <p>User Email: {{email}}</p>
+        <a href="{{ url_for('routes_auth.logout') }}">Logout</a>
+    </div>
+</div>
 
 {% endblock %}
