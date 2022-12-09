@@ -1,6 +1,62 @@
-body {
+@import url('https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@300;400;500;600;700&display=swap');
+
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Red Hat Display', sans-serif;
 }
+
+:root {
+    --black: #222;
+    --blue: rgb(184, 237, 249);
+    --gray: rgb(216, 216, 216);
+    --dark-gray: gray;
+    --white: white;
+}
+
+body {
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+}
+
+.navigation {
+    position: fixed;
+    width: 300px;
+    height: 100%;
+    background: var(--blue);
+    border-left: 10px solid var(--blue);
+    transition: 0.5s;
+    overflow: hidden;
+}
+
+.navigation ul {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+
+.navigation ul li {
+    position: relative;
+    width: 200%;
+    list-style: none;
+}
+
+.navigation ul li:hover {
+    background: var(--white);
+}
+
+.navigation ul li:nth-child(1) {
+    margin-bottom: 40px;
+    pointer-events: none;
+}
+
 
 /* general */
 .content {
@@ -10,7 +66,7 @@ body {
 }
 
 /* navigation bar */
-ul {
+/* ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -38,7 +94,7 @@ li a:hover:not(.active) {
 
 .active {
     background-color: #3ac8eb;
-}
+} */
 
 /* main table */
 table {

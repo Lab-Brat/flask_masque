@@ -6,12 +6,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 	
     {% block head %}{% endblock %}
 </head>
 
 <body>
-    <ul>
+<div class="container">
+    <div class="navigation">
+        <ul>
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="documents-outline"></ion-icon></span>
+                    <span class="title">Infra Forms</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="planet-outline"></ion-icon></span>
+                    <span class="title">Dashboard</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+                    <span class="title">Users</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                    <span class="title">Help</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="cog-outline"></ion-icon></span>
+                    <span class="title">Settings</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="#">
+                    <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                    <span class="title">Sign Out</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- <ul>
         <li><a class="active" href="{{ url_for('routes_hosts.index') }}">Main</a></li>
         <li><a href="{{ url_for('routes_units.unit') }}">Org. Units</a></li>
         <li><a href="{{ url_for('routes_auth.profile') }}">Profile</a></li>
@@ -20,7 +68,7 @@
         <li style="float: right;"><a href="/dump">Dump Hosts</a></ri>
         <li style="float: right;"><a href="/unit_new">Add Unit</a></ri>
         <li style="float: right;"><a href="/form">Add Host</a></ri>
-    </ul>
+    </ul> -->
     {% block body %}{% endblock %}
 </body>
 <br/><br/><br/><br/>
