@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Infra Forms</title>
+{% endblock %}
+
+{% block body %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script src="static/js/table_adv.js"></script>
+
+<div class="content">
+    <br/>
+    <table id="main_table" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr style="text-align: center">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Host</th>
+                <th>Unit</th>
+                <th>IP</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for form in forms %}
+            <tr>
+                <td>{{ form.id }}</td>
+                <td>{{ form.name }}</td>
+                <td>{{ form.hostname }}</td>
+                <td>{{ form.unit_belong }}</td>
+                <td>{{ form.ip }}</td>
+                <td>{{ form.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+                <td>
+                    <a href="/delete/{{form.id}}" onclick="return confirm('Are you sure you want to DELETE form {{ form.id }}?')">Delete</a>
+                    <br>
+                    <a href="/update/{{form.id}}">Update</a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
