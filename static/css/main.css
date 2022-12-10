@@ -11,7 +11,7 @@
     --black: #222;
     --blue: rgb(184, 237, 249);
     --gray: rgb(216, 216, 216);
-    --dark-gray: gray;
+    --dark-gray: rgb(84, 84, 84);
     --white: white;
 }
 
@@ -69,6 +69,7 @@ body {
     text-decoration: none;
     color: var(--black);
     font-weight: 500;
+    font-size: 1.1em;
 }
 
 .navigation ul li:hover a {
@@ -80,12 +81,12 @@ body {
     display: block;
     min-width: 60px;
     height: 60px;
-    line-height: 70px;
+    line-height: 77px;
     text-align: center;
 }
 
 .navigation ul li a ion-icon {
-    font-size: 1.75em;
+    font-size: 2.0em;
 }
 
 .navigation ul li a .title {
@@ -185,6 +186,52 @@ body {
     cursor: pointer;
 }
 
+.cardBox {
+    position: relative;
+    width: 100%;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-gap: 30px;
+}
+
+.cardBox .card {
+    position: relative;
+    background: var(--white);
+    padding: 30px;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+    box-shadow: 0 7px 25px rgba(0,0,0,0.08);
+}
+
+.cardBox .card .numbers {
+    position: relative;
+    font-weight: 700;
+    font-size: 2.5em;
+    color: var(--blue);
+}
+
+.cardBox .card .cardName {
+    color: var(--dark-gray);
+    font-size: 1.6em;
+    margin-top: 5px;
+}
+
+.cardBox .card .iconBox {
+    font-size: 2.5em;
+    color: var(--dark-gray);
+}
+
+.cardBox .card:hover {
+    background: var(--dark-gray);
+}
+
+.cardBox .card:hover .cardName,
+.cardBox .card:hover .iconBox {
+    color: var(--white);
+}
 
 /* general */
 .content {
