@@ -17,9 +17,14 @@
             <div class="numbers">47</div>
             <div class="cardName">Forms</div>
         </div>
-        <a href="{{ url_for('routes_hosts.form') }}">
-            <span class="iconBox"><ion-icon name="documents-outline"></ion-icon></span>
-        </a>
+        <div>
+            <a href="{{ url_for('routes_hosts.form') }}">
+                <span class="iconBox"><ion-icon name="documents-outline"></ion-icon></span><br></span>
+            </a>
+            <a href="{{ url_for('routes_hosts.form_new') }}">
+                <span class="iconBox"><ion-icon name="add-outline"></ion-icon></span><br></span>
+            </a>
+        </div>
     </div>
     
     <div class="card">
@@ -27,9 +32,14 @@
             <div class="numbers">6</div>
             <div class="cardName">Units</div>
         </div>
-        <a href="{{ url_for('routes_units.unit') }}">
-            <span class="iconBox"><ion-icon name="file-tray-full-outline"></ion-icon></span>
-        </a>
+        <div>
+            <a href="{{ url_for('routes_units.unit') }}">
+                <span class="iconBox"><ion-icon name="file-tray-full-outline"></ion-icon><br></span>
+            </a>
+            <a href="{{ url_for('routes_units.unit_new') }}">
+                <span class="iconBox"><ion-icon name="add-outline"></ion-icon></span><br></span>
+            </a>
+        </div>
     </div>
 
     <div class="card">
