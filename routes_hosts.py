@@ -14,9 +14,9 @@ DBT = DB_Tools(db)
 routes_hosts = Blueprint("routes_hosts", __name__)
 
 # open form to register host information
-@routes_hosts.route('/form', methods = ['POST', 'GET'])
+@routes_hosts.route('/form_new', methods = ['POST', 'GET'])
 @login_required
-def form():
+def form_new():
     if request.method == 'POST':
         new_form = CreateForm(
                 name = request.form['name'],
@@ -46,25 +46,25 @@ def form():
         return redirect('/')
 
     else:
-        return render_template('form.html',
+        return render_template('form_new.html',
                         dirlist = T.dirlist, 
                         units = DBT.unit_query(),
                         hosts = json.dumps(DBT.host_query()),
                         unit_data = json.dumps(DBT.data_query()))
 
 #delete form after pressing "Delete" link
-@routes_hosts.route('/delete/<int:id>')
+@routes_hosts.route('/form_delete/<int:id>')
 @login_required
-def delete(id):
+def form_delete(id):
     form_to_delete = CreateForm.query.get_or_404(id)
     db.session.delete(form_to_delete)
     db.session.commit()
     return redirect('/')
 
 # open update page after pressing "Update" link
-@routes_hosts.route('/update/<int:id>', methods = ['GET', 'POST'])
+@routes_hosts.route('/form_update/<int:id>', methods = ['GET', 'POST'])
 @login_required
-def update(id):
+def form_update(id):
     form = CreateForm.query.get_or_404(id)
 
     if request.method == 'POST':
@@ -98,7 +98,7 @@ def update(id):
         return redirect('/')
 
     else:
-        return render_template('update.html', form = form, 
+        return render_template('form_update.html', form = form, 
                         dirlist = T.dirlist,
                         units = DBT.unit_query(),
                         hosts = json.dumps(DBT.host_query()),
@@ -149,6 +149,13 @@ def upload_csv():
         else:
             return 'Wrong File Extension'
     return render_template('upload_csv.html')
+
+# hosts page
+@routes_hosts.route('/form', methods = ['GET', 'POST'])
+@login_required
+def form():
+    forms = DBT.get_model('form')
+    return render_template('form.html', forms = forms)
 
 # main page
 @routes_hosts.route('/', methods = ['GET', 'POST'])

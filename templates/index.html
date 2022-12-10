@@ -5,6 +5,11 @@
 {% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
+<script     src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script src="static/js/table_adv.js"></script>
+
 <!-- cards -->
 <div class="cardBox">
     <div class="card">
@@ -12,9 +17,9 @@
             <div class="numbers">47</div>
             <div class="cardName">Forms</div>
         </div>
-        <div class="iconBox">
-            <ion-icon name="documents-outline"></ion-icon>
-        </div>
+        <a href="{{ url_for('routes_hosts.form') }}">
+            <span class="iconBox"><ion-icon name="documents-outline"></ion-icon></span>
+        </a>
     </div>
     
     <div class="card">
@@ -22,9 +27,9 @@
             <div class="numbers">6</div>
             <div class="cardName">Units</div>
         </div>
-        <div class="iconBox">
-            <ion-icon name="file-tray-full-outline"></ion-icon>
-        </div>
+        <a href="{{ url_for('routes_units.unit') }}">
+            <span class="iconBox"><ion-icon name="file-tray-full-outline"></ion-icon></span>
+        </a>
     </div>
 
     <div class="card">

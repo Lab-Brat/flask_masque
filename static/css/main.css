@@ -202,7 +202,7 @@ body {
     border-radius: 20px;
     display: flex;
     justify-content: space-between;
-    cursor: pointer;
+    /* cursor: pointer; */
     box-shadow: 0 7px 25px rgba(0,0,0,0.08);
 }
 
@@ -222,6 +222,7 @@ body {
 .cardBox .card .iconBox {
     font-size: 2.5em;
     color: var(--dark-gray);
+    cursor: pointer;
 }
 
 .cardBox .card:hover {
@@ -240,39 +241,9 @@ body {
     width: 95%;
 }
 
-/* navigation bar */
-/* ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
-  
-li {
-    font-size: 20px;
-    font-family: 'Times New Roman', Times, serif;
-    float: left;
-}
-
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-li a:hover:not(.active) {
-    background-color: #111;
-}
-
-.active {
-    background-color: #3ac8eb;
-} */
 
 /* main table */
-table {
+/* table {
     font-size: 16px;
     border-collapse: collapse;
     width: 100%;
@@ -288,7 +259,8 @@ th {
 td {
     text-align: center;
     padding: 5px;
-}
+} */
+
 
 /* Style the form */
 .form-inline {
@@ -332,6 +304,7 @@ td {
     border: 1px solid #ddd;
 }
 
+
 /* upload form */
 .update-form-inline {
     display: flex;
@@ -361,9 +334,4 @@ td {
 /* horizontal breaks */
 hr {
     margin: 20px 5px 20px 0;
-}
-
-/* main tables */
-table th:nth-child(3), td:nth-child(3) {
-    display: none;
 }

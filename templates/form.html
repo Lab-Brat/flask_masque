@@ -1,82 +1,50 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Form</title>
+<title>Forms</title>
 {% endblock %}
 
 {% block body %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.13/css/jquery.dataTables.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="static/js/add_ip.js"></script>
-<script type="text/javascript" script id="ch" hosts="{{hosts}}" src="static/js/check_host.js"></script>
-<script type="text/javascript" script id="gc" unit_data="{{unit_data}}" src="static/js/get_unit.js"></script>
+<script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+<script src="static/js/table_adv.js"></script>
 
-
+<!-- forms -->
 <div class="content">
-    <h1>Create New Form</h1><hr/>
-    
-    <form action="/form" name="theForm" method="POST">
+    <br/>
+    <table id="main_table" class="display" cellspacing="0" width="100%">
+        <thead>
+            <tr style="text-align: center">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Host</th>
+                <th>Unit</th>
+                <th>IP</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
 
-        <section class="form-inline">
-            <label>System's Name:</label>
-            <input type="text" name="name" required/>
-        </section><br/>
-
-        <section class="form-inline">
-            <label>Hostname:</label>
-            <input type="integer" name="hostname" required/>
-            <button type="button" onclick="return(validate());">Check Hostname</button>
-        </section><br/>
-
-        <section class="form-inline">
-            <label>Unit Affiliation:</label>
-            <input type="text" name="unit_belong" list="unit_list"/>
-            <datalist id="unit_list">
-                {% for c in units %}
-                <option>{{c}}</option>
-                {% endfor %}
-            </datalist>
-            <button type="button" onclick="return(get_unit());">Get Unit</button><br/>
-        </section><br/>
-
-        <section class="form-inline">
-            <label>IP address (format: 1.1.1.1/24)</label>
-            <input type="text" name="ip" value="" required/>
-                <div class="input-wrapper">
-                    <div>
-                        <label>Extra IP Addresses</label>
-                        <a href="javascript:void(0);" class="add-input" title="Add input">
-                            <button type="button">Add</button>
-                        </a>
+        <tbody>
+        {% for form in forms %}
+            <tr>
+                <td>{{ form.id }}</td>
+                <td>{{ form.name }}</td>
+                <td>{{ form.hostname }}</td>
+                <td>{{ form.unit_belong }}</td>
+                <td>{{ form.ip }}</td>
+                <td>{{ form.date_created.strftime("%d/%m/%Y %H:%M:%S") }}</td>
+                <td>
+                    <div class="form_actions">
+                        <a href="/form_update/{{form.id}}">Update</a>
+                        <a href="/form_delete/{{form.id}}" onclick="return confirm('Are you sure you want to DELETE form {{ form.id }}?')">Delete</a>
                     </div>
-                </div>
-        </section><br/>
-
-        <section class="form-inline">
-            <label>Server's Linux Distribution</label>
-            <select name="distro" method="GET" action="/form" required>
-                <option value="" selected disabled>Select an Option</option>
-                {% for d in dirlist %}
-                <option value="{{d}}">{{d}}</option>
-                {% endfor %}
-            </select>
-        </section><br/>
-
-        <hr/>
-
-        <section class="form-inline">
-            <label>System’s functions:</label>
-            <textarea name="functions" rows="5" cols="60" required></textarea>
-        </section><br/>
-
-        <section class="form-inline">
-            <label>Subsystems:</label>
-            <textarea name="subsystems" rows="5" cols="60" required></textarea>
-        </section><br/>
-
-        <section class="form-inline">
-            <button type="submit">Submit</button>
-        </section>
-
-    </form>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 </div>
+
 {% endblock %}
