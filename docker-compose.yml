@@ -4,6 +4,8 @@ services:
   masq_db:
     container_name: pg
     image: "postgres"
+    volumes:
+      - ./samples:/opt
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_ADDRESS: ${DB_ADDRESS}

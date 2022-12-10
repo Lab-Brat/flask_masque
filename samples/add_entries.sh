@@ -1,16 +1,9 @@
 #!/bin/bash
 
-export DB_USER=postgres
-export DB_PASS=password
-export DB_ADDRESS=127.0.0.1
-export DB_PORT=5432
-export DB_NAME=masq_forms
-
-
-db_user=$DB_USER
-db_name=$DB_NAME
-db_address=$DB_ADDRESS
-db_port=$DB_PORT
+DB_USER="labbrat"
+DB_NAME="masq_forms"
+DB_ADDRESS="127.0.0.1"
+DB_PORT=5432
 
 form_columns="(name, hostname, unit_belong, ip, distro, functions, subsystems, date_created)"
 exip_columns="(forms_id, extra_ip)"
@@ -19,10 +12,10 @@ form_entries="./form_entries.csv"
 exip_entries="./exip_entries.csv"
 unit_entries="./unit_entries.csv"
 
-psql -U $db_user \
-     -d $db_name \
-     -h $db_address \
-     -p $db_port \
+psql -U $DB_USER \
+     -d $DB_NAME \
+     -h $DB_ADDRESS \
+     -p $DB_PORT \
      -c "\copy forms $form_columns from $form_entries with DELIMITER ','" \
      -c "\copy extra_ips $exip_columns from $exip_entries with DELIMITER ','" \
      -c "\copy units_forms $unit_columns from $unit_entries with DELIMITER ','"
