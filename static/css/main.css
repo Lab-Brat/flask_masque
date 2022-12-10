@@ -226,8 +226,48 @@ body {
     cursor: pointer;
 }
 
+.cardBox .card-upload input {
+    border: none;
+    width: 90%;
+    font-size: 16px;
+}
+
+.cardBox .card-upload input[type="file"]::file-selector-button {
+    border: none;
+    border-radius: 20px;
+    background-color: var(--blue);
+    font-size: 16px;
+}
+
+.cardBox .card-upload .file-upload {
+    width: 300px;
+    border: 1px solid rgb(121, 115, 115);
+    border-radius: 20px;
+    display: inline-block;
+    padding: 8px 10px;
+    cursor: pointer;
+}
+
+.cardBox .card-upload .file-upload-title {
+    font-size: 20px;
+    padding-bottom: 12px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.cardBox .card-upload .iconBox {
+    padding: 16px;
+    font-size: 2.5em;
+    color: var(--dark-gray);
+    cursor: pointer;
+}
+
 .cardBox .card:hover {
     background: var(--dark-gray);
+}
+
+.cardBox .card-upload:hover {
+    background: var(--gray);
 }
 
 .cardBox .card:hover .cardName,

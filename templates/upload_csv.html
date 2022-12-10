@@ -5,9 +5,46 @@
 {% endblock %}
 
 {% block body %}
-<form class="update-form-inline" action = "/upload_csv" method = "POST" 
-    enctype = "multipart/form-data">
-    <input type = "file" name = "file" />
-    <button type="submit">Submit</button>
-</form>   
+
+<div class="cardBox">
+    <div class="card card-upload">
+        <div>
+            <p class="file-upload-title">Upload CSV</p>
+            <form id="input_form" class="update-form-inline" action="/upload_csv" method="POST" enctype="multipart/form-data">
+                <label class="file-upload">
+                    <input type="file" name="file"/>
+                </label>
+            </form>
+        </div>
+
+        <div>
+            <a href="#" onclick="anchor_submit()">
+                <span class="iconBox"><ion-icon name="arrow-up-outline"></ion-icon><br></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="card">
+        <div>
+            <div class="cardName">Download Hosts</div><br>
+            <div class="cardName">Download Units</div>
+        </div>
+        
+        <div>
+            <a href="/dump">
+                <span class="iconBox"><ion-icon name="arrow-down-outline"></ion-icon><br></span>
+            </a>
+            <a href="/unit_dump">
+                <span class="iconBox"><ion-icon name="arrow-down-outline"></ion-icon></span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function anchor_submit() {
+        document.getElementById("input_form").submit();
+    }
+</script>
+
 {% endblock %}
