@@ -7,15 +7,15 @@
 
 {% block body %}
 
-<div class="card">
-    <h2 class="title">Profile Information</h2>
+<div class="profile-card">
+    <h2 class="profile-title">Profile Information</h2>
 
-    <div class="container">
-        <div class="user-info">
+    <div class="profile-container">
+        <div class="profile-user-info">
             <p>User Name:  {{name}}</p>
             <p>User Email: {{email}}</p>
         </div>
-        <a class="logout-a" href="{{ url_for('routes_auth.logout') }}">Logout</a>
+        <a class="profile-logout-a" href="{{ url_for('routes_auth.logout') }}">Logout</a>
     </div>
 </div>
 
