@@ -161,5 +161,4 @@ def form():
 @routes_hosts.route('/', methods = ['GET', 'POST'])
 @login_required
 def index():
-    forms = DBT.get_model('form')
-    return render_template('index.html', forms = forms)
+    return render_template('index.html')

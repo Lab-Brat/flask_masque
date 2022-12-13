@@ -1,6 +1,7 @@
-venv/
-__pycache__/
-migrations/
+data/
 dumps/
 uploads/
+migrations/
 env_test.sh
+venv/
+__pycache__/
