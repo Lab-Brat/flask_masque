@@ -3,5 +3,5 @@ Test CLI 2,cli2.lab,,7.1.1.2/24,Gentoo,test cli,forms app,2022-06-18 00:00:00
 Test CLI 3,cli3.lab,Primary Hive Cluster,7.1.1.3/24,Fedora,test cli,forms app,2022-06-18 00:00:00
 Test CLI 4,cli4.lab,Kube 1,7.1.1.4/24,Debian,test cli,forms app,2022-06-18 00:00:00
 Test CLI 5,cli5.lab,Primary Hive Cluster,7.1.1.5/24,Arch,test cli,forms app,2022-06-18 00:00:00
-Test CLI 6,cli4.lab,Pod 1,7.1.1.6/24,RedHat,test cli,forms app,2022-06-18 00:00:00
-Test CLI 7,cli4.lab,Kube 2,7.1.1.7/24,BSD,test cli,forms app,2022-06-18 00:00:00
+Test CLI 6,cli6.lab,Pod 1,7.1.1.6/24,RedHat,test cli,forms app,2022-06-18 00:00:00
+Test CLI 7,cli7.lab,Kube 2,7.1.1.7/24,BSD,test cli,forms app,2022-06-18 00:00:00
