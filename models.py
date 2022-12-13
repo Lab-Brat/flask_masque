@@ -78,3 +78,15 @@ class Users(UserMixin, db.Model):
     email: str = db.Column(db.String(100), unique=True)
     password: str = db.Column(db.String(100))
     name: str = db.Column(db.String(1000))
+
+@dataclass
+class ActiveSessions(db.Model):
+    '''
+    A List of active user sessions.
+    '''
+    __tablename__ = 'active_sessions'
+
+    id: str = db.Column(db.Integer, primary_key=True)
+    uuid: str = db.Column(db.String(100), unique=True)
+    date_created: str = db.Column(db.DateTime, 
+                            default=datetime.now().replace(microsecond=0))

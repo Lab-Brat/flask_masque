@@ -1,8 +1,8 @@
 from flask import Blueprint
-from flask import request, render_template, redirect, send_file
+from flask import request, render_template, redirect, send_file, session
 from flask_login import login_required
 from werkzeug.utils import secure_filename
-from models import db, CreateForm, CreateExIP
+from models import db, CreateForm, CreateExIP, ActiveSessions
 from tools import Tools, DB_Tools
 from datetime import datetime
 import os
@@ -162,4 +162,10 @@ def form():
 @login_required
 def index():
     forms_num = len(DBT.host_query())
-    return render_template('index.html', forms_num = forms_num)
+    units_num = len(DBT.unit_query())
+    all_sessions = len(db.session.query(ActiveSessions.uuid).all())
+    
+    return render_template('index.html', 
+                           forms_num = forms_num,
+                           units_num = units_num,
+                           all_sessions = all_sessions)

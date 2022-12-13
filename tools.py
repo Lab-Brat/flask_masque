@@ -2,7 +2,7 @@ import csv
 from datetime import datetime
 from collections import defaultdict
 from models import db
-from models import CreateForm, CreateExIP, CreateUnits, Users
+from models import CreateForm, CreateExIP, CreateUnits, Users, ActiveSessions
 
 class DB_Tools():
     def __init__(self, db):
@@ -72,6 +72,24 @@ class DB_Tools():
             print("Admin user added")
         except:
             print("Admin user existed")
+
+    def session_add(self, uuid):
+        try:
+            active_session = ActiveSessions(uuid = uuid)
+            db.session.add(active_session)
+            db.session.commit()
+            print("Active session stored")
+        except:
+            print("Saving active sesison failed")
+
+    def session_delete(self, id):
+        try:
+            form_to_delete = ActiveSessions.query.get_or_404(id)
+            db.session.delete(form_to_delete)
+            db.session.commit()
+            print("Session uuid deleted")
+        except:
+            print("Could not delte session uuid")
 
 
 class Tools():
