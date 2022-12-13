@@ -6,6 +6,7 @@ services:
     image: "postgres"
     volumes:
       - ./samples:/opt
+      - ./data:/var/lib/postgresql/data
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_ADDRESS: ${DB_ADDRESS}
