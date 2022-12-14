@@ -161,10 +161,13 @@ def form():
 @routes_hosts.route('/', methods = ['GET', 'POST'])
 @login_required
 def index():
+    session.permanent = True
     forms_num = len(DBT.host_query())
     units_num = len(DBT.unit_query())
     all_sessions = len(DBT.session_uuid_query())
     db_status = T.get_db_status()
+
+    T.active_session_cleaner()
     
     return render_template('index.html', 
                            forms_num = forms_num,

@@ -74,6 +74,11 @@ class DB_Tools():
         except:
             print("Admin user existed")
 
+    def session_query(self):
+        return (db.session.query(ActiveSessions.id, 
+                                 ActiveSessions.uuid, 
+                                 ActiveSessions.date_created).all())
+
     def session_uuid_query(self):
         return db.session.query(ActiveSessions.uuid).all()
 
@@ -194,4 +199,11 @@ class Tools():
             return 'ONLINE'
         else:
             return 'OFFLINE'
-        
+
+    def active_session_cleaner(self):
+        sessions = DB_Tools(db).session_query()
+        now = datetime.now().replace(microsecond=0)
+
+        for session in sessions:
+            if ((now - session[2]).seconds//60) > 30:
+                DB_Tools(db).session_delete(session[0])
