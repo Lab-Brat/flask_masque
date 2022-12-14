@@ -1,3 +1,4 @@
+import os
 import csv
 from datetime import datetime
 from collections import defaultdict
@@ -181,3 +182,10 @@ class Tools():
                                  extra_ip = ip) for ip in exip]
                 new_exips.extend(ne)
         return new_exips
+
+    def get_db_status(self):
+        if os.system('nc -z pg $DB_PORT') == 0:
+            return 'ONLINE'
+        else:
+            return 'OFFLINE'
+        

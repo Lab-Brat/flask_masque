@@ -3,7 +3,7 @@ FROM python:3.10-slim
 
 # Install dependencies
 RUN apt-get update
-RUN apt-get install -y libpq-dev gcc
+RUN apt-get install -y libpq-dev gcc netcat
 
 # Copy everything into docker container and cd
 COPY . /app
@@ -14,7 +14,6 @@ RUN python3 -m pip install -r Docker/requirements.txt
 
 # Define environmental variables
 ENV FLASK_APP=app.py
-ENV FLASK_ENV=development
 
 # Make entrpoint script executable
 RUN chmod +x Docker/entry_point.sh
