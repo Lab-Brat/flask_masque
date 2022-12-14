@@ -12,7 +12,7 @@
 ## Introduction
 Web application for recording and cataloging infrastructure components (VMs or containers).  
 Stack: Python (Flask, psycopg2, SQLAlchemy, pytest) PostgreSQL, HTML, CSS, Javascript, Docker, Docker-Compose, Jenkins.  
-App can be deployed either by an Ansible playbook on a virtual machine (Alma Linux 8) or in a container form using Docker.  
+App can be deployed either by an Ansible playbook on a virtual machine (Alma Linux 8) or in a Docker container.
 
 ## Configuration
 Web app relies on environmental variables for it's configuration. They should be configured by the user in ```.env```, which will be read by Docker-Comose.
@@ -30,24 +30,21 @@ Web app relies on environmental variables for it's configuration. They should be
 git clone https://github.com/Lab-Brat/flask_masque.git
 cd flask_masque
 ```
-* run docker-compose, it will build the image (based on Debian image) containing the app and create two containers - postgresql and the app  
+* run docker-compose, it will build the app image (based on Debian image) and create two containers - postgresql and the app  
 **\# Note that in this case the repository will be mounted into the container**
 ```bash
-docker-compose up
+docker-compose up -d
 ```
 
 #### Ansible
-* download Ansible playbook from my GitHub
+* download Ansible [playbook](https://github.com/Lab-Brat/ansible/tree/main/flask_app_forms) from my GitHub
+* update inventory file, and run the playbook 
 ```bash
-wget https://raw.githubusercontent.com/Lab-Brat/ansible/main/app_forms.yaml
-```
-* add your host to the inventory file, and run the playbook 
-```bash
-ansible-playbook app_forms.yaml --limit <host>
+ansible-playbook main.yaml
 ```
 
 #### Run
-* Docker: It will run automatically, becuase it's defined in ```entry_point.sh```
+* Docker: It will run automatically, becuase it's defined in `entry_point.sh`
 * Ansible: After the deployment is complete, login to the server, navigate to the installation directory and run 
 ```bash
 python app.py
@@ -66,3 +63,11 @@ http://192.168.0.1:5000
 There is a default admin user:
 * username: admin@admin
 * password: admin
+
+#### Add Sample Data
+Contents of directory `samples` will be mounted to `/opt` on the Docker container. 
+To populate app with sample data enter container with bash shell and execute the script:
+```bash
+docker exec -it pg /bin/bash
+sh /opt/add_entries.sh
+```
