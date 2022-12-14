@@ -74,6 +74,12 @@ class DB_Tools():
         except:
             print("Admin user existed")
 
+    def session_uuid_query(self):
+        return db.session.query(ActiveSessions.uuid).all()
+
+    def session_uuid_find(self, uid):
+        return ActiveSessions.query.filter_by(uuid=uid).all()[0]
+
     def session_add(self, uuid):
         try:
             active_session = ActiveSessions(uuid = uuid)

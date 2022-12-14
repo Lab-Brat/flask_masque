@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import render_template, redirect, flash, url_for, session
 from flask_login import login_user, login_required, logout_user, current_user
 from flask import request
-from models import db, Users, ActiveSessions
+from models import db, Users
 from tools import DB_Tools
 import uuid
 
@@ -26,7 +26,7 @@ def login():
         login_user(user, remember=remember)
         uid = str(uuid.uuid4())
         DBT.session_add(uid)
-        session_info = ActiveSessions.query.filter_by(uuid=uid).all()[0]
+        session_info = DBT.session_uuid_find(uid)
         session['id'] = session_info.id
         session['uuid'] = session_info.uuid
         return render_template('profile.html', 

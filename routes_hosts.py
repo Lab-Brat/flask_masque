@@ -163,7 +163,7 @@ def form():
 def index():
     forms_num = len(DBT.host_query())
     units_num = len(DBT.unit_query())
-    all_sessions = len(db.session.query(ActiveSessions.uuid).all())
+    all_sessions = len(DBT.session_uuid_query())
     db_status = T.get_db_status()
     
     return render_template('index.html', 
