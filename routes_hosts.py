@@ -2,7 +2,7 @@ from flask import Blueprint
 from flask import request, render_template, redirect, send_file, session
 from flask_login import login_required
 from werkzeug.utils import secure_filename
-from models import db, CreateForm, CreateExIP, ActiveSessions
+from models import db, CreateForm, CreateExIP
 from tools import Tools, DB_Tools
 from datetime import datetime
 import os
