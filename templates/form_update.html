@@ -14,7 +14,7 @@
 <div class="content">
     <h1 style="text-align: left">Update Form</h1><hr/>
 
-    <form action="/update/{{form.id}}" name="theForm" method="POST">
+    <form action="/form_update/{{form.id}}" name="theForm" method="POST">
         <section class="form-inline">
             <label>System's Name</label>
             <input type="text" name="name" value="{{form.name}}" />
@@ -78,8 +78,8 @@
             <textarea name="subsystems" rows="5" cols="60" required>{{form.subsystems}}</textarea>
         </section><br/>
 
-        <section>
-            <button type="submit">Update</button>
+        <section class="form-inline">
+            <button type="submit">Submit</button>
         </section>
 
     </form>

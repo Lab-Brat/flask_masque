@@ -43,7 +43,7 @@ def form_new():
                                     extra_ip = ip) for ip in extra_ip]
         db.session.add_all(new_extra_ips)
         db.session.commit()
-        return redirect('/')
+        return redirect('/form')
 
     else:
         return render_template('form_new.html',
@@ -59,7 +59,7 @@ def form_delete(id):
     form_to_delete = CreateForm.query.get_or_404(id)
     db.session.delete(form_to_delete)
     db.session.commit()
-    return redirect('/')
+    return redirect('/form')
 
 # open update page after pressing "Update" link
 @routes_hosts.route('/form_update/<int:id>', methods = ['GET', 'POST'])
@@ -95,7 +95,7 @@ def form_update(id):
         db.session.add_all(new_extra_ips)
         db.session.commit()
 
-        return redirect('/')
+        return redirect('/form')
 
     else:
         return render_template('form_update.html', form = form, 
