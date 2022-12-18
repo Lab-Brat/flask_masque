@@ -282,7 +282,6 @@ body {
     width: 95%;
 }
 
-
 /* main table */
 /* table {
     font-size: 16px;
@@ -314,7 +313,7 @@ td {
     margin: 5px 10px 5px 0;
     width: 17%; 
 }
-  
+
 .form-inline input {
     vertical-align: middle;
     margin: 5px 10px 5px 5px;
@@ -322,7 +321,7 @@ td {
     background-color: #fff;
     border: 1px solid #ddd;
 }
-  
+
 .form-inline button {
     padding: 10px 20px;
     margin: 5px 20px 5px 0;
@@ -375,4 +374,15 @@ td {
 /* horizontal breaks */
 hr {
     margin: 20px 5px 20px 0;
+}
+
+/* Custom extra IPs */  
+.tagify {
+    --tags-border-color: silver;
+    --tag-bg: black;
+
+    vertical-align: middle;
+    margin: 5px 10px 5px 5px;
+    padding: 10px;
+    border: none;
 }
