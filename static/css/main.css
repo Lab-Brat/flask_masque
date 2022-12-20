@@ -336,6 +336,7 @@ td {
 
 .form-inline select {
     padding: 10px;
+    margin: 5px 10px 5px 5px;
 }
 
 .form-inline textarea {
