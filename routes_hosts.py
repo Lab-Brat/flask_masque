@@ -43,10 +43,6 @@ def form_new():
                                     extra_ip=ip['value']) for ip in extra_ips]
         db.session.add_all(new_extra_ips)
 
-        # extra_ip = request.form.getlist('field[]')
-        # new_extra_ips = [CreateExIP(forms_id = new_form.id, 
-        #                             extra_ip = ip) for ip in extra_ip]
-        # db.session.add_all(new_extra_ips)
         db.session.commit()
         return redirect('/form')
 
@@ -82,26 +78,12 @@ def form_update(id):
         form.subsystems = request.form['subsystems']
         form.date_created = datetime.now().replace(microsecond=0)
 
-        # change existring extra IPs
-        # exip_form = request.form.getlist('extra_ips[]')
-        # try:
-        #     exip_db = [ip for ip in DBT.extra_ip_query()
-        #                          if ip.forms_id == id]
-        # except:
-        #     return 'Wront input data format, probalby wrong IP address'
-        # for i, ip in enumerate(exip_form):
-        #     exip_db[i].extra_ip = ip
-
-        # # process newly created extra IPs
-        # extra_ip = request.form.getlist('field[]')
-        # new_extra_ips = [CreateExIP(forms_id = form.id, 
-        #                             extra_ip = ip) for ip in extra_ip]
+        # add new extra ips
         extra_ips = json.loads(request.form['extra_ips'])
         new_extra_ips = [CreateExIP(forms_id=form.id, 
                                     extra_ip=ip['value']) for ip in extra_ips]
         # delete old extra ips
         for record in form.extra_ips:
-            print(f"deleting {record}, id={record.id}", flush=True)
             DBT.extra_ip_delete(record.id)
 
         db.session.add_all(new_extra_ips)
@@ -110,7 +92,6 @@ def form_update(id):
         return redirect('/form')
 
     else:
-        # print(json.dumps([{"value": ex_ip.extra_ip} for ex_ip in form.extra_ips]), flush=True)
         return render_template('form_update.html', form = form, 
                         dirlist = T.dirlist,
                         extra_ips = ', '.join([ex_ip.extra_ip for ex_ip in form.extra_ips]),
