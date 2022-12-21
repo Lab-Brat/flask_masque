@@ -38,10 +38,15 @@ def form_new():
         except:
             return 'Wront input data format, probalby wrong IP address'
 
-        extra_ip = request.form.getlist('field[]')
-        new_extra_ips = [CreateExIP(forms_id = new_form.id, 
-                                    extra_ip = ip) for ip in extra_ip]
+        extra_ips = json.loads(request.form['extra_ips'])
+        new_extra_ips = [CreateExIP(forms_id=new_form.id, 
+                                    extra_ip=ip['value']) for ip in extra_ips]
         db.session.add_all(new_extra_ips)
+
+        # extra_ip = request.form.getlist('field[]')
+        # new_extra_ips = [CreateExIP(forms_id = new_form.id, 
+        #                             extra_ip = ip) for ip in extra_ip]
+        # db.session.add_all(new_extra_ips)
         db.session.commit()
         return redirect('/form')
 
