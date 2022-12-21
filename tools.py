@@ -50,6 +50,9 @@ class DB_Tools():
         return (self.db.session.query(CreateExIP)
                        .order_by(CreateExIP.id))
 
+    def extra_ip_delete(self, id):
+        return self.db.session.query(CreateExIP).filter_by(id=id).delete()
+
     def _extract(self, queries):
         contents = [element for query in queries for element in query]
         if len(contents) != 1 and '' in contents:

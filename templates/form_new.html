@@ -2,14 +2,15 @@
 
 {% block head %}
 <title>Form</title>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block body %}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="static/js/add_ip.js"></script>
 <script type="text/javascript" script id="ch" hosts="{{hosts}}" src="static/js/check_host.js"></script>
 <script type="text/javascript" script id="gc" unit_data="{{unit_data}}" src="static/js/get_unit.js"></script>
-
 
 <div class="content">
     <h1>Create New Form</h1><hr/>
@@ -41,14 +42,11 @@
         <section class="form-inline">
             <label>IP address (format: 1.1.1.1/24)</label>
             <input type="text" name="ip" value="" required/>
-                <div class="input-wrapper">
-                    <div>
-                        <label>Extra IP Addresses</label>
-                        <a href="javascript:void(0);" class="add-input" title="Add input">
-                            <button type="button">Add</button>
-                        </a>
-                    </div>
-                </div>
+        </section><br/>
+
+        <section class="form-inline">
+            <label>Extra IPs</label>
+            <input class='tagify' name='extra_ips' value=''>
         </section><br/>
 
         <section class="form-inline">
@@ -79,4 +77,6 @@
 
     </form>
 </div>
+<script type="text/javascript" script id="tg" src="static/js/tagify.js"></script>
+
 {% endblock %}
