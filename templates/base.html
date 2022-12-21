@@ -74,7 +74,7 @@
         {% block body %}{% endblock %}
     </div>
 
-    <script src="static/js/menu_toggle.js"></script>
-    <script src="static/js/hovered_class.js"></script>
+    <script src="{{ url_for('static', filename='js/menu_toggle.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/hovered_class.js') }}"></script>
 </body>
 </html>
