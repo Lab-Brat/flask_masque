@@ -2,6 +2,9 @@
 
 {% block head %}
 <title>Update Form</title>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+<script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 
 {% block body %}
@@ -46,13 +49,14 @@
                             <button type="button">Add</button>
                         </a>
                 </div>
-        </section>
+        </section><br/>
                 
         <section class="form-inline">
             <label>Extra IP addresses</label>
-            {% for exip in form.extra_ips %}
+            <!-- {% for exip in form.extra_ips %}
             <input type="text" name="extra_ips[]" value="{{exip.extra_ip}}" />
-            {% endfor %}
+            {% endfor %} -->
+            <input class='tagify' name='extra_ips' value='{{ extra_ips }}'>
         </section><br/>
 
         <section class="form-inline">
@@ -84,4 +88,7 @@
 
     </form>
 </div>
+<script type="text/javascript" script id="tg" src="{{ url_for('static', filename='js/tagify.js') }}"></script>
+
+
 {% endblock %}

@@ -83,19 +83,26 @@ def form_update(id):
         form.date_created = datetime.now().replace(microsecond=0)
 
         # change existring extra IPs
-        exip_form = request.form.getlist('extra_ips[]')
-        try:
-            exip_db = [ip for ip in DBT.extra_ip_query()
-                                 if ip.forms_id == id]
-        except:
-            return 'Wront input data format, probalby wrong IP address'
-        for i, ip in enumerate(exip_form):
-            exip_db[i].extra_ip = ip
+        # exip_form = request.form.getlist('extra_ips[]')
+        # try:
+        #     exip_db = [ip for ip in DBT.extra_ip_query()
+        #                          if ip.forms_id == id]
+        # except:
+        #     return 'Wront input data format, probalby wrong IP address'
+        # for i, ip in enumerate(exip_form):
+        #     exip_db[i].extra_ip = ip
 
-        # process newly created extra IPs
-        extra_ip = request.form.getlist('field[]')
-        new_extra_ips = [CreateExIP(forms_id = form.id, 
-                                    extra_ip = ip) for ip in extra_ip]
+        # # process newly created extra IPs
+        # extra_ip = request.form.getlist('field[]')
+        # new_extra_ips = [CreateExIP(forms_id = form.id, 
+        #                             extra_ip = ip) for ip in extra_ip]
+        extra_ips = json.loads(request.form['extra_ips'])
+        new_extra_ips = [CreateExIP(forms_id=form.id, 
+                                    extra_ip=ip['value']) for ip in extra_ips]
+        # delete old extra ips
+        for record in form.extra_ips:
+            print(f"deleting {record}, id={record.id}", flush=True)
+            DBT.extra_ip_delete(record.id)
 
         db.session.add_all(new_extra_ips)
         db.session.commit()
@@ -103,8 +110,10 @@ def form_update(id):
         return redirect('/form')
 
     else:
+        # print(json.dumps([{"value": ex_ip.extra_ip} for ex_ip in form.extra_ips]), flush=True)
         return render_template('form_update.html', form = form, 
                         dirlist = T.dirlist,
+                        extra_ips = ', '.join([ex_ip.extra_ip for ex_ip in form.extra_ips]),
                         units = DBT.unit_query(),
                         hosts = json.dumps(DBT.host_query()),
                         unit_data = json.dumps(DBT.data_query()))
