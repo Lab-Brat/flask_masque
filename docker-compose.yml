@@ -1,6 +1,17 @@
 version: "3.9"
 
 services:
+  masq_nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./app.conf.template:/etc/nginx/templates/app.conf.template
+    ports:
+      - "80:80"
+    environment:
+      NGINX_PORT: 80
+      DOMAIN_NAME: ${DOMAIN_NAME}
+
   masq_db:
     container_name: pg
     image: "postgres"
@@ -27,4 +38,3 @@ services:
       FLASK_DEBUG: 1
       DB_PORT: ${DB_PORT}
       DB_URI: "postgresql://${DB_USER}:${DB_PASS}@${DB_ADDRESS}:${DB_PORT}/${DB_NAME}"
-
