@@ -5,11 +5,12 @@ services:
     image: nginx
     container_name: nginx
     volumes:
-    - ./app_nginx.conf:/etc/nginx/conf.d/${DOMAIN_NAME}.conf
+      - ./app.conf.template:/etc/nginx/templates/app.conf.template
     ports:
-    - "80:80"
+      - "80:80"
     environment:
-    - NGINX_PORT=80
+      NGINX_PORT: 80
+      DOMAIN_NAME: ${DOMAIN_NAME}
 
   masq_db:
     container_name: pg
