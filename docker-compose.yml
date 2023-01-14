@@ -35,6 +35,7 @@ services:
     volumes:
       - .:/app
     environment:
+      FLASK_APP: app/app.py
       FLASK_DEBUG: 1
       DB_PORT: ${DB_PORT}
       DB_URI: "postgresql://${DB_USER}:${DB_PASS}@${DB_ADDRESS}:${DB_PORT}/${DB_NAME}"
