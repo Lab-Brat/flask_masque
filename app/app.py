@@ -10,18 +10,19 @@ from tools import DB_Tools
 from datetime import timedelta
 import os
 
+
 def create_app():
     app = Flask(__name__)
 
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DB_URI")
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-    app.config['SECRET_KEY'] = 'd2n9WaEWR8RfMVlXzBHm'
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SECRET_KEY"] = "d2n9WaEWR8RfMVlXzBHm"
 
     db.init_app(app)
     migrate = Migrate(app, db)
 
     login_manager = LoginManager()
-    login_manager.login_view = 'routes_auth.login'
+    login_manager.login_view = "routes_auth.login"
     login_manager.init_app(app)
 
     @login_manager.user_loader
@@ -29,10 +30,10 @@ def create_app():
         return Users.query.get(int(user_id))
 
     app.permanent_session_lifetime = timedelta(minutes=30)
-    app.register_blueprint(routes_auth, url_prefix='')
-    app.register_blueprint(routes_hosts, url_prefix='')
-    app.register_blueprint(routes_units, url_prefix='')
-    app.register_blueprint(routes_service, url_prefix='')
+    app.register_blueprint(routes_auth, url_prefix="")
+    app.register_blueprint(routes_hosts, url_prefix="")
+    app.register_blueprint(routes_units, url_prefix="")
+    app.register_blueprint(routes_service, url_prefix="")
 
     # admin user
     with app.app_context():
@@ -41,6 +42,6 @@ def create_app():
     return app
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app = create_app()
-    app.run(host='0.0.0.0')
+    app.run(host="0.0.0.0")
